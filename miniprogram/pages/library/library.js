@@ -55,22 +55,16 @@ Page({
     else if (d === 'dynasty') items = U.DYNASTIES
     else if (d === 'author') items = ['全部', ...new Set(getApp().globalData.poems.map(p => p.author).filter(Boolean))]
     else if (d === 'grade') items = U.GRADES
-    const poems = U.getPoemsByFilter(d, '全部').map(p => ({ ...p, bg: U.getPoemBg(p) }))
+    const poems = U.getPoemsByFilter(d, '全部').map(p => ({ ...p, _bg: U.getPoemBg(p) }))
     this.setData({ items, poems, selected: '全部' })
-    U.resolveAllBgs(poems, resolved => {
-      this.setData({ poems: resolved })
-      this.applyFilter()
-    })
+    this.applyFilter()
   },
 
   filter(e) {
     const val = e.currentTarget.dataset.val
-    const poems = U.getPoemsByFilter(this.data.dim, val).map(p => ({ ...p, bg: U.getPoemBg(p) }))
+    const poems = U.getPoemsByFilter(this.data.dim, val).map(p => ({ ...p, _bg: U.getPoemBg(p) }))
     this.setData({ selected: val, poems })
-    U.resolveAllBgs(poems, resolved => {
-      this.setData({ poems: resolved })
-      this.applyFilter()
-    })
+    this.applyFilter()
   },
 
   applyFilter() {

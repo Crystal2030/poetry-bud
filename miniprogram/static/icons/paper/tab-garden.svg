@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 左花：矮，芽绿色 -->
+    <!-- 茎阴影 -->
+    <path d="M6.5 20V13.5" stroke="#B5A68A" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M6.5 20V13" stroke="#6E8A5E" stroke-width="2" stroke-linecap="round"/>
+    <!-- 花瓣（5瓣纸花） -->
+    <g transform="translate(6.5,10.5)">
+      <ellipse cx="2.8" cy="0" rx="2.2" ry="1.6" fill="#8AAE7A" transform="rotate(0)"/><ellipse cx="0.8652475842498528" cy="2.6629582456264296" rx="2.2" ry="1.6" fill="#8AAE7A" transform="rotate(72)"/><ellipse cx="-2.2652475842498525" cy="1.645798706418925" rx="2.2" ry="1.6" fill="#8AAE7A" transform="rotate(144)"/><ellipse cx="-2.2652475842498525" cy="-1.6457987064189243" rx="2.2" ry="1.6" fill="#8AAE7A" transform="rotate(216)"/><ellipse cx="0.8652475842498522" cy="-2.66295824562643" rx="2.2" ry="1.6" fill="#8AAE7A" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="1.3" fill="#C9A24B"/>
+    </g>
+    <!-- 中花：中高，陶土色 -->
+    <path d="M12.5 20V11" stroke="#B5A68A" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M12.5 20V10.5" stroke="#C98B5A" stroke-width="2" stroke-linecap="round"/>
+    <g transform="translate(12.5,8)">
+      <ellipse cx="3" cy="0" rx="2.4" ry="1.8" fill="#C98B5A" transform="rotate(0)"/><ellipse cx="0.9270509831248424" cy="2.8531695488854605" rx="2.4" ry="1.8" fill="#C98B5A" transform="rotate(72)"/><ellipse cx="-2.427050983124842" cy="1.7633557568774196" rx="2.4" ry="1.8" fill="#C98B5A" transform="rotate(144)"/><ellipse cx="-2.4270509831248424" cy="-1.7633557568774192" rx="2.4" ry="1.8" fill="#C98B5A" transform="rotate(216)"/><ellipse cx="0.9270509831248417" cy="-2.853169548885461" rx="2.4" ry="1.8" fill="#C98B5A" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="1.4" fill="#C9A24B"/>
+    </g>
+    <!-- 右花：高，朱砂色（最突出） -->
+    <path d="M18.5 20V9" stroke="#B5A68A" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M18.5 20V8.5" stroke="#C0553F" stroke-width="2.2" stroke-linecap="round"/>
+    <g transform="translate(18.5,5.5)">
+      <ellipse cx="3.2" cy="0" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(0)"/><ellipse cx="1.6000000000000005" cy="2.7712812921102037" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(60)"/><ellipse cx="-1.5999999999999994" cy="2.771281292110204" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(120)"/><ellipse cx="-3.2" cy="3.9188697572715305e-16" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(180)"/><ellipse cx="-1.6000000000000014" cy="-2.7712812921102032" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(240)"/><ellipse cx="1.6000000000000005" cy="-2.7712812921102037" rx="2.6" ry="2" fill="#C0553F" opacity=".85" transform="rotate(300)"/>
+      <circle cx="0" cy="0" r="1.5" fill="#C9A24B"/>
+    </g>
+    <!-- 小叶片 -->
+    <path d="M9.5 16Q11 14.5 13 16" stroke="#8AAE7A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M15.5 14Q17 12.5 18.5 14" stroke="#8AAE7A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </svg>

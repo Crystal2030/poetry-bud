@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 156">
+  <defs>
+    <filter id="ps" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0.8" dy="0.8" stdDeviation="1.2" flood-color="#6E8A5E" flood-opacity="0.3"/>
+    </filter>
+    <filter id="pm" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="1.2" stdDeviation="2" flood-color="#6E8A5E" flood-opacity="0.2"/>
+    </filter>
+    <filter id="pb" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="0.8" stdDeviation="1.5" flood-color="#6E8A5E" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <!-- 背景：散落的小点 -->
+  <g opacity="0.08">
+    <circle cx="150" cy="30" r="1.5" fill="#6E8A5E"/>
+    <circle cx="220" cy="20" r="1" fill="#6E8A5E"/>
+    <circle cx="280" cy="35" r="1.3" fill="#6E8A5E"/>
+    <circle cx="170" cy="80" r="1" fill="#6E8A5E"/>
+  </g>
+  <!-- 中景：阶梯基线 -->
+  <g filter="url(#pm)" opacity="0.18">
+    <path d="M160 130 L300 85" stroke="#F4EBDA" stroke-width="1" stroke-dasharray="6,8" fill="none" opacity="0.5"/>
+  </g>
+  <!-- 前景：三级书阶 -->
+  <g filter="url(#ps)" opacity="0.3">
+    <!-- 第三级（最高） -->
+    <rect x="255" y="80" width="45" height="48" rx="3" fill="none" stroke="#F4EBDA" stroke-width="2"/>
+    <rect x="258" y="83" width="12" height="42" rx="1" fill="#F4EBDA" opacity="0.25"/>
+    <rect x="275" y="83" width="10" height="42" rx="1" fill="#F4EBDA" opacity="0.18"/>
+    <rect x="290" y="83" width="7" height="42" rx="1" fill="#F4EBDA" opacity="0.12"/>
+    <!-- 三级旗帜 -->
+    <line x1="278" y1="80" x2="278" y2="65" stroke="#F4EBDA" stroke-width="1.2"/>
+    <polygon points="278,65 292,70 278,75" fill="#F4EBDA" opacity="0.7"/>
+    
+    <!-- 第二级 -->
+    <rect x="205" y="100" width="40" height="42" rx="3" fill="none" stroke="#F4EBDA" stroke-width="2"/>
+    <rect x="208" y="103" width="10" height="36" rx="1" fill="#F4EBDA" opacity="0.22"/>
+    <rect x="224" y="103" width="8" height="36" rx="1" fill="#F4EBDA" opacity="0.15"/>
+    <rect x="237" y="103" width="5" height="36" rx="1" fill="#F4EBDA" opacity="0.1"/>
+    <!-- 二级旗帜 -->
+    <line x1="225" y1="100" x2="225" y2="85" stroke="#F4EBDA" stroke-width="1.2"/>
+    <polygon points="225,85 239,90 225,95" fill="#F4EBDA" opacity="0.55"/>
+    
+    <!-- 第一级（最矮） -->
+    <rect x="158" y="118" width="35" height="32" rx="3" fill="none" stroke="#F4EBDA" stroke-width="2"/>
+    <rect x="161" y="121" width="9" height="26" rx="1" fill="#F4EBDA" opacity="0.2"/>
+    <rect x="174" y="121" width="6" height="26" rx="1" fill="#F4EBDA" opacity="0.12"/>
+    <rect x="183" y="121" width="4" height="26" rx="1" fill="#F4EBDA" opacity="0.08"/>
+    <!-- 一级旗帜 -->
+    <line x1="176" y1="118" x2="176" y2="103" stroke="#F4EBDA" stroke-width="1.2"/>
+    <polygon points="176,103 190,108 176,113" fill="#F4EBDA" opacity="0.4"/>
+  </g>
+  <!-- 幼苗装饰 -->
+  <g opacity="0.22">
+    <path d="M142 140 Q140 132 142 126" stroke="#6E8A5E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="140" cy="125" rx="3" ry="2.5" fill="#6E8A5E" opacity="0.6"/>
+    <line x1="142" y1="140" x2="142" y2="145" stroke="#6E8A5E" stroke-width="1" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.15">
+    <path d="M250 140 Q248 134 250 128" stroke="#6E8A5E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="250" cy="127" rx="2" ry="1.8" fill="#6E8A5E" opacity="0.5"/>
+  </g>
+</svg>

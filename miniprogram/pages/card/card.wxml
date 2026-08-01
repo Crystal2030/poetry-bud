@@ -1,6 +1,8 @@
 <!-- 诗卡页 -->
 <view class="card-page">
-  <view class="back-btn" bind:tap="goBack"><text style="font-size:32rpx;color:#fff">‹</text></view>
+  <view class="back-btn" bind:tap="goBack">
+    <icon-svg name="paper_back" size="36" stroke="0" />
+  </view>
   <view class="loading" wx:if="{{!poem}}">加载中...</view>
 
   <block wx:if="{{poem}}">
@@ -18,6 +20,7 @@
           <view wx:for="{{waveHeights}}" wx:key="*this" class="wbar" style="height:{{item}}rpx"></view>
         </view>
         <view class="sc-qr">
+          <icon-svg name="paper_sprout_sm" size="52" stroke="0" />
           <text style="font-size:16rpx">扫码听诗</text>
         </view>
       </view>
@@ -25,9 +28,18 @@
     </view>
 
     <view class="share-acts">
-      <view class="sa-btn" bind:tap="saveCard"><view class="cir">📥</view><text>保存</text></view>
-      <view class="sa-btn" bind:tap="shareCard"><view class="cir">🔗</view><text>分享</text></view>
-      <view class="sa-btn"><view class="cir">🖨</view><text>打印</text></view>
+      <view class="sa-btn" bind:tap="saveCard">
+        <view class="sa-icon"><icon-svg name="paper_save" size="48" stroke="0" /></view>
+        <text>保存</text>
+      </view>
+      <view class="sa-btn" bind:tap="shareCard">
+        <view class="sa-icon"><icon-svg name="paper_share" size="48" stroke="0" /></view>
+        <text>分享</text>
+      </view>
+      <view class="sa-btn">
+        <view class="sa-icon"><icon-svg name="paper_print" size="48" stroke="0" /></view>
+        <text>打印</text>
+      </view>
     </view>
   </block>
 </view>

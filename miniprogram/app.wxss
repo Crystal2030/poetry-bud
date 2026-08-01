@@ -18,8 +18,8 @@ page {
   font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
   background: #E8E2D6;
   color: #2C2A26;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
   font-size: 28rpx;
 }
 

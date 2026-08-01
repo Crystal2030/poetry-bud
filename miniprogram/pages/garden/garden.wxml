@@ -1,30 +1,32 @@
 <!-- 花园 -->
 <view class="page">
   <view class="garden-head">
-    <text class="title">🌳 诗径花园</text>
+    <view class="title-row"><icon-svg name="paper_sprout_lg" size="32" stroke="0" /><text>诗径花园</text></view>
     <text class="count">已学 {{readCount}} 首</text>
   </view>
 
   <view class="garden-section">
-    <text class="tree">🌳</text>
+    <view class="tree-icon"><icon-svg name="paper_sprout_lg" size="100" stroke="0" /></view>
     <text class="progress-num">{{progress}}%</text>
     <text class="progress-label">已读 {{readCount}}/{{total}} 首</text>
     <view class="garden-bar">
       <view class="garden-bar-fill" style="width:{{progress}}%"></view>
     </view>
     <view class="stats">
-      <text>❤️ 收藏 {{favCount}}</text>
-      <text>📖 总诗库 {{total}}</text>
-      <text>🌟 级别 {{level}}</text>
+      <view class="stat-row"><icon-svg name="paper_heart" size="22" stroke="0" /><text>收藏 {{favCount}}</text></view>
+      <view class="stat-row"><icon-svg name="book" size="22" color="var(--ink-soft)" /><text>总诗库 {{total}}</text></view>
+      <view class="stat-row"><icon-svg name="star" size="22" color="#E8C063" /><text>级别 {{level}}</text></view>
     </view>
   </view>
 
-  <view class="section-title">🎖 成长徽章</view>
+  <view class="section-title"><icon-svg name="paper_badge_medal" size="28" stroke="0" /><text>成长徽章</text></view>
   <view class="badge-grid">
     <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : ''}}">
-      <text class="badge-icon">{{item.earned ? item.icon : '🔒'}}</text>
+      <icon-svg class="badge-icon" name="{{item.earned ? item.icon : 'paper_badge_lock'}}" size="60" stroke="0" />
       <text class="badge-name">{{item.name}}</text>
       <text class="badge-desc">{{item.desc}}</text>
     </view>
   </view>
+
+  <custom-tabbar current="{{2}}" />
 </view>

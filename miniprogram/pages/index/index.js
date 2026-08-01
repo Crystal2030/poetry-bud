@@ -16,18 +16,9 @@ Page({
       daily,
       timeGreet: this.getTimeGreet(),
       sceneMode: daily ? U.getSceneMode(daily.sceneId) : 'light',
-      readCount: g.readCount
+      readCount: g.readCount,
+      dailyBg: daily ? U.getPoemBg(daily) : ''
     })
-    // cloud:// → HTTPS 异步解析（<image> 不直接支持 cloud:// 协议）
-    if (daily) {
-      const bgFileId = U.getPoemBg(daily)
-      const g = getApp().globalData
-      console.log('[index] poem:', daily.id, 'theme映射:', g.themeMap[daily.id] || '(无)', '→', bgFileId)
-      U.resolvePoemBg(daily, url => {
-        console.log('[index] 背景图解析结果:', url ? url.substring(0,60)+'...' : '(空)')
-        this.setData({ dailyBg: url })
-      })
-    }
   },
 
   getTimeGreet() {

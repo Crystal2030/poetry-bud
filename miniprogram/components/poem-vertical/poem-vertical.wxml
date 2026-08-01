@@ -1,11 +1,17 @@
-<!-- 竖排诗组件 · 与 ui-v4.html 设计稿对齐 -->
+<!-- 竖排诗组件 · 兼容 iOS（每字一行） -->
 <view class="vpoem mode-{{mode}} size-{{size}}">
-  <!-- 标题列（最右，大字） -->
-  <view class="col-title" wx:if="{{poem.title}}" style="font-size:{{titleSize}}rpx">{{poem.title}}</view>
+  <!-- 标题列（每字一行，从上到下） -->
+  <view class="col-title" wx:if="{{poem.title}}" style="font-size:{{titleSize}}rpx">
+    <text class="char" wx:for="{{titleChars}}" wx:key="*this">{{item}}</text>
+  </view>
 
-  <!-- 作者列（紧邻标题左侧，小字） -->
-  <view class="col-author" wx:if="{{showAuthor && poem.dynasty && poem.author}}" style="font-size:{{authorSize}}rpx">{{poem.dynasty}}·{{poem.author}}</view>
+  <!-- 作者列（每字一行） -->
+  <view class="col-author" wx:if="{{showAuthor && authorChars.length}}" style="font-size:{{authorSize}}rpx">
+    <text class="char" wx:for="{{authorChars}}" wx:key="*this">{{item}}</text>
+  </view>
 
-  <!-- 诗句列：每句独立成列，从右往左排列 -->
-  <view class="col-line {{sentenceHL[li] ? 'active' : ''}}" wx:for="{{sentenceLines}}" wx:for-index="li" wx:key="*this" style="font-size:{{charSize}}rpx">{{item}}</view>
+  <!-- 诗句列：每句独立一列，每字一行 -->
+  <view class="col-line {{sentenceHL[li] ? 'active' : ''}}" wx:for="{{sentenceLines}}" wx:for-index="li" wx:key="sentence-{{li}}" style="font-size:{{charSize}}rpx">
+    <text class="char" wx:for="{{item}}" wx:for-item="ch" wx:key="*this">{{ch}}</text>
+  </view>
 </view>

@@ -13,19 +13,86 @@ function getPoemBg(poem) {
   const g = app.globalData
   const tid = g.themeMap[poem.id]
   const base = g.CDN.images
-  if (tid) return base + 'themes/' + tid + '.png'  // 主题背景在 themes/ 子目录
+  if (tid) return base + 'themes/' + tid + '.png'
   const sc = poem.sceneId || 'generic'
   return base + 'scene-' + sc + '.png'
 }
 
 function getAudioUrl(poem) {
   if (!poem) return ''
-  return app.globalData.CDN.audio + poem.id + '.m4a'
+  // 音频文件按 poem.id 命名（如 kid_0.mp3, kid_ktA01.mp3, kid_p101.mp3）
+  return app.globalData.CDN.audio + poem.id + '.mp3'
+}
+
+function getSentenceTimings(poem, overrideDuration) {
+  if (!poem) return []
+  const sentences = poem.sentences || []
+  if (!sentences.length) return []
+  const totalChars = sentences.reduce((s, sent) => s + (sent.text || '').length, 0)
+  if (!totalChars) return []
+  const dur = overrideDuration || getAudioDuration(poem) || 5000
+
+  // 真人朗读：约 83% 时间朗读 + 17% 时间句间停顿
+  const READ_RATIO = 0.83
+  const PAUSE_RATIO = 0.17
+  const readTime = dur * READ_RATIO
+  const pausePool = dur * PAUSE_RATIO
+
+  // 句号/叹号/问号 停顿权重大于逗号（约 2:1）
+  const STRONG_PAUSE = { '。': 1, '！': 1, '？': 1, '!': 1, '?': 1, '\n': 1 }
+  const pauseWeights = sentences.map(s => {
+    const text = s.text || ''
+    if (!text) return 0
+    const lastChar = text[text.length - 1]
+    return STRONG_PAUSE[lastChar] ? 2 : 1
+  })
+  const totalPauseWeight = pauseWeights.reduce((s, w) => s + w, 0)
+
+  let elapsed = 0
+  return sentences.map((sent, i) => {
+    const text = sent.text || ''
+    const charWeight = text.length / totalChars
+    const sentenceReadTime = readTime * charWeight
+    // 最后一句不加句尾停顿
+    const isLast = i === sentences.length - 1
+    const pauseMs = isLast ? 0 : (pausePool * pauseWeights[i] / totalPauseWeight)
+    const seg = { text: text, start: elapsed, duration: sentenceReadTime + pauseMs }
+    elapsed += seg.duration
+    return seg
+  })
 }
 
 function getAudioDuration(poem) {
   if (!poem) return 0
   return app.globalData.durationMap[poem.id] || 0
+}
+
+// ===== 背景音乐 BGM（古风纯音乐，30-60s 循环） =====
+//
+// 文件命名建议（CDN 路径 audio/bgm/）：
+//   guqin_01.mp3  古琴 - 适合山水田园
+//   xiao_01.mp3   洞箫 - 适合思乡羁旅
+//   dizi_01.mp3   笛子 - 适合送别友情
+//   guzheng_01.mp3 古筝 - 适合童趣节庆
+//   pipa_01.mp3   琵琶 - 适合边塞豪情
+//
+// 用 poem.id 哈希选 BGM，同首诗每次听配同一段
+
+const BGM_LIST = ['guqin_01', 'xiao_01', 'dizi_01', 'guzheng_01', 'pipa_01']
+
+function _hashStr(str) {
+  let h = 0
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h) + str.charCodeAt(i)
+    h |= 0  // 转 32 位整数
+  }
+  return Math.abs(h)
+}
+
+function getBgmUrl(poem) {
+  if (!poem) return ''
+  const idx = _hashStr(poem.id) % BGM_LIST.length
+  return app.globalData.CDN.audio + 'bgm/' + BGM_LIST[idx] + '.mp3'
 }
 
 function getDailyPoem() {
@@ -53,9 +120,34 @@ function getPoemsByFilter(dim, val) {
   return f
 }
 
-function markRead() {
-  app.globalData.readCount++
-  wx.setStorageSync('pb_read', app.globalData.readCount.toString())
+// 已读诗 ID 集合（按诗去重，O(1) 查询）
+function _getReadSet() {
+  if (!app.globalData.readSet) {
+    let stored = []
+    try { stored = JSON.parse(wx.getStorageSync('pb_read_set') || '[]') } catch (e) { stored = [] }
+    app.globalData.readSet = new Set(stored)
+    // 兼容老用户：readCount 与 readSet 数量不一致时，以 set 为准
+    if (app.globalData.readCount !== stored.length) {
+      app.globalData.readCount = stored.length
+      wx.setStorageSync('pb_read', stored.length.toString())
+    }
+  }
+  return app.globalData.readSet
+}
+
+function markRead(poemId) {
+  if (!poemId) return
+  const set = _getReadSet()
+  if (set.has(poemId)) return  // 已读过这首，不再计数
+  set.add(poemId)
+  app.globalData.readCount = set.size
+  // 持久化（两份数据互为校验：read 用于快速读取，read_set 用于去重）
+  try {
+    wx.setStorageSync('pb_read', set.size.toString())
+    wx.setStorageSync('pb_read_set', JSON.stringify([...set]))
+  } catch (e) {
+    console.warn('[markRead] 存储失败:', e)
+  }
 }
 
 function toggleFav(id) {
@@ -82,8 +174,8 @@ function getSceneMode(sceneId) {
 
 module.exports = {
   THEMES, DYNASTIES, GRADES,
-  getPoemBg, resolvePoemBg, resolveAllBgs, resolveCloudUrl,
-  getAudioFileId, getAudioTempUrl, getAudioDuration,
+  getPoemBg, getAudioUrl, getAudioDuration, getSentenceTimings,
+  getBgmUrl, BGM_LIST,
   getDailyPoem, getPoemsByFilter,
   markRead, toggleFav, isFav, showToast, getSceneMode
 }

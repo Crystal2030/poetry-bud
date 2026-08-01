@@ -11,9 +11,17 @@
 .sa { font-size: 22rpx; color: var(--ink-soft); margin-top: 2rpx; display: block; }
 .sc-waves { display: flex; align-items: flex-end; gap: 4rpx; height: 44rpx; margin-top: 20rpx; }
 .wbar { flex: 1; background: var(--seal); border-radius: 4rpx; opacity: 0.75; }
-.sc-qr { position: absolute; right: 28rpx; bottom: 24rpx; width: 88rpx; height: 88rpx; background: #fff; border-radius: 16rpx; display: flex; align-items: center; justify-content: center; box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.15); }
+.sc-qr { position: absolute; right: 28rpx; bottom: 24rpx; width: 88rpx; height: 88rpx; background: var(--paper); border-radius: 16rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4rpx; box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.15); }
 .sc-foot { padding: 0 32rpx 28rpx; background: var(--paper); font-size: 18rpx; color: var(--ink-soft); text-align: center; }
 
 .share-acts { display: flex; gap: 28rpx; margin-top: 44rpx; }
 .sa-btn { display: flex; flex-direction: column; align-items: center; gap: 12rpx; color: #fff; font-size: 22rpx; }
-.cir { width: 92rpx; height: 92rpx; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; border: 2rpx solid rgba(255,255,255,0.25); font-size: 36rpx; }
+
+/* 操作按钮图标容器 — 纸艺风格圆形背衬 */
+.sa-icon {
+  width: 92rpx; height: 92rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  border: 2rpx solid rgba(255,255,255,0.25);
+}

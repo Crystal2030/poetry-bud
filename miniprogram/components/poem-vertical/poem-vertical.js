@@ -49,17 +49,17 @@ Component({
         return
       }
 
-      // 把每个 paragraph 按句末标点（，。？！；\n）拆成多句
-      const PUNCT = '，。？！；\n'
+      // 把每个 paragraph 按句末标点（，。？！；\n）拆成多句，并过滤掉字符里的标点
+      const PUNCT = '，。？！；、：,!?;:\n\r '
+      const isPunct = ch => PUNCT.indexOf(ch) !== -1
       const lines = []
       p.paragraphs.forEach((para, pIdx) => {
         let buffer = ''
         let charStart = 0
         for (let i = 0; i < para.length; i++) {
-          buffer += para[i]
-          const isLast = i === para.length - 1
-          const isPunct = PUNCT.indexOf(para[i]) !== -1
-          if (isPunct || isLast) {
+          const ch = para[i]
+          if (isPunct(ch)) {
+            // 标点作为分句边界，且不计入 buffer
             if (buffer.length > 0) {
               lines.push({
                 chars: buffer.split(''),
@@ -69,11 +69,21 @@ Component({
               charStart = i + 1
               buffer = ''
             }
+          } else {
+            buffer += ch
           }
+        }
+        // 段落结尾如果还有残余字符（无标点结尾），也作为一句
+        if (buffer.length > 0) {
+          lines.push({
+            chars: buffer.split(''),
+            pinyinIndex: pIdx,
+            charStart: charStart
+          })
         }
       })
 
-      const sentenceLines = lines.map(l => l.chars.join(''))
+      const sentenceLines = lines.map(l => l.chars)  // 字符数组的数组，每字单独成 <text>
       const sentenceHL = new Array(sentenceLines.length).fill(false)
       this.setData({ lines, sentenceLines, sentenceHL })
     },

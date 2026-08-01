@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 纸影：烟囱 -->
+    <rect x="17.5" y="5.2" width="2.6" height="4.2" rx="1.2" fill="#8C7B63"/>
+    <!-- 纸影：屋顶 -->
+    <path d="M2.8 10.6L12 2.8l9.2 7.8v9.6a1.5 1.5 0 01-1.5 1.5H4.3a1.5 1.5 0 01-1.5-1.5z" fill="#8C7B63"/>
+    <!-- 主体：烟囱 -->
+    <rect x="17" y="4.5" width="2.6" height="4.2" rx="1.2" fill="#C98B5A"/>
+    <!-- 主体：屋顶+墙 -->
+    <path d="M2.4 10L12 2.2l9.6 8v10a1.5 1.5 0 01-1.5 1.5H3.9A1.5 1.5 0 012.4 20z" fill="#C98B5A"/>
+    <!-- 纸艺门洞（裁切感：深色底+浅色门） -->
+    <path d="M9 14.5v6h6v-6a3 3 0 00-6 0z" fill="#A66A3C"/>
+    <path d="M9.6 15v5.1h4.8V15a2.4 2.4 0 00-4.8 0z" fill="#F4EBDA" opacity=".7"/>
+  </svg>

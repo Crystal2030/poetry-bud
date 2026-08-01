@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 纸影：打印机主体 -->
+    <rect x="5.4" y="10.6" width="13.5" height="7.5" rx="2.5" fill="#B5A68A"/>
+    <!-- 纸影：出纸口 -->
+    <rect x="7.4" y="7.6" width="9.5" height="4" rx="1.5" fill="#B5A68A"/>
+    <!-- 纸影：纸盘 -->
+    <rect x="4.4" y="17.6" width="15.5" height="3.5" rx="1.8" fill="#B5A68A"/>
+    <!-- 主体打印机 -->
+    <rect x="5" y="10" width="13.5" height="7.5" rx="2.5" fill="#F4EBDA"/>
+    <!-- 主体出纸口 -->
+    <rect x="7" y="7" width="9.5" height="4" rx="1.5" fill="#3E5C6B"/>
+    <!-- 主体纸盘 -->
+    <rect x="4" y="17" width="15.5" height="3.5" rx="1.8" fill="#F4EBDA"/>
+    <!-- 打印出的纸（从出纸口冒出） -->
+    <rect x="9" y="4" width="5.5" height="4" rx="1.2" fill="#F4EBDA" stroke="#B5A68A" stroke-width="0.6"/>
+    <line x1="10" y1="5.5" x2="12.8" y2="5.5" stroke="#3E5C6B" stroke-width="0.8" stroke-linecap="round" opacity=".5"/>
+    <line x1="10" y1="6.8" x2="12" y2="6.8" stroke="#3E5C6B" stroke-width="0.8" stroke-linecap="round" opacity=".5"/>
+    <!-- 进纸槽 -->
+    <rect x="8" y="8" width="7.5" height="1.2" rx="0.6" fill="#F4EBDA" opacity=".7"/>
+    <!-- 打印指示灯 -->
+    <circle cx="8.5" cy="13" r="1.2" fill="#C9A24B"/>
+    <circle cx="8.5" cy="13" r="0.5" fill="#F4EBDA" opacity=".5"/>
+  </svg>

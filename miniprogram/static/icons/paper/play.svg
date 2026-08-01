@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 纸影 -->
+    <polygon points="6.4,3.6 20.4,12.6 6.4,21.6" fill="#B5A68A"/>
+    <!-- 主体三角 -->
+    <polygon points="6,3 20,12 6,21" fill="#F4EBDA"/>
+    <!-- 中间折痕线（折纸感） -->
+    <line x1="6" y1="12" x2="20" y2="12" stroke="#C9A24B" stroke-width="0.7" stroke-linecap="round" opacity=".5"/>
+    <!-- 另一折痕 -->
+    <line x1="13" y1="3.5" x2="13" y2="20.5" stroke="#C9A24B" stroke-width="0.5" stroke-linecap="round" opacity=".3"/>
+  </svg>

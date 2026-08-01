@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 底层纸片（最下） -->
+    <rect x="3.8" y="8.6" width="7.5" height="11" rx="2" fill="#B5A68A"/>
+    <rect x="3.4" y="8.2" width="7.5" height="11" rx="2" fill="#6E8A5E" opacity=".55"/>
+    <!-- 中层纸片（中间） -->
+    <rect x="8.2" y="5.6" width="8" height="13" rx="2.2" fill="#B5A68A"/>
+    <rect x="7.8" y="5.2" width="8" height="13" rx="2.2" fill="#6E8A5E" opacity=".78"/>
+    <!-- 顶层纸片（最上） -->
+    <rect x="12.8" y="3.6" width="8.5" height="15" rx="2.5" fill="#B5A68A"/>
+    <rect x="12.4" y="3.2" width="8.5" height="15" rx="2.5" fill="#6E8A5E"/>
+    <!-- 纸片上的横线装饰（书页感） -->
+    <line x1="14.5" y1="8" x2="18.5" y2="8" stroke="#8AAE7A" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="14.5" y1="10.8" x2="18.5" y2="10.8" stroke="#8AAE7A" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="14.5" y1="13.6" x2="17" y2="13.6" stroke="#8AAE7A" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>

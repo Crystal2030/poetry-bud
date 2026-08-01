@@ -1,0 +1,16 @@
+/* 自定义 TabBar */
+.ct-wrap { position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; }
+.ct-bar {
+  display: flex; background: #FFFFFF;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.06);
+  padding: 8rpx 0 6rpx;
+}
+.ct-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4rpx;
+  padding: 8rpx 0; transition: transform 0.15s ease;
+}
+.ct-item:active { transform: scale(0.92); }
+.ct-ico { width: 48rpx; height: 48rpx; display: flex; align-items: center; justify-content: center; }
+.ct-tx { font-size: 20rpx; color: #B0A793; transition: color 0.2s; }
+.ct-item.on .ct-tx { color: #4C6B47; font-weight: 600; }
+.ct-safe { background: #fff; }

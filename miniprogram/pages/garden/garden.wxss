@@ -1,21 +1,23 @@
-.page { min-height: 100vh; padding-bottom: 100rpx; }
+.page { min-height: 100vh; padding-bottom: 140rpx; }
 .garden-head { padding: 16rpx 36rpx 8rpx; display: flex; justify-content: space-between; align-items: center; }
-.garden-head .title { font-size: 34rpx; font-weight: 700; }
+.title-row { display: flex; align-items: center; gap: 10rpx; font-size: 34rpx; font-weight: 700; }
 .garden-head .count { font-size: 26rpx; color: var(--ink-soft); }
 
 .garden-section { background: #fff; border-radius: 40rpx; padding: 48rpx; text-align: center; margin: 32rpx; box-shadow: 0 4rpx 6rpx var(--shadow), 0 8rpx 28rpx rgba(0,0,0,0.06); }
-.tree { font-size: 120rpx; display: block; margin-bottom: 16rpx; }
+.tree-icon { display: flex; justify-content: center; margin-bottom: 16rpx; }
 .progress-num { font-size: 60rpx; font-weight: 700; color: var(--moss-deep); }
 .progress-label { font-size: 26rpx; color: var(--ink-soft); margin-top: 8rpx; display: block; }
 .garden-bar { height: 20rpx; background: #E7DECB; border-radius: 10rpx; overflow: hidden; margin: 24rpx 0; }
 .garden-bar-fill { height: 100%; background: linear-gradient(90deg, #8FBF86, #6FA36A); border-radius: 10rpx; }
-.stats { display: flex; justify-content: space-around; margin-top: 32rpx; font-size: 24rpx; color: var(--ink-soft); }
+.stats { display: flex; justify-content: space-around; margin-top: 32rpx; }
+.stat-row { display: flex; align-items: center; gap: 6rpx; font-size: 24rpx; color: var(--ink-soft); }
 
-.section-title { font-size: 28rpx; font-weight: 700; color: var(--ink); margin: 32rpx 36rpx 20rpx; }
+.section-title { display: flex; align-items: center; gap: 8rpx; font-size: 28rpx; font-weight: 700; color: var(--ink); margin: 32rpx 36rpx 20rpx; }
 
 .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20rpx; padding: 0 32rpx 40rpx; }
-.badge-cell { border-radius: 28rpx; padding: 28rpx 20rpx; text-align: center; background: #f0ede6; opacity: 0.5; }
-.badge-cell.earned { background: #fff; opacity: 1; }
-.badge-icon { font-size: 64rpx; display: block; }
-.badge-name { font-size: 26rpx; font-weight: 600; color: var(--ink); margin-top: 8rpx; display: block; }
-.badge-desc { font-size: 20rpx; color: var(--ink-soft); margin-top: 4rpx; display: block; }
+.badge-cell { border-radius: 28rpx; padding: 28rpx 20rpx; text-align: center; background: #f0ede6; }
+.badge-cell.earned { background: #fff; box-shadow: 0 4rpx 16rpx rgba(201, 162, 75, 0.12); }
+.badge-icon { display: flex; justify-content: center; margin-bottom: 4rpx; }
+.badge-name { font-size: 26rpx; font-weight: 600; color: var(--ink-soft); margin-top: 8rpx; display: block; }
+.badge-cell.earned .badge-name { color: var(--ink); }
+.badge-desc { font-size: 20rpx; color: var(--ink-soft); opacity: 0.7; margin-top: 4rpx; display: block; }

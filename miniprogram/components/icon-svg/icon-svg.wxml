@@ -1,0 +1,25 @@
+<!-- 双模式图标组件：纸艺 <image> / 简笔 <svg> -->
+<view class="icon-svg" style="width:{{size}}rpx; height:{{size}}rpx;">
+
+  <!-- ===== 纸艺模式：多层彩色 SVG，用 <image> 渲染 ===== -->
+  <image wx:if="{{isPaper}}"
+    class="icon-svg-img"
+    src="{{paperSrc}}"
+    mode="aspectFit"
+    style="width:100%;height:100%;"
+  />
+
+  <!-- ===== 简笔模式：单路径内联 SVG，支持 currentColor 着色 ===== -->
+  <svg wx:else
+    viewBox="0 0 24 24"
+    width="100%"
+    height="100%"
+    stroke-width="{{sw}}"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="fill: {{fill ? (color || 'currentColor') : 'none'}}; stroke: {{fill ? 'none' : (color || 'currentColor')}};"
+  >
+    <path d="{{d}}" />
+  </svg>
+
+</view>

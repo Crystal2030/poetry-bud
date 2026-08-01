@@ -9,41 +9,26 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "诗芽 PoetryBud",
+    "navigationBarTitleText": "诗芽古诗词",
     "navigationBarBackgroundColor": "#F4EBDA",
     "backgroundColor": "#E8E2D6"
   },
   "tabBar": {
+    "custom": true,
     "color": "#B0A793",
     "selectedColor": "#4C6B47",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "static/tab-home.png",
-        "selectedIconPath": "static/tab-home-active.png"
-      },
-      {
-        "pagePath": "pages/library/library",
-        "text": "诗库",
-        "iconPath": "static/tab-grid.png",
-        "selectedIconPath": "static/tab-grid-active.png"
-      },
-      {
-        "pagePath": "pages/garden/garden",
-        "text": "花园",
-        "iconPath": "static/tab-chart.png",
-        "selectedIconPath": "static/tab-chart-active.png"
-      },
-      {
-        "pagePath": "pages/me/me",
-        "text": "我的",
-        "iconPath": "static/tab-user.png",
-        "selectedIconPath": "static/tab-user-active.png"
-      }
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/library/library", "text": "诗库" },
+      { "pagePath": "pages/garden/garden", "text": "花园" },
+      { "pagePath": "pages/me/me", "text": "我的" }
     ]
   },
-  "usingComponents": {}
+  "requiredBackgroundModes": ["audio"],
+  "usingComponents": {
+    "icon-svg": "/components/icon-svg/icon-svg",
+    "custom-tabbar": "/components/custom-tabbar/custom-tabbar"
+  }
 }

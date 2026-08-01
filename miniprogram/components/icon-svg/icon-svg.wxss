@@ -1,0 +1,12 @@
+/* icon-svg 容器 — 双模式：纸艺 image / 简笔 svg */
+.icon-svg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  line-height: 0;
+}
+.icon-svg svg { display: block; }
+.icon-svg-img { display: block; }

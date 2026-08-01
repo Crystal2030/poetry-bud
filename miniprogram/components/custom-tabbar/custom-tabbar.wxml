@@ -1,0 +1,30 @@
+<!-- 自定义 TabBar · 纸艺剪纸风格图标 -->
+<view class="ct-wrap">
+  <view class="ct-bar">
+    <view class="ct-item {{current === 0 ? 'on' : ''}}" bind:tap="go" data-idx="0" data-path="/pages/index/index">
+      <view class="ct-ico" style="opacity:{{current === 0 ? 1 : 0.5}}">
+        <icon-svg name="paper_home" size="56" stroke="0" />
+      </view>
+      <text class="ct-tx">首页</text>
+    </view>
+    <view class="ct-item {{current === 1 ? 'on' : ''}}" bind:tap="go" data-idx="1" data-path="/pages/library/library">
+      <view class="ct-ico" style="opacity:{{current === 1 ? 1 : 0.5}}">
+        <icon-svg name="paper_library" size="56" stroke="0" />
+      </view>
+      <text class="ct-tx">诗库</text>
+    </view>
+    <view class="ct-item {{current === 2 ? 'on' : ''}}" bind:tap="go" data-idx="2" data-path="/pages/garden/garden">
+      <view class="ct-ico" style="opacity:{{current === 2 ? 1 : 0.5}}">
+        <icon-svg name="paper_garden" size="56" stroke="0" />
+      </view>
+      <text class="ct-tx">花园</text>
+    </view>
+    <view class="ct-item {{current === 3 ? 'on' : ''}}" bind:tap="go" data-idx="3" data-path="/pages/me/me">
+      <view class="ct-ico" style="opacity:{{current === 3 ? 1 : 0.5}}">
+        <icon-svg name="paper_me" size="56" stroke="0" />
+      </view>
+      <text class="ct-tx">我的</text>
+    </view>
+  </view>
+  <view class="ct-safe" style="padding-bottom: env(safe-area-inset-bottom);"></view>
+</view>

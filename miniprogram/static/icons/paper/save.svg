@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 纸影：托盘 -->
+    <path d="M4.4 18.6h15.2a1.5 1.5 0 011.5 1.5v.5a1.5 1.5 0 01-1.5 1.5H4.4a1.5 1.5 0 01-1.5-1.5v-.5a1.5 1.5 0 011.5-1.5z" fill="#B5A68A"/>
+    <!-- 纸影：箭头 -->
+    <path d="M12.4 3.6v12.5m0-12.5L8.8 7.2m3.6-3.6l3.6 3.6" stroke="#B5A68A" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 主体托盘 -->
+    <path d="M4 18h16a1.5 1.5 0 011.5 1.5v.5a1.5 1.5 0 01-1.5 1.5H4a1.5 1.5 0 01-1.5-1.5v-.5A1.5 1.5 0 014 18z" fill="#F4EBDA"/>
+    <!-- 主体箭头（折纸箭头） -->
+    <path d="M12 3v12.5M12 3L8.4 6.6M12 3l3.6 3.6" stroke="#F4EBDA" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 托盘装饰槽 -->
+    <rect x="7" y="19" width="10" height="1.2" rx="0.6" fill="#C9A24B" opacity=".5"/>
+  </svg>

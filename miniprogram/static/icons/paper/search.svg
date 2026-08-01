@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <!-- 纸影：镜圈 -->
+    <circle cx="10.4" cy="10.6" r="7.5" fill="none" stroke="#B5A68A" stroke-width="2.8"/>
+    <!-- 纸影：手柄 -->
+    <line x1="16.4" y1="16.9" x2="20.8" y2="21.5" stroke="#B5A68A" stroke-width="3" stroke-linecap="round"/>
+    <!-- 主体镜圈（纸艺圆环） -->
+    <circle cx="10" cy="10" r="7.5" fill="#F4EBDA" stroke="#3E5C6B" stroke-width="2.4"/>
+    <!-- 纸艺裁切内圈 -->
+    <circle cx="10" cy="10" r="4.5" fill="#3E5C6B" opacity=".12"/>
+    <!-- 主体手柄 -->
+    <line x1="16" y1="16.3" x2="20.5" y2="21" stroke="#3E5C6B" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 手柄纸艺纹理 -->
+    <line x1="16" y1="16.3" x2="20.5" y2="21" stroke="#F4EBDA" stroke-width="0.8" stroke-linecap="round" opacity=".4"/>
+  </svg>

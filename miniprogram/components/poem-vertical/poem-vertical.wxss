@@ -1,50 +1,60 @@
-/* ===== 竖排诗组件 · 与 ui-v4 设计稿对齐 ===== */
+/* ===== 竖排诗组件 · iOS 兼容版（每字一个 block 元素） ===== */
+
+/* 整组：列从右到左 */
 .vpoem {
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-start;
-  font-family: "KaiTi", "STKaiti", "楷体", serif;
+  font-family: "STKaiti", "KaiTi", "Kaiti SC", "STFangsong", "FangSong", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+  color: #2C2A26;
 }
 
-/* 公共列：writing-mode 竖排，与浏览器一致 */
+/* 每列：内部从上下堆叠 */
 .col-title,
 .col-author,
 .col-line {
-  writing-mode: vertical-rl;
-  text-orientation: upright;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 关键：每个字独立成行（不依赖 writing-mode） */
+.char {
+  display: block;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* 标题列 */
-.col-title {
+.col-title .char {
   font-weight: 600;
-  letter-spacing: 0.15em;
+  margin-bottom: 0.12em;
 }
+.col-title { margin-left: 0.18em; }
 
 /* 作者列 */
 .col-author {
-  letter-spacing: 0.06em;
   opacity: 0.78;
-  margin-left: 18rpx;
+  margin-left: 0.22em;
+}
+.col-author .char {
+  font-size: 0.86em;
+  margin-bottom: 0.08em;
 }
 
 /* 诗句列 */
-.col-line {
-  letter-spacing: 0.1em;
-  margin-left: 22rpx;
-}
+.col-line { margin-left: 0.28em; }
+.col-line .char { margin-bottom: 0.1em; }
 
 /* 亮色模式：白字 + 暗影 */
-.mode-light .col-title,
-.mode-light .col-author,
-.mode-light .col-line {
+.mode-light {
   color: #FFFEF9;
   text-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.55);
 }
 
 /* 暗色模式：深字 + 淡影轮廓 */
-.mode-dark .col-title,
-.mode-dark .col-author,
-.mode-dark .col-line {
+.mode-dark {
   color: #2C2A26;
   text-shadow: 0 2rpx 8rpx rgba(255, 255, 255, 0.7);
 }

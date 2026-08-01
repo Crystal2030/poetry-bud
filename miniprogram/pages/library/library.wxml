@@ -7,7 +7,7 @@
 
   <!-- 搜索 -->
   <view class="search-bar">
-    <text class="search-icon">🔍</text>
+    <icon-svg class="search-icon" name="paper_search" size="32" stroke="0" />
     <input value="{{searchQuery}}" focus="{{searchFocus}}" bindinput="onSearch" bindblur="onSearchBlur" class="search-input" placeholder="输入诗名、作者或朝代…" placeholder-style="color:#C9BBA7;font-size:26rpx" />
   </view>
 
@@ -39,4 +39,6 @@
   <view class="empty-state" wx:if="{{!filteredPoems.length}}">
     {{searchQuery ? '没有找到匹配的诗' : '没有找到诗'}}
   </view>
+
+  <custom-tabbar current="{{1}}" />
 </view>
