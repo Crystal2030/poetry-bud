@@ -1,0 +1,90 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "诗芽"
+      }
+    },
+    {
+      "path": "pages/library/library",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "诗库"
+      }
+    },
+    {
+      "path": "pages/detail/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "诗意"
+      }
+    },
+    {
+      "path": "pages/card/card",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "诗卡"
+      }
+    },
+    {
+      "path": "pages/garden/garden",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "花园"
+      }
+    },
+    {
+      "path": "pages/me/me",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "诗芽",
+    "navigationBarBackgroundColor": "#F4EBDA",
+    "backgroundColor": "#E8E2D6"
+  },
+  "tabBar": {
+    "color": "#B0A793",
+    "selectedColor": "#4C6B47",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab-home.png",
+        "selectedIconPath": "static/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/library/library",
+        "text": "诗库",
+        "iconPath": "static/tab-grid.png",
+        "selectedIconPath": "static/tab-grid-active.png"
+      },
+      {
+        "pagePath": "pages/garden/garden",
+        "text": "花园",
+        "iconPath": "static/tab-chart.png",
+        "selectedIconPath": "static/tab-chart-active.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "static/tab-user.png",
+        "selectedIconPath": "static/tab-user-active.png"
+      }
+    ]
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^poem-(.*)": "@/components/PoemVertical.vue"
+    }
+  }
+}

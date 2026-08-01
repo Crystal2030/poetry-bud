@@ -1,0 +1,11 @@
+<!-- 竖排诗组件 · 与 ui-v4.html 设计稿对齐 -->
+<view class="vpoem mode-{{mode}} size-{{size}}">
+  <!-- 标题列（最右，大字） -->
+  <view class="col-title" wx:if="{{poem.title}}" style="font-size:{{titleSize}}rpx">{{poem.title}}</view>
+
+  <!-- 作者列（紧邻标题左侧，小字） -->
+  <view class="col-author" wx:if="{{showAuthor && poem.dynasty && poem.author}}" style="font-size:{{authorSize}}rpx">{{poem.dynasty}}·{{poem.author}}</view>
+
+  <!-- 诗句列：每句独立成列，从右往左排列 -->
+  <view class="col-line {{sentenceHL[li] ? 'active' : ''}}" wx:for="{{sentenceLines}}" wx:for-index="li" wx:key="*this" style="font-size:{{charSize}}rpx">{{item}}</view>
+</view>

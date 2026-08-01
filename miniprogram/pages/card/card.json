@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "poem-vertical": "/components/poem-vertical/poem-vertical"
+  },
+  "navigationStyle": "custom"
+}

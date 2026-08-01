@@ -1,0 +1,56 @@
+/* ===== 竖排诗组件 · 与 ui-v4 设计稿对齐 ===== */
+.vpoem {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  font-family: "KaiTi", "STKaiti", "楷体", serif;
+}
+
+/* 公共列：writing-mode 竖排，与浏览器一致 */
+.col-title,
+.col-author,
+.col-line {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* 标题列 */
+.col-title {
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+
+/* 作者列 */
+.col-author {
+  letter-spacing: 0.06em;
+  opacity: 0.78;
+  margin-left: 18rpx;
+}
+
+/* 诗句列 */
+.col-line {
+  letter-spacing: 0.1em;
+  margin-left: 22rpx;
+}
+
+/* 亮色模式：白字 + 暗影 */
+.mode-light .col-title,
+.mode-light .col-author,
+.mode-light .col-line {
+  color: #FFFEF9;
+  text-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.55);
+}
+
+/* 暗色模式：深字 + 淡影轮廓 */
+.mode-dark .col-title,
+.mode-dark .col-author,
+.mode-dark .col-line {
+  color: #2C2A26;
+  text-shadow: 0 2rpx 8rpx rgba(255, 255, 255, 0.7);
+}
+
+/* 整句高亮（当 highlightIdx 落在此句） */
+.col-line.active {
+  color: #C9A24B !important;
+  text-shadow: 0 0 28rpx rgba(201, 162, 75, 0.9) !important;
+}

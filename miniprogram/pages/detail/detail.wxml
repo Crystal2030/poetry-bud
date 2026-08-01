@@ -1,0 +1,191 @@
+<!-- 详情页 -->
+<view class="detail-page">
+  <image class="d-bg" src="{{poemBg}}" mode="aspectFill" wx:if="{{poem}}" />
+  <view class="d-veil-t"></view>
+  <view class="d-veil-b"></view>
+
+  <view class="loading" wx:if="{{!poem}}">加载中...</view>
+
+  <block wx:if="{{poem}}">
+    <view class="d-top">
+      <view class="icon-btn" bind:tap="goBack"><text style="font-size:32rpx;color:#fff">‹</text></view>
+      <view class="icon-btn" bind:tap="toggleFav">
+        <text style="font-size:28rpx">{{isFav ? '❤️' : '🤍'}}</text>
+      </view>
+    </view>
+
+    <view class="d-poem-area">
+      <poem-vertical poem="{{poem}}" size="lg" mode="light" highlightIdx="{{highlightIdx}}" />
+    </view>
+
+    <view class="d-cta" bind:tap="goCard">
+      <text style="font-size:24rpx;margin-right:8rpx">📜</text>
+      <text>生成诗卡</text>
+    </view>
+
+    <view class="read-bar">
+      <view class="play-btn" bind:tap="togglePlay">
+        <text style="font-size:32rpx">{{playing ? '⏸' : '▶️'}}</text>
+      </view>
+      <view class="read-info">
+        <text class="ri-title">{{playing ? '正在朗读...' : '点击朗读古诗'}}</text>
+        <view class="wave-row" wx:if="{{playing}}">
+          <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14]}}" wx:key="*this" class="wave-bar" style="animation-delay:{{item * 0.08}}s"></view>
+        </view>
+      </view>
+      <text style="font-size:28rpx;color:rgba(255,255,255,0.6)">🔊</text>
+    </view>
+
+    <!-- 抽屉：三段式拖拽 + 5 Tab -->
+    <view
+      class="drawer"
+      style="height: {{drawerH}}; border-radius: {{drawerRadius}} {{drawerRadius}} 0 0;"
+      bindtouchstart="onDrawerTouchStart"
+      bindtouchmove="onDrawerTouchMove"
+      bindtouchend="onDrawerTouchEnd"
+    >
+      <view class="grip"></view>
+      <view class="tags">
+        <text class="tag">{{poem.level}}</text>
+        <text class="tag" wx:if="{{poem.grade}}">{{poem.grade}}</text>
+        <text class="tag">{{poem.dynasty}}</text>
+        <text class="tag">{{poem.sceneName || '通用'}}</text>
+        <text class="tag" wx:if="{{poem.isRequired}}">课标必背</text>
+      </view>
+
+      <!-- Tab 栏 -->
+      <view class="tab-bar">
+        <view class="tab-item {{activeTab === 'sentence' ? 'active' : ''}}" bindtap="switchTab" data-tab="sentence">逐句</view>
+        <view class="tab-item {{activeTab === 'trans' ? 'active' : ''}}" bindtap="switchTab" data-tab="trans">译文</view>
+        <view class="tab-item {{activeTab === 'appreciation' ? 'active' : ''}}" bindtap="switchTab" data-tab="appreciation">赏析</view>
+        <view class="tab-item {{activeTab === 'background' ? 'active' : ''}}" bindtap="switchTab" data-tab="background">背景</view>
+        <view class="tab-item {{activeTab === 'author' ? 'active' : ''}}" bindtap="switchTab" data-tab="author">作者</view>
+      </view>
+      <view class="d-title">
+        <text class="hint" wx:if="{{drawerState !== 'full'}}">↑ 上滑展开</text>
+        <text class="hint" wx:else>↓ 下滑收起</text>
+      </view>
+
+      <!-- 可滚动内容区 -->
+      <scroll-view
+        class="drawer-scroll"
+        scroll-y="{{drawerState === 'full'}}"
+        enhanced
+        show-scrollbar="{{false}}"
+      >
+        <!-- ===== Tab 1: 逐句解析 ===== -->
+        <block wx:if="{{activeTab === 'sentence'}}">
+          <view class="drawer-section" wx:if="{{poem.funTip || poem.note}}">
+            <view class="ds-label">📖 诗意</view>
+            <view class="ds-text">{{poem.funTip || poem.note}}</view>
+            <view class="ds-text-secondary" wx:if="{{poem.funTip && poem.note}}">{{poem.note}}</view>
+          </view>
+
+          <block wx:if="{{poem.sentences && poem.sentences.length}}">
+            <view class="ds-label">📝 逐句解析</view>
+            <view class="sentence-card" wx:for="{{poem.sentences}}" wx:for-item="s" wx:key="idx">
+              <view class="sc-original">{{s.text}}</view>
+              <view class="sc-pinyin" wx:if="{{s.py}}">{{s.py}}</view>
+              <view class="sc-trans" wx:if="{{s.trans}}">{{s.trans}}</view>
+              <view class="sc-words" wx:if="{{s.words && s.words.length}}">
+                <view class="sw-item" wx:for="{{s.words}}" wx:for-item="w" wx:key="word">
+                  <text class="sw-word">{{w.word}}</text>
+                  <text class="sw-note">{{w.note}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+
+          <block wx:else>
+            <view class="ds-label">💡 小提示</view>
+            <view class="ds-text">意境优美，朗朗上口。点击播放按钮，跟着芽芽一起朗读吧～</view>
+          </block>
+        </block>
+
+        <!-- ===== Tab 2: 全文译文 ===== -->
+        <block wx:if="{{activeTab === 'trans'}}">
+          <view class="ds-label">📜 全文译文</view>
+          <block wx:if="{{poem.sentences && poem.sentences.length}}">
+            <view wx:for="{{poem.sentences}}" wx:for-item="s" wx:for-index="si" wx:key="idx">
+              <view class="trans-line-wrap">
+                <view class="tl-original">{{s.text}}</view>
+                <view class="tl-trans">{{s.trans || '（暂缺）'}}</view>
+              </view>
+            </view>
+            <view class="trans-summary" wx:if="{{poem.funTip || poem.note}}">
+              <text style="font-size:22rpx">💡 </text>
+              <text>{{poem.funTip || poem.note}}</text>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="ds-text" style="color:var(--ink-soft);opacity:.7">译文数据正在制作中，先看看其他 tab 吧～</view>
+          </block>
+        </block>
+
+        <!-- ===== Tab 3: 赏析 ===== -->
+        <block wx:if="{{activeTab === 'appreciation'}}">
+          <view class="ds-label">🎨 赏析</view>
+          <block wx:if="{{poem.appreciation}}">
+            <view class="appre-text">{{poem.appreciation}}</view>
+          </block>
+          <block wx:else>
+            <view wx:if="{{poem.funTip || poem.note}}" class="appre-text">
+              <view class="appre-section">
+                <view class="as-title">📖 诗意</view>
+                <view class="as-body">{{poem.funTip || poem.note}}</view>
+                <view class="as-body-secondary" wx:if="{{poem.funTip && poem.note}}">{{poem.note}}</view>
+              </view>
+            </view>
+            <view wx:else class="ds-text" style="color:var(--ink-soft);opacity:.7">赏析数据正在制作中，先看看其他 tab 吧～</view>
+          </block>
+        </block>
+
+        <!-- ===== Tab 4: 背景 ===== -->
+        <block wx:if="{{activeTab === 'background'}}">
+          <view class="ds-label">📚 创作背景</view>
+          <block wx:if="{{poem.background}}">
+            <view class="bg-text">{{poem.background}}</view>
+          </block>
+          <block wx:else>
+            <view wx:if="{{poem.funTip || poem.note}}" class="bg-text">
+              <view class="bg-info-card">
+                <text class="bg-info-line"><text style="font-weight:600">朝代：</text>{{poem.dynasty}}</text>
+                <text class="bg-info-line" wx:if="{{poem.level}}"><text style="font-weight:600">年级：</text>{{poem.level}}</text>
+                <text class="bg-info-line" wx:if="{{poem.sceneName}}"><text style="font-weight:600">场景：</text>{{poem.sceneName}}</text>
+              </view>
+              <text class="bg-note" wx:if="{{poem.funTip || poem.note}}">{{poem.funTip || poem.note}}</text>
+            </view>
+            <view wx:else class="ds-text" style="color:var(--ink-soft);opacity:.7">背景数据正在制作中，先看看其他 tab 吧～</view>
+          </block>
+        </block>
+
+        <!-- ===== Tab 5: 作者介绍 ===== -->
+        <block wx:if="{{activeTab === 'author'}}">
+          <view class="ds-label">👤 作者</view>
+          <view class="author-header">
+            <view class="author-avatar">{{poem.author ? poem.author[0] : '?'}}</view>
+            <view class="author-name-block">
+              <text class="author-name">{{poem.author}}</text>
+              <text class="author-dynasty">{{poem.dynasty}}</text>
+            </view>
+          </view>
+          <block wx:if="{{poem.authorBio}}">
+            <view class="author-text">{{poem.authorBio}}</view>
+          </block>
+          <block wx:else>
+            <view class="author-text">
+              <view wx:if="{{poem.funTip || poem.note}}" class="author-placeholder">
+                <text class="ap-label">📖 诗意</text>
+                <text class="ap-body">{{poem.funTip || poem.note}}</text>
+              </view>
+              <view wx:else class="ds-text" style="color:var(--ink-soft);opacity:.7">作者介绍数据正在制作中，先看看其他 tab 吧～</view>
+            </view>
+          </block>
+        </block>
+
+        <!-- 底部留白 -->
+        <view style="height:60rpx"></view>
+      </scroll-view>
+    </view>
+  </block>
+</view>

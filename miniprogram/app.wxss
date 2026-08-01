@@ -1,0 +1,48 @@
+/* 诗芽全局样式 */
+page {
+  --ink: #2C2A26;
+  --ink-soft: #5A5347;
+  --paper: #F4EBDA;
+  --paper-warm: #EDE0C8;
+  --seal: #C0553F;
+  --gold: #C9A24B;
+  --jade: #3E5C6B;
+  --moss: #6E8A5E;
+  --moss-deep: #4C6B47;
+  --clay: #C98B5A;
+  --clay-deep: #A66A3C;
+  --lotus: #D9A6A0;
+  --shadow: rgba(43, 42, 40, 0.2);
+  --snow: #E8EEF2;
+
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #E8E2D6;
+  color: #2C2A26;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 28rpx;
+}
+
+/* Toast */
+.global-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  padding: 24rpx 44rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* 过渡 */
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

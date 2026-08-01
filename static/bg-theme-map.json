@@ -1,0 +1,403 @@
+{
+  "themes": {
+    "theme-pond-lotus": {
+      "prompt": "中国风水墨插画，江南荷塘，碧绿莲叶连天，粉色荷花映日，蜻蜓立荷尖，游鱼戏水，柳树依依，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "荷塘"
+    },
+    "theme-pond-goose": {
+      "prompt": "中国风水墨插画，春日池塘，白鹅拨绿水，红掌清波，柳树垂丝，桃花点点，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "咏鹅"
+    },
+    "theme-pond-village": {
+      "prompt": "中国风山水意境插画，江南水乡村落，青瓦白墙，小桥流水，池塘遍布，炊烟袅袅，绿树成荫，温暖治愈儿童绘本风格，柔和护眼配色，画面留白顶部，16:9，高清",
+      "label": "水乡"
+    },
+    "theme-pond-small": {
+      "prompt": "中国风水墨插画，小小池塘，泉眼无声细流，树荫倒映水面，蜻蜓立荷尖，清新可爱，温暖治愈儿童绘本风格，柔和配色，画面留白顶部，16:9，高清",
+      "label": "小池"
+    },
+    "theme-pond-boat": {
+      "prompt": "中国风水墨插画，池塘边，小娃撑小艇偷采白莲，浮萍一道开，童趣可爱，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "池上"
+    },
+    "theme-pond-spring": {
+      "prompt": "中国风水墨插画，春日池塘，碧玉柳树万条垂下绿丝绦，桃花绽放，燕子归来，春江水暖，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "春池"
+    },
+    "theme-pond-summer": {
+      "prompt": "中国风意境插画，夏日池塘，接天莲叶无穷碧，荷花盛开，蜻蜓低飞，蝉鸣声声，温暖治愈儿童绘本风格，柔和护眼配色，画面留白顶部放文字，16:9，高清",
+      "label": "夏池"
+    },
+    "theme-pond-willow": {
+      "prompt": "中国风水墨插画，池塘边古老柳树，万条垂下绿丝绦，春风轻拂，桃花三两枝，远处青山，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "柳池"
+    },
+    "theme-night-moonlight": {
+      "prompt": "中国风意境插画，静谧月夜，床前月光如霜洒落，窗外远山剪影，星空点点，思念故乡的温柔氛围，温暖治愈儿童绘本风格，柔和护眼配色，画面留白顶部放文字，16:9，高清",
+      "label": "望月"
+    },
+    "theme-night-stars": {
+      "prompt": "中国风山水意境，夜空繁星点点，危楼高百尺可摘星，银河横跨天际，静谧浪漫，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "星空"
+    },
+    "theme-night-boats": {
+      "prompt": "中国风意境插画，月落乌啼，江枫渔火，姑苏城外古桥寺院，夜半钟声，静谧忧愁的古典夜景，温暖治愈儿童绘本风格，柔和护眼配色，画面留白顶部，16:9，高清",
+      "label": "枫桥"
+    },
+    "theme-night-autumn": {
+      "prompt": "中国风意境插画，秋夜庭院，银烛秋光画屏冷，轻罗小扇扑流萤，天阶夜色凉如水，浪漫诗意，温暖治愈儿童绘本风格，柔和配色，画面留白，16:9，高清",
+      "label": "秋夕"
+    },
+    "theme-night-fullmoon": {
+      "prompt": "中国风意境插画，中秋月圆夜，海上生明月天涯共此时，明月当空，海面波光粼粼，千里共婵娟的温馨，温暖治愈儿童绘本风格，柔和配色，画面留白，16:9，高清",
+      "label": "满月"
+    },
+    "theme-night-river": {
+      "prompt": "中国风意境插画，夜晚江面，春江潮水连海平，海上明月共潮生，波光粼粼，花林如霰，梦幻浪漫，温暖治愈儿童绘本风格，柔和配色，画面留白，16:9，高清",
+      "label": "江月"
+    },
+    "theme-night-fortress": {
+      "prompt": "中国风意境插画，苍凉边关，秦时明月汉时关，万里长城，大漠孤烟，远山连绵，壮阔悲凉，温暖治愈儿童绘本风格，柔化处理，画面留白，16:9，高清",
+      "label": "边关"
+    },
+    "theme-night-bamboo": {
+      "prompt": "中国风意境插画，月夜竹林，深林人不知明月来相照，幽篁独坐，琴声悠悠，清幽绝尘，温暖治愈儿童绘本风格，柔和配色，画面留白顶部放文字，16:9，高清",
+      "label": "竹月"
+    },
+    "theme-mountain-cloud": {
+      "prompt": "中国风山水意境插画，高山云雾缭绕，横看成岭侧成峰，庐山真面目若隐若现，苍松翠柏，温暖治愈儿童绘本风格，柔和配色，画面留白顶部，16:9，高清",
+      "label": "云雾山"
+    },
+    "theme-mountain-stream": {
+      "prompt": "中国风山水意境，山间清泉石上流，明月松间照，竹林幽静，浣女归来，秋色宜人，温暖治愈儿童绘本风格，柔和护眼配色，画面留白顶部，16:9，高清",
+      "label": "山泉"
+    },
+    "theme-mountain-autumn": {
+      "prompt": "中国风山水意境，秋日山林，远上寒山石径斜，白云深处有人家，枫叶红于二月花，层林尽染，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "秋山"
+    },
+    "theme-mountain-waterfall": {
+      "prompt": "中国风山水意境，庐山瀑布紫烟升腾，飞流直下三千尺，银河落九天，壮观磅礴，水雾弥漫，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "瀑布"
+    },
+    "theme-mountain-peak": {
+      "prompt": "中国风山水意境，泰山之巅，会当凌绝顶一览众山小，群山连绵在脚下，云海翻腾，壮丽山河，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "顶峰"
+    },
+    "theme-mountain-hermit": {
+      "prompt": "中国风山水意境，云雾深山，松下问童子言师采药去，只在此山中云深不知处，幽静神秘，温暖治愈儿童绘本风格，柔和配色，画面留白，16:9，高清",
+      "label": "隐山"
+    },
+    "theme-mountain-gorge": {
+      "prompt": "中国风山水意境，天门山楚江中断，碧水东流，两岸青山相对出，孤帆远影，壮阔江河山景，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "峡江"
+    },
+    "theme-mountain-spring": {
+      "prompt": "中国风山水意境，春日山间，空山新雨后，鸟鸣山更幽，青苔石上，新绿盎然，清新湿润，温暖治愈儿童绘本风格，柔和配色，画面留白顶部，16:9，高清",
+      "label": "春山"
+    },
+    "theme-field-grassland": {
+      "prompt": "中国风意境插画，辽阔草原敕勒川，天苍苍野茫茫风吹草低见牛羊，穹庐般的天空，壮阔游牧风光，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "草原"
+    },
+    "theme-field-spring": {
+      "prompt": "中国风田园意境，二月天草长莺飞，拂堤杨柳醉春烟，儿童散学归来放纸鸢，明媚春光，温暖治愈儿童绘本风格，柔和配色，画面留白顶部，16:9，高清",
+      "label": "春田"
+    },
+    "theme-field-village": {
+      "prompt": "中国风田园意境，乡村四月绿遍山原，子规声里雨如烟，农人采桑插田，白墙黑瓦，炊烟袅袅，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "村田"
+    },
+    "theme-field-farm": {
+      "prompt": "中国风田园意境，归园田居，种豆南山下草盛豆苗稀，带月荷锄归，茅草小屋，篱笆菜园，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "园田"
+    },
+    "theme-field-summer": {
+      "prompt": "中国风田园意境，夏日田园梅子金黄杏子肥，麦花雪白菜花稀，蜻蜓蛱蝶飞舞，篱笆田园，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "夏田"
+    },
+    "theme-field-shepherd": {
+      "prompt": "中国风田园意境，牧童骑黄牛歌声振林樾，意欲捕鸣蝉忽然闭口立，林间小路，蝉鸣声声，童趣十足，温暖治愈儿童绘本风格，画面留白，16:9，高清",
+      "label": "牧童"
+    },
+    "theme-snow-river": {
+      "prompt": "中国风意境插画，江雪独钓，千山鸟飞绝万径人踪灭，孤舟蓑笠翁独钓寒江雪，静谧孤寂冬景，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "江雪"
+    },
+    "theme-snow-plum": {
+      "prompt": "中国风意境插画，冬日墙角梅花凌寒独自开，白雪覆盖枝头，暗香浮动，红墙白雪，优雅清冷，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "雪梅"
+    },
+    "theme-snow-night": {
+      "prompt": "中国风意境插画，风雪夜归，日暮苍山远天寒白屋贫，柴门闻犬吠，大雪纷飞，温暖灯光透窗，温暖治愈儿童绘本风格，画面留白，16:9，高清",
+      "label": "夜雪"
+    },
+    "theme-snow-pear": {
+      "prompt": "中国风意境插画，忽如一夜春风来千树万树梨花开，雪满天山，银装素裹，树枝挂满积雪如梨花盛开，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "梨花雪"
+    },
+    "theme-courtyard-spring": {
+      "prompt": "中国风意境插画，春日庭院春色满园关不住，一枝红杏出墙来，青砖白墙，飞檐翘角，桃花杏花盛开，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "春院"
+    },
+    "theme-courtyard-autumn": {
+      "prompt": "中国风意境插画，秋夜庭院，无言独上西楼月如钩，寂寞梧桐深院锁清秋，古雅幽静，月光洒落，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "秋院"
+    },
+    "theme-courtyard-ancient": {
+      "prompt": "中国风意境插画，乌衣巷口，朱雀桥边野草花，夕阳斜照，旧时王谢堂前燕飞入寻常百姓家，古巷深深，温暖治愈儿童绘本风格，画面留白，16:9，高清",
+      "label": "古巷"
+    },
+    "theme-courtyard-flower": {
+      "prompt": "中国风意境插画，江南园林庭院，云想衣裳花想容，牡丹盛开，春风拂槛，露华浓，古亭长廊，温暖治愈儿童绘本风格，画面留白顶部，16:9，高清",
+      "label": "花园"
+    },
+    "theme-generic-misty": {
+      "prompt": "中国风山水意境，烟雨江南远山近水，云雾朦胧，水墨画风，诗意盎然，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "烟雨"
+    },
+    "theme-generic-sunset": {
+      "prompt": "中国风山水意境，一道残阳铺水中半江瑟瑟半江红，落日余晖，水天一色，温暖治愈儿童绘本风格，画面留白顶部放文字，16:9，高清",
+      "label": "暮江"
+    }
+  },
+  "poemThemeMap": {
+    "kid_ktA01": "theme-pond-lotus",
+    "kid_0": "theme-pond-goose",
+    "kid_ktA03": "theme-pond-goose",
+    "kid_ktA02": "theme-pond-lotus",
+    "kid_ktA08": "theme-pond-lotus",
+    "kid_ktA09": "theme-night-moonlight",
+    "kid_ktA10": "theme-pond-spring",
+    "kid_ktA11": "theme-pond-village",
+    "kid_ktA04": "theme-pond-spring",
+    "kid_ktA05": "theme-field-farm",
+    "kid_ktA16": "theme-pond-boat",
+    "kid_ktA17": "theme-pond-small",
+    "kid_ktA18": "theme-night-bamboo",
+    "kid_ktA19": "theme-pond-summer",
+    "kid_ktA20": "theme-pond-willow",
+    "kid_ktA21": "theme-pond-spring",
+    "kid_ktA22": "theme-mountain-waterfall",
+    "kid_ktA06": "theme-generic-sunset",
+    "kid_ktA07": "theme-mountain-peak",
+    "kid_ktA23": "theme-pond-village",
+    "kid_ktA24": "theme-mountain-gorge",
+    "kid_ktA25": "theme-mountain-gorge",
+    "kid_ktA26": "theme-generic-misty",
+    "kid_ktA27": "theme-mountain-autumn",
+    "kid_ktA28": "theme-pond-village",
+    "kid_ktA29": "theme-field-summer",
+    "kid_ktA30": "theme-night-river",
+    "kid_ktA31": "theme-courtyard-spring",
+    "kid_ktA12": "theme-mountain-stream",
+    "kid_ktA13": "theme-mountain-spring",
+    "kid_ktA14": "theme-mountain-hermit",
+    "kid_ktA15": "theme-mountain-stream",
+    "kid_ktB01": "theme-night-moonlight",
+    "kid_ktB02": "theme-night-river",
+    "kid_ktB03": "theme-night-fullmoon",
+    "kid_ktB04": "theme-night-river",
+    "kid_ktB05": "theme-night-boats",
+    "kid_ktB06": "theme-night-autumn",
+    "kid_ktB07": "theme-night-fullmoon",
+    "kid_ktB08": "theme-night-stars",
+    "kid_ktB09": "theme-night-fullmoon",
+    "kid_ktB10": "theme-night-fullmoon",
+    "kid_ktB11": "theme-night-moonlight",
+    "kid_ktB12": "theme-night-moonlight",
+    "kid_ktB13": "theme-night-boats",
+    "kid_ktB14": "theme-night-fortress",
+    "kid_ktB15": "theme-night-fortress",
+    "kid_ktB16": "theme-night-bamboo",
+    "kid_ktB17": "theme-night-fullmoon",
+    "kid_ktB18": "theme-night-moonlight",
+    "kid_ktB19": "theme-night-stars",
+    "kid_ktB20": "theme-night-moonlight",
+    "kid_ktB21": "theme-night-river",
+    "kid_ktB22": "theme-night-moonlight",
+    "kid_ktB23": "theme-night-autumn",
+    "kid_ktB24": "theme-night-fortress",
+    "kid_ktB25": "theme-night-boats",
+    "kid_ktB26": "theme-night-bamboo",
+    "kid_ktB27": "theme-night-fullmoon",
+    "kid_ktB28": "theme-night-moonlight",
+    "kid_ktB29": "theme-night-stars",
+    "kid_ktC01": "theme-mountain-hermit",
+    "kid_ktC02": "theme-mountain-autumn",
+    "kid_ktC03": "theme-mountain-cloud",
+    "kid_ktC04": "theme-mountain-stream",
+    "kid_ktC05": "theme-mountain-peak",
+    "kid_ktC06": "theme-mountain-stream",
+    "kid_ktC07": "theme-mountain-cloud",
+    "kid_ktC08": "theme-mountain-spring",
+    "kid_ktC09": "theme-mountain-cloud",
+    "kid_ktC10": "theme-mountain-spring",
+    "kid_ktC11": "theme-mountain-stream",
+    "kid_ktC12": "theme-mountain-hermit",
+    "kid_ktC13": "theme-mountain-peak",
+    "kid_ktC14": "theme-mountain-gorge",
+    "kid_ktC15": "theme-mountain-gorge",
+    "kid_ktC16": "theme-courtyard-spring",
+    "kid_ktC17": "theme-courtyard-flower",
+    "kid_ktC18": "theme-generic-sunset",
+    "kid_ktC19": "theme-pond-village",
+    "kid_ktC20": "theme-mountain-gorge",
+    "kid_ktD01": "theme-field-grassland",
+    "kid_ktD02": "theme-field-spring",
+    "kid_ktD03": "theme-field-village",
+    "kid_ktD04": "theme-field-summer",
+    "kid_ktD05": "theme-field-village",
+    "kid_ktD06": "theme-field-farm",
+    "kid_ktD07": "theme-pond-village",
+    "kid_ktD08": "theme-pond-spring",
+    "kid_ktD09": "theme-field-village",
+    "kid_ktD10": "theme-mountain-spring",
+    "kid_ktD11": "theme-field-summer",
+    "kid_ktD12": "theme-field-farm",
+    "kid_ktD13": "theme-mountain-stream",
+    "kid_ktD14": "theme-field-summer",
+    "kid_ktD15": "theme-field-village",
+    "kid_ktD16": "theme-field-shepherd",
+    "kid_ktD17": "theme-field-village",
+    "kid_ktD18": "theme-night-river",
+    "kid_ktD19": "theme-courtyard-spring",
+    "kid_ktD20": "theme-field-summer",
+    "kid_ktE01": "theme-snow-river",
+    "kid_ktE02": "theme-snow-plum",
+    "kid_ktE03": "theme-snow-night",
+    "kid_ktE04": "theme-snow-night",
+    "kid_ktE05": "theme-snow-pear",
+    "kid_ktE06": "theme-snow-pear",
+    "kid_ktE07": "theme-snow-pear",
+    "kid_ktE08": "theme-snow-plum",
+    "kid_ktE09": "theme-snow-night",
+    "kid_ktF01": "theme-courtyard-spring",
+    "kid_ktF02": "theme-courtyard-spring",
+    "kid_ktF03": "theme-courtyard-flower",
+    "kid_ktF04": "theme-courtyard-autumn",
+    "kid_ktF05": "theme-courtyard-spring",
+    "kid_ktF06": "theme-courtyard-ancient",
+    "kid_ktF07": "theme-pond-village",
+    "kid_ktF08": "theme-pond-spring",
+    "kid_ktF09": "theme-courtyard-flower",
+    "kid_ktF10": "theme-courtyard-spring",
+    "kid_ktG01": "theme-generic-misty",
+    "kid_ktG02": "theme-generic-sunset",
+    "kid_ktG03": "theme-generic-misty",
+    "kid_ktG04": "theme-generic-sunset",
+    "kid_ktG05": "theme-generic-misty",
+    "kid_ktG06": "theme-generic-sunset",
+    "kid_28": "theme-night-moonlight",
+    "kid_45": "theme-courtyard-spring",
+    "kid_13": "theme-pond-lotus",
+    "kid_59": "theme-night-moonlight",
+    "kid_60": "theme-night-moonlight",
+    "kid_10": "theme-mountain-cloud",
+    "kid_41": "theme-night-moonlight",
+    "kid_62": "theme-night-moonlight",
+    "kid_6": "theme-pond-lotus",
+    "kid_42": "theme-night-moonlight",
+    "kid_8": "theme-pond-lotus",
+    "kid_7": "theme-pond-lotus",
+    "kid_3": "theme-snow-river",
+    "kid_63": "theme-pond-lotus",
+    "kid_52": "theme-pond-lotus",
+    "kid_61": "theme-field-spring",
+    "kid_40": "theme-field-spring",
+    "kid_ktA34": "theme-field-spring",
+    "kid_17": "theme-night-moonlight",
+    "kid_49": "theme-pond-lotus",
+    "kid_ktA37": "theme-field-spring",
+    "kid_4": "theme-snow-river",
+    "kid_39": "theme-pond-lotus",
+    "kid_ktA40": "theme-pond-lotus",
+    "kid_ktA41": "theme-field-spring",
+    "kid_ktA42": "theme-field-spring",
+    "kid_14": "theme-snow-river",
+    "kid_18": "theme-mountain-cloud",
+    "kid_15": "theme-night-moonlight",
+    "kid_ktA46": "theme-field-spring",
+    "kid_16": "theme-pond-lotus",
+    "kid_1": "theme-mountain-cloud",
+    "kid_ktA49": "theme-pond-lotus",
+    "kid_32": "theme-courtyard-spring",
+    "kid_21": "theme-night-moonlight",
+    "kid_23": "theme-pond-lotus",
+    "kid_ktA53": "theme-pond-lotus",
+    "kid_ktA54": "theme-pond-lotus",
+    "kid_ktA55": "theme-pond-lotus",
+    "kid_ktA56": "theme-mountain-cloud",
+    "kid_ktA57": "theme-courtyard-spring",
+    "kid_27": "theme-snow-river",
+    "kid_50": "theme-generic-misty",
+    "kid_ktA60": "theme-mountain-cloud",
+    "kid_ktA61": "theme-field-spring",
+    "kid_ktA62": "theme-field-spring",
+    "kid_20": "theme-pond-lotus",
+    "kid_ktA64": "theme-pond-lotus",
+    "kid_25": "theme-pond-lotus",
+    "kid_47": "theme-pond-lotus",
+    "kid_26": "theme-pond-lotus",
+    "kid_ktA68": "theme-courtyard-spring",
+    "kid_33": "theme-night-moonlight",
+    "kid_ktA70": "theme-courtyard-spring",
+    "kid_ktA71": "theme-mountain-cloud",
+    "kid_ktA72": "theme-mountain-cloud",
+    "kid_ktA73": "theme-field-spring",
+    "kid_ktA74": "theme-mountain-cloud",
+    "kid_ktA75": "theme-field-spring",
+    "kid_ktA76": "theme-field-spring",
+    "kid_2": "theme-field-spring",
+    "kid_5": "theme-field-spring",
+    "kid_9": "theme-mountain-cloud",
+    "kid_11": "theme-mountain-cloud",
+    "kid_12": "theme-night-moonlight",
+    "kid_19": "theme-pond-lotus",
+    "kid_22": "theme-snow-river",
+    "kid_24": "theme-mountain-cloud",
+    "kid_29": "theme-night-moonlight",
+    "kid_30": "theme-night-moonlight",
+    "kid_31": "theme-night-moonlight",
+    "kid_34": "theme-night-moonlight",
+    "kid_35": "theme-pond-lotus",
+    "kid_36": "theme-night-moonlight",
+    "kid_37": "theme-mountain-cloud",
+    "kid_38": "theme-night-moonlight",
+    "kid_43": "theme-generic-misty",
+    "kid_44": "theme-generic-misty",
+    "kid_46": "theme-night-moonlight",
+    "kid_48": "theme-courtyard-spring",
+    "kid_51": "theme-pond-lotus",
+    "kid_53": "theme-snow-river",
+    "kid_56": "theme-pond-lotus",
+    "kid_57": "theme-mountain-cloud",
+    "kid_58": "theme-night-moonlight",
+    "kid_p101": "theme-generic-misty",
+    "kid_p102": "theme-generic-misty",
+    "kid_p104": "theme-night-moonlight",
+    "kid_p105": "theme-field-spring",
+    "kid_p106": "theme-pond-lotus",
+    "kid_p107": "theme-field-spring",
+    "kid_p108": "theme-generic-misty",
+    "kid_p109": "theme-snow-river",
+    "kid_p110": "theme-field-spring",
+    "kid_p111": "theme-snow-river",
+    "kid_p112": "theme-night-moonlight",
+    "kid_p113": "theme-night-moonlight",
+    "kid_p114": "theme-night-moonlight",
+    "kid_p115": "theme-courtyard-spring",
+    "kid_p116": "theme-courtyard-spring",
+    "kid_p117": "theme-mountain-cloud",
+    "kid_p118": "theme-pond-lotus",
+    "kid_p119": "theme-mountain-cloud",
+    "kid_p120": "theme-courtyard-spring",
+    "kid_p121": "theme-night-moonlight",
+    "kid_p122": "theme-night-moonlight",
+    "kid_p123": "theme-mountain-cloud",
+    "kid_p124": "theme-night-moonlight",
+    "kid_p125": "theme-mountain-cloud"
+  },
+  "totalPoems": 235,
+  "totalThemes": 40
+}

@@ -1,0 +1,28 @@
+.page { min-height: 100vh; padding-bottom: 100rpx; }
+
+.lib-head { padding: 20rpx 36rpx 8rpx; display: flex; align-items: center; justify-content: space-between; }
+.lib-head .title { font-size: 34rpx; font-weight: 700; }
+.lib-head .count { font-size: 22rpx; color: var(--ink-soft); }
+
+.search-bar { margin: 16rpx 32rpx 0; background: #fff; border-radius: 44rpx; border: 2rpx solid #E7DECB; padding: 18rpx 28rpx; display: flex; align-items: center; gap: 16rpx; }
+.search-icon { font-size: 28rpx; }
+.search-input { flex: 1; font-size: 28rpx; color: var(--ink); }
+
+.dim-pills { display: flex; gap: 12rpx; padding: 20rpx 32rpx 12rpx; }
+.dpill { font-size: 24rpx; padding: 10rpx 30rpx; border-radius: 28rpx; background: #fff; color: var(--ink-soft); border: 2rpx solid #E7DECB; }
+.dpill.on { background: var(--moss-deep); color: #fff; border-color: var(--moss-deep); }
+
+.filter-row { display: flex; gap: 16rpx; padding: 12rpx 32rpx 20rpx; white-space: nowrap; }
+.ftab { flex-shrink: 0; font-size: 26rpx; padding: 14rpx 30rpx; border-radius: 36rpx; background: #fff; color: var(--ink-soft); border: 2rpx solid #E7DECB; display: inline-block; }
+.ftab.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.lib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24rpx; padding: 0 32rpx 40rpx; }
+.pcard { border-radius: 32rpx; overflow: hidden; position: relative; height: 350rpx; box-shadow: 0 4rpx 6rpx var(--shadow), 0 10rpx 32rpx rgba(0,0,0,0.1); }
+.pc-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pc-tag { position: absolute; top: 20rpx; left: 20rpx; z-index: 4; background: rgba(255,255,255,0.88); color: var(--moss-deep); font-size: 20rpx; font-weight: 700; padding: 4rpx 18rpx; border-radius: 20rpx; }
+.pc-poem { position: absolute; top: 24rpx; right: 24rpx; z-index: 3; }
+.pc-foot { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 36rpx 20rpx 16rpx; background: linear-gradient(transparent, rgba(0,0,0,0.55)); color: #fff; }
+.pc-foot .nm { font-size: 24rpx; font-weight: 600; display: block; }
+.pc-foot .au { font-size: 20rpx; opacity: 0.85; display: block; }
+
+.empty-state { text-align: center; padding: 80rpx 40rpx; color: var(--ink-soft); font-size: 26rpx; }

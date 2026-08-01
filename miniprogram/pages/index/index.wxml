@@ -1,0 +1,58 @@
+<!-- 首页 -->
+<view class="page">
+  <view class="home-head">
+    <view class="greet">
+      <text>{{timeGreet}}，小朋友</text>
+      <text class="bold">今天想读哪首诗？</text>
+    </view>
+    <view class="avatar">🌱</view>
+  </view>
+
+  <view class="home-body">
+    <!-- 搜索栏 -->
+    <view class="search-bar" bind:tap="goSearch">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索诗人、诗名、诗句…</text>
+      <text class="search-hint" catch:tap="goSearch">搜诗</text>
+    </view>
+
+    <!-- 每日一诗 -->
+    <view class="daily-card" wx:if="{{daily}}" bind:tap="goDetail" data-id="{{daily.id}}">
+      <image class="daily-bg" src="{{dailyBg}}" mode="aspectFill" />
+      <text class="daily-badge">✦ 每日一诗</text>
+      <view class="daily-poem">
+        <poem-vertical poem="{{daily}}" size="sm" mode="{{sceneMode}}" />
+      </view>
+      <view class="daily-foot">
+        <text class="nm">《{{daily.title}}》· {{daily.author}}</text>
+        <text class="sub">{{daily.funTip || '点击走进诗中世界 ›'}}</text>
+      </view>
+    </view>
+
+    <!-- 四维探索 -->
+    <view class="section-title">🧭 四维探索</view>
+    <view class="cat-grid">
+      <view class="cat c1" bind:tap="goLibrary" data-dim="dynasty">
+        <text class="n">朝代</text><text class="d">穿越千年时光</text><text class="em">🏛</text>
+      </view>
+      <view class="cat c2" bind:tap="goLibrary" data-dim="author">
+        <text class="n">作者</text><text class="d">和诗人交朋友</text><text class="em">✍</text>
+      </view>
+      <view class="cat c3" bind:tap="goLibrary" data-dim="grade">
+        <text class="n">年级</text><text class="d">课标进度书架</text><text class="em">📚</text>
+      </view>
+      <view class="cat c4" bind:tap="goLibrary" data-dim="theme">
+        <text class="n">主题</text><text class="d">山水·思乡·咏物</text><text class="em">🌸</text>
+      </view>
+    </view>
+
+    <!-- 芽芽 -->
+    <view class="buddy-row">
+      <text style="font-size:80rpx">🌱</text>
+      <view class="txt">
+        <text class="b1">芽芽：你已经读了 {{readCount}} 首诗啦！</text>
+        <text class="b2" bind:tap="goGarden">诗径花园里又开了一朵花 🌷 去看看 ›</text>
+      </view>
+    </view>
+  </view>
+</view>
