@@ -27,7 +27,23 @@
 .daily-bg { width: 100%; height: 100%; position: absolute; inset: 0; }
 .daily-badge { position: absolute; top: 24rpx; left: 24rpx; z-index: 4; display: flex; align-items: center; gap: 8rpx; background: rgba(255,255,255,0.88); color: var(--seal); font-size: 22rpx; font-weight: 700; padding: 10rpx 22rpx; border-radius: 28rpx; }
 .daily-badge text { display: inline-block; }
-.daily-poem { position: absolute; top: 40rpx; right: 40rpx; z-index: 3; }
+.daily-poem {
+  position: absolute; top: 40rpx; right: 40rpx; z-index: 3;
+  /* ── 古书卷轴衬底：半透明暖纸 + 竹片竖纹 ── */
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0rpx, transparent 18rpx,
+      rgba(139,110,70,0.04) 18rpx, rgba(139,110,70,0.04) 20rpx,
+      transparent 20rpx
+    ),
+    linear-gradient(180deg,
+      rgba(247,240,228,0.80) 0%,
+      rgba(242,234,216,0.85) 100%);
+  border: 1rpx solid rgba(139,110,70,0.12);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.16);
+  padding: 12rpx 14rpx 14rpx;
+}
 .daily-foot { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 60rpx 32rpx 28rpx; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,0.55)); }
 .daily-foot .nm { font-size: 30rpx; font-weight: 600; display: block; }
 .daily-foot .sub { font-size: 22rpx; opacity: 0.88; margin-top: 6rpx; display: block; }
@@ -59,3 +75,18 @@
 .buddy-row .b2 { display: flex; align-items: center; gap: 4rpx; }
 .buddy-row .txt .b1 { font-size: 26rpx; font-weight: 600; color: var(--ink); display: block; }
 .buddy-row .txt .b2 { font-size: 22rpx; color: var(--ink-soft); margin-top: 4rpx; display: block; }
+
+/* ── 卷轴端头：左右金色小圆轴（首页版，略小） ── */
+.daily-poem::before,
+.daily-poem::after {
+  content: '';
+  position: absolute;
+  top: 16rpx;
+  bottom: 16rpx;
+  width: 8rpx;
+  background: linear-gradient(180deg, #C9A24B, #B8953A);
+  border-radius: 4rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.3);
+}
+.daily-poem::before { left: -4rpx; }
+.daily-poem::after  { right: -4rpx; }
