@@ -2,10 +2,10 @@
 <view class="page">
   <view class="profile">
     <image class="avatar-wrap" src="/static/logo.png" mode="aspectFit" />
-    <!-- <text class="name">小朋友</text> -->
     <view class="tagline"><text>诗芽在手，古诗不愁</text><icon-svg name="paper_sprout_sm" size="24" stroke="0" /></view>
   </view>
 
+  <!-- 统计卡片 -->
   <view class="stat-cards">
     <view class="stat-item">
       <text class="stat-num c-green">{{readCount}}</text>
@@ -15,9 +15,41 @@
       <text class="stat-num c-red">{{favCount}}</text>
       <text class="stat-label">收藏</text>
     </view>
-    <view class="stat-item">
-      <text class="stat-num c-gold">125</text>
-      <text class="stat-label">诗库</text>
+    <view class="stat-item" bind:tap="goReview">
+      <text class="stat-num c-purple">{{reviewCount}}</text>
+      <text class="stat-label">待复习</text>
+    </view>
+  </view>
+
+  <!-- 连续打卡 -->
+  <view class="streak-card" wx:if="{{streak > 0}}">
+    <text class="streak-fire">🔥</text>
+    <text class="streak-num">{{streak}}</text>
+    <text class="streak-label">连续打卡天数</text>
+  </view>
+
+  <!-- 学习日历 -->
+  <view class="calendar-card">
+    <view class="cal-header">
+      <text class="cal-month">{{calendar.month}}月 {{calendar.year}}</text>
+    </view>
+    <view class="cal-weekdays">
+      <text wx:for="{{['日','一','二','三','四','五','六']}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="cal-grid">
+      <view wx:for="{{calendar.days}}" wx:key="idx"
+        class="cal-day {{item.isToday ? 'today' : ''}} {{item.checked ? 'checked' : ''}} {{item.future ? 'future' : ''}}">
+        <text>{{item.day}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 本周统计 -->
+  <view class="weekly-card" wx:if="{{weekStats.totalPoems > 0}}">
+    <view class="weekly-title">📊 本周学习简报</view>
+    <view class="weekly-row">
+      <text class="weekly-item">📖 读诗 {{weekStats.totalPoems}} 首</text>
+      <text class="weekly-item">⏱ 约 {{weekStats.estMinutes}} 分钟</text>
     </view>
   </view>
 

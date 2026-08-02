@@ -12,6 +12,10 @@ page {
   --clay: #C98B5A;
   --clay-deep: #A66A3C;
   --lotus: #D9A6A0;
+  --purple: #534AB7;
+  --purple-light: #8B80E0;
+  --gold-bright: #E8C063;
+  --gold-deep: #B8953A;
   --shadow: rgba(43, 42, 40, 0.2);
   --snow: #E8EEF2;
 

@@ -44,22 +44,35 @@
           </view>
         </view>
         <view class="read-info">
-          <text class="ri-title">{{playing ? '正在朗读 第' + (currentSentenceIdx + 1) + '句' : '点击朗读古诗'}}</text>
-          <view class="wave-row" wx:if="{{playing}}">
+          <text class="ri-title">{{recordMode ? '🎤 跟读模式·请大声跟读' : (playing ? '正在朗读 第' + (currentSentenceIdx + 1) + '句' : '点击朗读古诗')}}</text>
+          <view class="wave-row" wx:if="{{playing && !recordMode}}">
             <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14]}}" wx:key="*this" class="wave-bar" style="animation-delay:{{item * 0.08}}s"></view>
           </view>
-        </view>
-        <view class="bgm-toggle {{bgmOn ? 'on' : 'off'}}" bind:tap="toggleBgm" hover-class="bgm-toggle-tap">
-          <!-- 古琴图标：两条横线 + 三个圆点 -->
-          <view class="bgm-icon">
-            <view class="bgm-line"></view>
-            <view class="bgm-line"></view>
-            <view class="bgm-line short"></view>
+          <view class="record-indicator" wx:if="{{recording}}">
+            <view class="rec-wave" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" style="animation-delay:{{item * 0.15}}s"></view>
           </view>
         </view>
+        <!-- 跟读按钮 -->
+        <view class="record-btn {{recordMode ? 'active' : ''}}" bind:tap="toggleRecordMode" hover-class="record-btn-tap">
+          <text class="rec-icon">{{recordMode ? '⏹' : '🎤'}}</text>
+          <text class="rec-label">{{recordMode ? '结束' : '跟读'}}</text>
+        </view>
       </view>
-      <view class="audio-progress" wx:if="{{playing}}">
-        <view class="audio-progress-fill" style="width: {{audioProgress * 100}}%"></view>
+      <view class="audio-progress" wx:if="{{playing || recordMode}}">
+        <view class="audio-progress-fill" style="width: {{audioProgress * 100}}%; background: {{recordMode ? 'var(--seal)' : 'var(--gold)'}}"></view>
+      </view>
+      <!-- 跟读评分结果 -->
+      <view class="rec-score-panel" wx:if="{{showScore}}">
+        <text class="score-title">朗读报告</text>
+        <view class="score-stars">
+          <text wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
+            class="score-star {{item <= scoreStars ? 'lit' : ''}}">⭐</text>
+        </view>
+        <view class="score-detail">
+          <text class="sd-item">发音 {{scoreDetail.accuracy}}%</text>
+          <text class="sd-item">流畅 {{scoreDetail.fluency}}%</text>
+          <text class="sd-item">完整 {{scoreDetail.completeness}}%</text>
+        </view>
       </view>
     </view>
 
@@ -87,6 +100,7 @@
         <view class="tab-item {{activeTab === 'appreciation' ? 'active' : ''}}" bindtap="switchTab" data-tab="appreciation">赏析</view>
         <view class="tab-item {{activeTab === 'background' ? 'active' : ''}}" bindtap="switchTab" data-tab="background">背景</view>
         <view class="tab-item {{activeTab === 'author' ? 'active' : ''}}" bindtap="switchTab" data-tab="author">作者</view>
+        <view class="tab-item recite-tab {{activeTab === 'recite' ? 'active' : ''}}" bindtap="switchTab" data-tab="recite">背诵</view>
       </view>
       <view class="d-title">
         <text class="hint" wx:if="{{drawerState !== 'full'}}">↑ 上滑展开</text>
@@ -132,12 +146,9 @@
         <!-- ===== Tab 2: 全文译文 ===== -->
         <block wx:if="{{activeTab === 'trans'}}">
           <view class="ds-label"><icon-svg name="paper_card" size="24" stroke="0" /> 全文译文</view>
-          <block wx:if="{{poem.sentences && poem.sentences.length}}">
-            <view wx:for="{{poem.sentences}}" wx:for-item="s" wx:for-index="si" wx:key="idx">
-              <view class="trans-line-wrap">
-                <view class="tl-original">{{s.text}}</view>
-                <view class="tl-trans">{{s.trans || '（暂缺）'}}</view>
-              </view>
+          <block wx:if="{{translationParas && translationParas.length}}">
+            <view class="trans-para" wx:for="{{translationParas}}" wx:key="*this">
+              {{item}}
             </view>
             <view class="trans-summary" wx:if="{{poem.funTip || poem.note}}">
               <icon-svg name="tips" size="22" color="#E8C063" style="margin-right:6rpx;flex-shrink:0" />
@@ -210,9 +221,176 @@
           </block>
         </block>
 
+        <!-- ===== Tab 6: 背诵挑战 ===== -->
+        <block wx:if="{{activeTab === 'recite'}}">
+          <!-- 背诵统计头 -->
+          <view class="recite-stats-card">
+            <view class="rs-badge-area">
+              <text class="rs-badge-icon">{{reciteBadge.icon}}</text>
+              <text class="rs-badge-name">{{reciteBadge.name}}</text>
+            </view>
+            <view class="rs-count-area">
+              <text class="rs-count-num">{{reciteTotal}}</text>
+              <text class="rs-count-label">首已背</text>
+            </view>
+            <view class="rs-next-area" wx:if="{{reciteNextBadge}}">
+              <text class="rs-next-hint">距{{reciteNextBadge.icon}}{{reciteNextBadge.name}}还差{{reciteNextBadge.min - reciteTotal}}首</text>
+            </view>
+          </view>
+
+          <!-- 三阶模式选择器 -->
+          <view class="recite-mode-bar">
+            <view class="rm-item {{reciteMode === 'follow' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="follow">
+              <text class="rm-icon">📖</text>
+              <text class="rm-label">跟背</text>
+              <text class="rm-desc">看字跟读</text>
+            </view>
+            <view class="rm-item {{reciteMode === 'fill' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="fill">
+              <text class="rm-icon">✏️</text>
+              <text class="rm-label">填空</text>
+              <text class="rm-desc">回忆补全</text>
+            </view>
+            <view class="rm-item {{reciteMode === 'full' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="full">
+              <text class="rm-icon">🧠</text>
+              <text class="rm-label">默背</text>
+              <text class="rm-desc">全文背诵</text>
+            </view>
+          </view>
+
+          <!-- 跟背模式 -->
+          <block wx:if="{{reciteMode === 'follow'}}">
+            <view class="recite-guide">
+              <text class="rg-title">📖 跟背模式</text>
+              <text class="rg-desc">看着诗文，逐句大声朗读。读完点击"完成跟背"记录进度。</text>
+            </view>
+            <view class="recite-poem-display">
+              <view wx:for="{{poem.sentences}}" wx:for-item="s" wx:for-index="si" wx:key="idx"
+                class="rp-line {{reciteFollowIdx === si ? 'active' : ''}}"
+                bindtap="selectFollowLine" data-idx="{{si}}">
+                <text class="rp-text">{{s.text}}</text>
+                <text class="rp-num">{{si + 1}}</text>
+              </view>
+            </view>
+            <view class="recite-actions">
+              <button class="ra-btn primary" bindtap="completeFollowRecite" disabled="{{reciteFollowCompleted}}">
+                {{reciteFollowCompleted ? '✅ 已完成' : '🎤 完成跟背'}}
+              </button>
+            </view>
+          </block>
+
+          <!-- ── 填空模式 ── -->
+          <block wx:if="{{reciteMode === 'fill'}}">
+            <view class="recite-guide">
+              <text class="rg-title">✏️ 填空挑战</text>
+              <text class="rg-desc">诗句中有空缺，试着回忆补全。点击空白处可看答案。</text>
+            </view>
+            <view class="recite-poem-display">
+              <view wx:for="{{fillLines}}" wx:for-item="fl" wx:for-index="fi" wx:key="idx"
+                class="rp-line fill-line {{fl.revealed ? 'revealed' : ''}}">
+                <text class="rp-fill-text">
+                  <block wx:for="{{fl.parts}}" wx:for-item="part" wx:key="*this">
+                    <text wx:if="{{part.type === 'text'}}">{{part.text}}</text>
+                    <text wx:if="{{part.type === 'blank'}}"
+                      class="fill-blank {{fl.revealed ? 'revealed' : ''}}"
+                      bindtap="revealBlank" data-line="{{fi}}">
+                      {{fl.revealed ? part.text : '___'}}
+                    </text>
+                  </block>
+                </text>
+                <text class="rp-num">{{fi + 1}}</text>
+              </view>
+            </view>
+            <view class="recite-actions" wx:if="{{fillAllRevealed}}">
+              <button class="ra-btn primary" bindtap="completeFillRecite">✅ 完成填空</button>
+            </view>
+          </block>
+
+          <!-- ── 默背模式 ── -->
+          <block wx:if="{{reciteMode === 'full'}}">
+            <view class="recite-guide">
+              <text class="rg-title">🧠 默背挑战</text>
+              <text class="rg-desc">诗句全部隐藏，试着从记忆中背诵全文。完成后点击"揭示原文"自行核对。</text>
+            </view>
+
+            <!-- 默背状态：未揭示 -->
+            <block wx:if="{{!fullReciteRevealed}}">
+              <view class="full-recite-blank-area">
+                <view wx:for="{{poem.sentences}}" wx:for-item="s" wx:key="idx" class="fr-hidden-line">
+                  <text class="fr-line-num">{{index + 1}}</text>
+                  <view class="fr-blank-row">{{'＿＿＿＿＿＿＿'}}</view>
+                </view>
+              </view>
+              <view class="recite-actions">
+                <button class="ra-btn outline" bindtap="revealFullRecite">👁️ 揭示原文</button>
+              </view>
+            </block>
+
+            <!-- 默背状态：已揭示 + 自评 -->
+            <block wx:else>
+              <view class="recite-poem-display">
+                <view wx:for="{{poem.sentences}}" wx:for-item="s" wx:for-index="si" wx:key="idx" class="rp-line">
+                  <text class="rp-text">{{s.text}}</text>
+                  <text class="rp-num">{{si + 1}}</text>
+                </view>
+              </view>
+              <view class="recite-self-rate">
+                <text class="rsr-title">自我评价：</text>
+                <view class="rsr-options">
+                  <view class="rsr-opt {{fullReciteRating === 3 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="3">
+                    <text class="rsr-icon">🌟</text>
+                    <text>完全正确</text>
+                  </view>
+                  <view class="rsr-opt {{fullReciteRating === 2 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="2">
+                    <text class="rsr-icon">👍</text>
+                    <text>基本正确</text>
+                  </view>
+                  <view class="rsr-opt {{fullReciteRating === 1 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="1">
+                    <text class="rsr-icon">📝</text>
+                    <text>还需练习</text>
+                  </view>
+                </view>
+                <button class="ra-btn primary" bindtap="completeFullRecite" wx:if="{{fullReciteRating > 0}}">🏆 完成默背</button>
+              </view>
+            </block>
+          </block>
+
+          <!-- 徽章升级弹窗 -->
+          <view class="badge-upgrade-overlay" wx:if="{{showBadgeUpgrade}}" catch:tap="dismissBadgeUpgrade">
+            <view class="badge-upgrade-card" catch:tap="">
+              <text class="bu-icon">{{reciteBadge.icon}}</text>
+              <text class="bu-title">🎉 徽章升级！</text>
+              <text class="bu-badge">{{reciteBadge.name}}</text>
+              <text class="bu-desc">{{reciteBadge.desc}}</text>
+              <view class="bu-from" wx:if="{{oldBadgeName}}">
+                <text>{{oldBadgeName}} → {{reciteBadge.name}}</text>
+              </view>
+              <button class="bu-close" bindtap="dismissBadgeUpgrade">太棒了！</button>
+            </view>
+          </view>
+        </block>
+
         <!-- 底部留白 -->
         <view style="height:60rpx"></view>
       </scroll-view>
+    </view>
+
+    <!-- 趣味小测浮层 -->
+    <view class="quiz-overlay" wx:if="{{showQuiz}}" catch:tap="">
+      <view class="quiz-card" catch:tap="">
+        <view class="quiz-header">
+          <text class="quiz-title">🎯 挑战一下！（{{quizIdx + 1}}/{{quizQuestions.length}}）</text>
+        </view>
+        <view class="quiz-question">{{currentQ.q}}</view>
+        <view class="quiz-choices">
+          <view wx:for="{{currentQ.labeledChoices}}" wx:key="letter"
+            class="quiz-choice {{quizSelected === item.text ? 'selected' : ''}}"
+            bind:tap="answerQuiz" data-choice="{{item.text}}">
+            <text class="qc-letter">{{item.letter}}.</text>
+            <text class="qc-text">{{item.text}}</text>
+          </view>
+        </view>
+        <view class="quiz-hint">答对获得「小状元」积分</view>
+      </view>
     </view>
   </block>
 </view>
