@@ -1,5 +1,19 @@
 <!-- 首页 -->
 <view class="page">
+  <!-- 撒花/花瓣飘落效果 -->
+  <view class="petal-shower">
+    <view class="petal p1"></view>
+    <view class="petal p2"></view>
+    <view class="petal p3"></view>
+    <view class="petal p4"></view>
+    <view class="petal p5"></view>
+    <view class="petal p6"></view>
+    <view class="petal p7"></view>
+    <view class="petal p8"></view>
+    <view class="petal p9"></view>
+    <view class="petal p10"></view>
+  </view>
+
   <view class="home-head">
     <view class="greet">
       <text>{{timeGreet}}，小朋友</text>

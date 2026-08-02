@@ -346,6 +346,14 @@
   color: var(--ink-soft);
   line-height: 1.9;
 }
+.author-source {
+  font-size: 20rpx;
+  color: #b5a68a;
+  text-align: right;
+  margin-top: 8rpx;
+  font-style: italic;
+  opacity: 0.7;
+}
 .author-placeholder {
   padding: 16rpx 20rpx;
   background: rgba(255,255,255,0.5);

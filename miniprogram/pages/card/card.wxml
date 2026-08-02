@@ -5,6 +5,9 @@
   </view>
   <view class="loading" wx:if="{{!poem}}">加载中...</view>
 
+  <!-- 隐藏 Canvas，2x 高清绘制卡片 -->
+  <canvas type="2d" id="cardCanvas" class="card-canvas" style="width:{{canvasStyleW}}px;height:{{canvasStyleH}}px"></canvas>
+
   <block wx:if="{{poem}}">
     <view class="share-card">
       <view class="sc-pic">

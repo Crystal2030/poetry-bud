@@ -141,3 +141,49 @@
 }
 .daily-poem::before { left: -4rpx; }
 .daily-poem::after  { right: -4rpx; }
+
+/* ── 花瓣飘落动画（撒花效果）── */
+.petal-shower {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 999; pointer-events: none; overflow: hidden;
+}
+.petal {
+  position: absolute; top: -40rpx;
+  width: 28rpx; height: 28rpx;
+  border-radius: 42% 0 58% 12%;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: petalFall linear infinite;
+}
+/* 金-粉-绿三色循环，纸艺剪纸风格 */
+.petal.p1  { left: 5%;  background: rgba(232,192,99,0.9);   animation-duration: 8s;  animation-delay: 0s;   width: 24rpx; height: 24rpx; }
+.petal.p2  { left: 15%; background: rgba(232,178,144,0.85); animation-duration: 9s;  animation-delay: 1s;   width: 20rpx; height: 20rpx; }
+.petal.p3  { left: 25%; background: rgba(201,162,75,0.88);  animation-duration: 10s; animation-delay: 2s;   width: 26rpx; height: 26rpx; border-radius: 35% 5% 60% 15%; }
+.petal.p4  { left: 35%; background: rgba(110,138,94,0.82);   animation-duration: 7.5s; animation-delay: 0.5s; width: 22rpx; height: 22rpx; }  /* --moss 芽绿 */
+.petal.p5  { left: 45%; background: rgba(232,178,144,0.78);  animation-duration: 8.5s; animation-delay: 3s;   width: 28rpx; height: 28rpx; }
+.petal.p6  { left: 55%; background: rgba(208,175,105,0.8);   animation-duration: 9.5s; animation-delay: 1.5s; width: 20rpx; height: 20rpx; }
+.petal.p7  { left: 65%; background: rgba(89,121,73,0.84);    animation-duration: 8s;  animation-delay: 2.5s; width: 24rpx; height: 24rpx; border-radius: 50% 2% 48% 18%; }  /* --moss-deep 苔绿 */
+.petal.p8  { left: 75%; background: rgba(201,162,75,0.83);   animation-duration: 10.5s;animation-delay: 0.8s; width: 22rpx; height: 22rpx; }
+.petal.p9  { left: 85%; background: rgba(232,178,144,0.88);  animation-duration: 7.8s; animation-delay: 3.5s; width: 26rpx; height: 26rpx; }
+.petal.p10 { left: 92%; background: rgba(110,138,94,0.78);   animation-duration: 9.2s; animation-delay: 4s;   width: 20rpx; height: 20rpx; border-radius: 30% 0 65% 10%; }  /* 芽绿变体 */
+
+@keyframes petalFall {
+  0% {
+    transform: translateY(-40rpx) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg) translateX(40rpx);
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg) translateX(-20rpx);
+    opacity: 0;
+  }
+}

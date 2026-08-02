@@ -213,8 +213,9 @@
               <text class="author-dynasty">{{poem.dynasty}}</text>
             </view>
           </view>
-          <block wx:if="{{poem.authorBio}}">
-            <view class="author-text">{{poem.authorBio}}</view>
+          <block wx:if="{{poem.author_info_gwd || poem.author_info}}">
+            <view class="author-text">{{poem.author_info_gwd || poem.author_info}}</view>
+            <view class="author-source" wx:if="{{poem.author_info_gwd}}">数据来源：古文岛</view>
           </block>
           <block wx:else>
             <view class="author-text">

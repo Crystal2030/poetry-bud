@@ -1,5 +1,11 @@
 .card-page { min-height: 100vh; background: linear-gradient(160deg, #3a4a5e, #26303f); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 44rpx; }
 .back-btn { position: absolute; top: 100rpx; left: 32rpx; z-index: 50; width: 68rpx; height: 68rpx; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; }
+
+/* 离屏 Canvas — 不能 display:none（节点获取失败），用 fixed 移出视口 */
+.card-canvas {
+  position: fixed; top: -9999rpx; left: -9999rpx;
+  width: 520rpx; height: 860rpx;
+}
 .loading { color: #fff; font-size: 28rpx; }
 
 .share-card { width: 520rpx; border-radius: 40rpx; overflow: hidden; box-shadow: 0 32rpx 88rpx rgba(0,0,0,0.5); }

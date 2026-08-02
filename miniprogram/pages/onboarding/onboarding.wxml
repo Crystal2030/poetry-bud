@@ -1,5 +1,19 @@
 <!-- 首次引导 3 屏 -->
 <view class="onboarding-container">
+  <!-- 撒花/花瓣飘落效果（开屏即撒） -->
+  <view class="petal-shower">
+    <view class="petal p1"></view>
+    <view class="petal p2"></view>
+    <view class="petal p3"></view>
+    <view class="petal p4"></view>
+    <view class="petal p5"></view>
+    <view class="petal p6"></view>
+    <view class="petal p7"></view>
+    <view class="petal p8"></view>
+    <view class="petal p9"></view>
+    <view class="petal p10"></view>
+  </view>
+
   <swiper class="onboarding-swiper" indicator-dots="{{true}}" indicator-color="rgba(43,42,40,0.2)" indicator-active-color="#C0553F" bindchange="onSwiperChange">
     
     <!-- 屏1: 品牌初遇 -->
@@ -7,7 +21,7 @@
       <view class="onboard-slide slide-1">
         <view class="sky-bg"></view>
         <view class="sprout-area">
-          <image class="sprout-big" src="/static/icons/paper/sprout-happy.svg" mode="aspectFit"/>
+          <image class="sprout-big" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
         </view>
         <view class="seal-title">
           <text class="seal-text">诗 芽</text>

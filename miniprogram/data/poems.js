@@ -1318,8 +1318,8 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "碧玉妝成一树高，万條垂下绿丝縧。",
-      "不知細叶谁裁出，二月春风似剪刀。"
+      "碧玉妆成一树高，万条垂下绿丝绦。",
+      "不知细叶谁裁出，二月春风似剪刀。"
     ],
     "pinyinLines": [
       [
@@ -1522,14 +1522,14 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "少小离家老大回，乡音难改鬓毛衰。",
+      "少小离家老大回，乡音无改鬓毛衰。",
       "儿童相见不相识，笑问客从何处来。"
     ],
     "pinyinLines": [
       [
         {
           "char": "少",
-          "py": "shǎo"
+          "py": "shào"
         },
         {
           "char": "小",
@@ -1741,7 +1741,7 @@ module.exports = [
     },
     "paragraphs": [
       "黄河远上白云间，一片孤城万仞山。",
-      "羌笛何须怨杨柳，春光不度玉门关。"
+      "羌笛何须怨杨柳，春风不度玉门关。"
     ],
     "pinyinLines": [
       [
@@ -1877,7 +1877,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "葡萄美酒夜光杯，边塞的宴会好热闹！",
+    "funTip": "远远望去，黄河像飘到了白云之间，边塞的孤城好壮观！",
     "sceneId": "pond",
     "sceneName": "池塘",
     "bgTheme": "",
@@ -5150,17 +5150,17 @@ module.exports = [
       "allusionLoad": 2
     },
     "paragraphs": [
-      "朝辭白帝彩云间，千里江陵一日还。",
-      "两岸猨声啼不尽，轻舟已过万重山。"
+      "朝辞白帝彩云间，千里江陵一日还。",
+      "两岸猿声啼不住，轻舟已过万重山。"
     ],
     "pinyinLines": [
       [
         {
           "char": "朝",
-          "py": "cháo"
+          "py": "zhāo"
         },
         {
-          "char": "辭",
+          "char": "辞",
           "py": "cí"
         },
         {
@@ -5275,7 +5275,7 @@ module.exports = [
         },
         {
           "char": "重",
-          "py": "zhòng"
+          "py": "chóng"
         },
         {
           "char": "山",
@@ -5364,7 +5364,7 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "天门中断楚江开，碧水东流至北回。",
+      "天门中断楚江开，碧水东流至此回。",
       "两岸青山相对出，孤帆一片日边来。"
     ],
     "pinyinLines": [
@@ -5799,70 +5799,70 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "堂西长笋別开门，塹北行椒却背村。",
-      "梅熟许同朱老喫，松高擬对阮生论。"
+      "两个黄鹂鸣翠柳，一行白鹭上青天。",
+      "窗含西岭千秋雪，门泊东吴万里船。"
     ],
     "pinyinLines": [
       [
         {
-          "char": "堂",
-          "py": "táng"
+          "char": "两",
+          "py": "liǎng"
         },
         {
-          "char": "西",
-          "py": "xī"
+          "char": "个",
+          "py": "gè"
         },
         {
-          "char": "长",
-          "py": "cháng"
+          "char": "黄",
+          "py": "huáng"
         },
         {
-          "char": "笋",
-          "py": "sǔn"
+          "char": "鹂",
+          "py": "lí"
         },
         {
-          "char": "別",
-          "py": "bié"
+          "char": "鸣",
+          "py": "míng"
         },
         {
-          "char": "开",
-          "py": "kāi"
+          "char": "翠",
+          "py": "cuì"
         },
         {
-          "char": "门",
-          "py": "mén"
+          "char": "柳",
+          "py": "liǔ"
         },
         {
           "char": "，",
           "py": ""
         },
         {
-          "char": "塹",
-          "py": "qiàn"
-        },
-        {
-          "char": "北",
-          "py": "běi"
+          "char": "一",
+          "py": "yī"
         },
         {
           "char": "行",
-          "py": "xíng"
+          "py": "háng"
         },
         {
-          "char": "椒",
-          "py": "jiāo"
+          "char": "白",
+          "py": "bái"
         },
         {
-          "char": "却",
-          "py": "què"
+          "char": "鹭",
+          "py": "lù"
         },
         {
-          "char": "背",
-          "py": "bèi"
+          "char": "上",
+          "py": "shàng"
         },
         {
-          "char": "村",
-          "py": "cūn"
+          "char": "青",
+          "py": "qīng"
+        },
+        {
+          "char": "天",
+          "py": "tiān"
         },
         {
           "char": "。",
@@ -5871,64 +5871,64 @@ module.exports = [
       ],
       [
         {
-          "char": "梅",
-          "py": "méi"
+          "char": "窗",
+          "py": "chuāng"
         },
         {
-          "char": "熟",
-          "py": "shú"
+          "char": "含",
+          "py": "hán"
         },
         {
-          "char": "许",
-          "py": "xǔ"
+          "char": "西",
+          "py": "xī"
         },
         {
-          "char": "同",
-          "py": "tóng"
+          "char": "岭",
+          "py": "lǐng"
         },
         {
-          "char": "朱",
-          "py": "zhū"
+          "char": "千",
+          "py": "qiān"
         },
         {
-          "char": "老",
-          "py": "lǎo"
+          "char": "秋",
+          "py": "qiū"
         },
         {
-          "char": "喫",
-          "py": "chī"
+          "char": "雪",
+          "py": "xuě"
         },
         {
           "char": "，",
           "py": ""
         },
         {
-          "char": "松",
-          "py": "sōng"
+          "char": "门",
+          "py": "mén"
         },
         {
-          "char": "高",
-          "py": "gāo"
+          "char": "泊",
+          "py": "bó"
         },
         {
-          "char": "擬",
-          "py": "nǐ"
+          "char": "东",
+          "py": "dōng"
         },
         {
-          "char": "对",
-          "py": "duì"
+          "char": "吴",
+          "py": "wú"
         },
         {
-          "char": "阮",
-          "py": "ruǎn"
+          "char": "万",
+          "py": "wàn"
         },
         {
-          "char": "生",
-          "py": "shēng"
+          "char": "里",
+          "py": "lǐ"
         },
         {
-          "char": "论",
-          "py": "lùn"
+          "char": "船",
+          "py": "chuán"
         },
         {
           "char": "。",
@@ -5943,28 +5943,16 @@ module.exports = [
     "theme": "写景",
     "sentences": [
       {
-        "text": "堂西长笋別开门，",
-        "py": "táng xī cháng sǔn bié kāi mén",
-        "trans": "",
-        "words": []
+        "text": "两个黄鹂鸣翠柳"
       },
       {
-        "text": "塹北行椒却背村。",
-        "py": "qiàn běi xíng jiāo què bèi cūn",
-        "trans": "",
-        "words": []
+        "text": "一行白鹭上青天"
       },
       {
-        "text": "梅熟许同朱老喫，",
-        "py": "méi shú xǔ tóng zhū lǎo chī",
-        "trans": "",
-        "words": []
+        "text": "窗含西岭千秋雪"
       },
       {
-        "text": "松高擬对阮生论。",
-        "py": "sōng gāo nǐ duì ruǎn shēng lùn",
-        "trans": "",
-        "words": []
+        "text": "门泊东吴万里船"
       }
     ],
     "translation": "两只黄鹂鸟在翠绿的柳树枝头唱着动听的歌；一行白鹭排着整齐的队伍飞上了蓝蓝的天空。从窗口望出去，西边雪山上终年不化的白雪看得清清楚楚；门前的江面上，停着从万里之外的东吴远道而来的大船。",
@@ -7512,7 +7500,7 @@ module.exports = [
     },
     "paragraphs": [
       "慈母手中线，游子身上衣。",
-      "临行密密縫，意恐迟迟归。",
+      "临行密密缝，意恐迟迟归。",
       "谁言寸草心，报得三春晖。"
     ],
     "pinyinLines": [
@@ -8700,106 +8688,54 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "褭褭凉风动，淒淒寒露零。",
-      "兰衰花始白，荷破叶犹青。",
-      "独立栖沙鹤，双飞照水螢。",
-      "若为寥落境，仍值酒初醒。"
+      "小娃撑小艇，偷采白莲回。",
+      "不解藏踪迹，浮萍一道开。"
     ],
     "pinyinLines": [
       [
         {
-          "char": "褭",
-          "py": "niǎo"
+          "char": "小",
+          "py": "xiǎo"
         },
         {
-          "char": "褭",
-          "py": "niǎo"
+          "char": "娃",
+          "py": "wá"
         },
         {
-          "char": "凉",
-          "py": "liáng"
+          "char": "撑",
+          "py": "chēng"
         },
         {
-          "char": "风",
-          "py": "fēng"
+          "char": "小",
+          "py": "xiǎo"
         },
         {
-          "char": "动",
-          "py": "dòng"
+          "char": "艇",
+          "py": "tǐng"
         },
         {
           "char": "，",
           "py": ""
         },
         {
-          "char": "淒",
-          "py": "qī"
+          "char": "偷",
+          "py": "tōu"
         },
         {
-          "char": "淒",
-          "py": "qī"
-        },
-        {
-          "char": "寒",
-          "py": "hán"
-        },
-        {
-          "char": "露",
-          "py": "lù"
-        },
-        {
-          "char": "零",
-          "py": "líng"
-        },
-        {
-          "char": "。",
-          "py": ""
-        }
-      ],
-      [
-        {
-          "char": "蘭",
-          "py": "lán"
-        },
-        {
-          "char": "衰",
-          "py": "shuāi"
-        },
-        {
-          "char": "花",
-          "py": "huā"
-        },
-        {
-          "char": "始",
-          "py": "shǐ"
+          "char": "采",
+          "py": "cǎi"
         },
         {
           "char": "白",
           "py": "bái"
         },
         {
-          "char": "，",
-          "py": ""
+          "char": "莲",
+          "py": "lián"
         },
         {
-          "char": "荷",
-          "py": "hé"
-        },
-        {
-          "char": "破",
-          "py": "pò"
-        },
-        {
-          "char": "叶",
-          "py": "yè"
-        },
-        {
-          "char": "犹",
-          "py": "yóu"
-        },
-        {
-          "char": "青",
-          "py": "qīng"
+          "char": "回",
+          "py": "huí"
         },
         {
           "char": "。",
@@ -8808,98 +8744,48 @@ module.exports = [
       ],
       [
         {
-          "char": "独",
-          "py": "dú"
+          "char": "不",
+          "py": "bù"
         },
         {
-          "char": "立",
-          "py": "lì"
+          "char": "解",
+          "py": "jiě"
         },
         {
-          "char": "栖",
-          "py": "qī"
+          "char": "藏",
+          "py": "cáng"
         },
         {
-          "char": "沙",
-          "py": "shā"
+          "char": "踪",
+          "py": "zōng"
         },
         {
-          "char": "鹤",
-          "py": "hè"
-        },
-        {
-          "char": "，",
-          "py": ""
-        },
-        {
-          "char": "双",
-          "py": "shuāng"
-        },
-        {
-          "char": "飞",
-          "py": "fēi"
-        },
-        {
-          "char": "照",
-          "py": "zhào"
-        },
-        {
-          "char": "水",
-          "py": "shuǐ"
-        },
-        {
-          "char": "螢",
-          "py": "yíng"
-        },
-        {
-          "char": "。",
-          "py": ""
-        }
-      ],
-      [
-        {
-          "char": "若",
-          "py": "ruò"
-        },
-        {
-          "char": "为",
-          "py": "wèi"
-        },
-        {
-          "char": "寥",
-          "py": "liáo"
-        },
-        {
-          "char": "落",
-          "py": "luò"
-        },
-        {
-          "char": "境",
-          "py": "jìng"
+          "char": "迹",
+          "py": "jì"
         },
         {
           "char": "，",
           "py": ""
         },
         {
-          "char": "仍",
-          "py": "réng"
+          "char": "浮",
+          "py": "fú"
         },
         {
-          "char": "值",
-          "py": "zhí"
+          "char": "萍",
+          "py": "píng"
         },
         {
-          "char": "酒",
-          "py": "jiǔ"
+          "char": "一",
+          "py": "yī"
         },
         {
-          "char": "初",
-          "py": "chū"
+          "char": "道",
+          "py": "dào"
         },
         {
-          "char": "醒",
-          "py": "xǐng"
+          "char": "开",
+          "py": "kāi"
         },
         {
           "char": "。",
@@ -8914,52 +8800,16 @@ module.exports = [
     "theme": "童趣",
     "sentences": [
       {
-        "text": "褭褭凉风动，",
-        "py": "niǎo niǎo liáng fēng dòng",
-        "trans": "",
-        "words": []
+        "text": "小娃撑小艇"
       },
       {
-        "text": "淒淒寒露零。",
-        "py": "qī qī hán lù líng",
-        "trans": "",
-        "words": []
+        "text": "偷采白莲回"
       },
       {
-        "text": "兰衰花始白，",
-        "py": "lán shuāi huā shǐ bái",
-        "trans": "",
-        "words": []
+        "text": "不解藏踪迹"
       },
       {
-        "text": "荷破叶犹青。",
-        "py": "hé pò yè yóu qīng",
-        "trans": "",
-        "words": []
-      },
-      {
-        "text": "独立栖沙鹤，",
-        "py": "dú lì qī shā hè",
-        "trans": "",
-        "words": []
-      },
-      {
-        "text": "双飞照水螢。",
-        "py": "shuāng fēi zhào shuǐ yíng",
-        "trans": "",
-        "words": []
-      },
-      {
-        "text": "若为寥落境，",
-        "py": "ruò wèi liáo luò jìng",
-        "trans": "",
-        "words": []
-      },
-      {
-        "text": "仍值酒初醒。",
-        "py": "réng zhí jiǔ chū xǐng",
-        "trans": "",
-        "words": []
+        "text": "浮萍一道开"
       }
     ],
     "translation": "一个小娃娃撑着一条小船，偷偷地划到池塘里去采白莲。他还不懂得怎么隐蔽行踪，小船走过的地方，浮萍被分开了，留下一道长长的水路，一下子就让人知道他来过这里。",
@@ -9818,7 +9668,7 @@ module.exports = [
     },
     "paragraphs": [
       "千山鸟飞绝，万径人踪灭。",
-      "孤舟蓑笠翁，独釣寒江雪。"
+      "孤舟蓑笠翁，独钓寒江雪。"
     ],
     "pinyinLines": [
       [
@@ -10206,7 +10056,7 @@ module.exports = [
     },
     "paragraphs": [
       "远上寒山石径斜，白云生处有人家。",
-      "停车坐爱楓林晚，霜叶红于二月花。"
+      "停车坐爱枫林晚，霜叶红于二月花。"
     ],
     "pinyinLines": [
       [
@@ -10231,7 +10081,7 @@ module.exports = [
           "py": "shí"
         },
         {
-          "char": "徑",
+          "char": "径",
           "py": "jìng"
         },
         {
@@ -10293,7 +10143,7 @@ module.exports = [
           "py": "ài"
         },
         {
-          "char": "楓",
+          "char": "枫",
           "py": "fēng"
         },
         {
@@ -11212,8 +11062,8 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "爆竹声中一岁除，东风送暖入屠苏。",
-      "千门万户曈曈日，争插新桃换旧符。"
+      "爆竹声中一岁除，春风送暖入屠苏。",
+      "千门万户曈曈日，总把新桃换旧符。"
     ],
     "pinyinLines": [
       [
@@ -13117,70 +12967,70 @@ module.exports = [
       "allusionLoad": 2
     },
     "paragraphs": [
-      "文能换骨余无法，学但穷源自不疑。",
-      "齿豁头童方悟此，乃翁见事可憐迟。"
+      "死去元知万事空，但悲不见九州同。",
+      "王师北定中原日，家祭无忘告乃翁。"
     ],
     "pinyinLines": [
       [
         {
-          "char": "文",
-          "py": "wén"
+          "char": "死",
+          "py": "sǐ"
         },
         {
-          "char": "能",
-          "py": "néng"
+          "char": "去",
+          "py": "qù"
         },
         {
-          "char": "換",
-          "py": "huàn"
+          "char": "元",
+          "py": "yuán"
         },
         {
-          "char": "骨",
-          "py": "gǔ"
+          "char": "知",
+          "py": "zhī"
         },
         {
-          "char": "余",
-          "py": "yú"
+          "char": "万",
+          "py": "wàn"
         },
         {
-          "char": "无",
-          "py": "wú"
+          "char": "事",
+          "py": "shì"
         },
         {
-          "char": "法",
-          "py": "fǎ"
+          "char": "空",
+          "py": "kōng"
         },
         {
           "char": "，",
           "py": ""
         },
         {
-          "char": "学",
-          "py": "xué"
-        },
-        {
           "char": "但",
           "py": "dàn"
         },
         {
-          "char": "穷",
-          "py": "qióng"
-        },
-        {
-          "char": "源",
-          "py": "yuán"
-        },
-        {
-          "char": "自",
-          "py": "zì"
+          "char": "悲",
+          "py": "bēi"
         },
         {
           "char": "不",
           "py": "bù"
         },
         {
-          "char": "疑",
-          "py": "yí"
+          "char": "见",
+          "py": "jiàn"
+        },
+        {
+          "char": "九",
+          "py": "jiǔ"
+        },
+        {
+          "char": "州",
+          "py": "zhōu"
+        },
+        {
+          "char": "同",
+          "py": "tóng"
         },
         {
           "char": "。",
@@ -13189,36 +13039,56 @@ module.exports = [
       ],
       [
         {
-          "char": "齿",
-          "py": "chǐ"
+          "char": "王",
+          "py": "wáng"
         },
         {
-          "char": "豁",
-          "py": "huō"
+          "char": "师",
+          "py": "shī"
         },
         {
-          "char": "头",
-          "py": "tóu"
+          "char": "北",
+          "py": "běi"
         },
         {
-          "char": "童",
-          "py": "tóng"
+          "char": "定",
+          "py": "dìng"
         },
         {
-          "char": "方",
-          "py": "fāng"
+          "char": "中",
+          "py": "zhōng"
         },
         {
-          "char": "悟",
-          "py": "wù"
+          "char": "原",
+          "py": "yuán"
         },
         {
-          "char": "此",
-          "py": "cǐ"
+          "char": "日",
+          "py": "rì"
         },
         {
           "char": "，",
           "py": ""
+        },
+        {
+          "char": "家",
+          "py": "jiā"
+        },
+        {
+          "char": "祭",
+          "py": "jì"
+        },
+        {
+          "char": "无",
+          "py": "wú"
+        },
+        {
+          "char": "忘",
+          "py": "wàng"
+        },
+        {
+          "char": "告",
+          "py": "gào"
         },
         {
           "char": "乃",
@@ -13227,26 +13097,6 @@ module.exports = [
         {
           "char": "翁",
           "py": "wēng"
-        },
-        {
-          "char": "见",
-          "py": "jiàn"
-        },
-        {
-          "char": "事",
-          "py": "shì"
-        },
-        {
-          "char": "可",
-          "py": "kě"
-        },
-        {
-          "char": "憐",
-          "py": "lián"
-        },
-        {
-          "char": "迟",
-          "py": "chí"
         },
         {
           "char": "。",
@@ -13261,28 +13111,16 @@ module.exports = [
     "theme": "爱国",
     "sentences": [
       {
-        "text": "文能换骨余无法，",
-        "py": "wén néng huàn gǔ yú wú fǎ",
-        "trans": "",
-        "words": []
+        "text": "死去元知万事空"
       },
       {
-        "text": "学但穷源自不疑。",
-        "py": "xué dàn qióng yuán zì bù yí",
-        "trans": "",
-        "words": []
+        "text": "但悲不见九州同"
       },
       {
-        "text": "齿豁头童方悟此，",
-        "py": "chǐ huō tóu tóng fāng wù cǐ",
-        "trans": "",
-        "words": []
+        "text": "王师北定中原日"
       },
       {
-        "text": "乃翁见事可憐迟。",
-        "py": "nǎi wēng jiàn shì kě lián chí",
-        "trans": "",
-        "words": []
+        "text": "家祭无忘告乃翁"
       }
     ],
     "translation": "我本来就知道，人死后万事皆空，什么也带不走。唯一让我悲伤的是，没能看到国家统一的那一天。等到朝廷的军队收复北方失地的那一天，你们祭祖的时候，一定不要忘了把这个好消息告诉九泉之下的我！",
@@ -13997,7 +13835,7 @@ module.exports = [
       "allusionLoad": 1
     },
     "paragraphs": [
-      "泉眼无声惜細流，树阴照水爱晴柔。",
+      "泉眼无声惜细流，树阴照水爱晴柔。",
       "小荷才露尖尖角，早有蜻蜓立上头。"
     ],
     "pinyinLines": [
@@ -14421,13 +14259,13 @@ module.exports = [
       "allusionLoad": 2
     },
     "paragraphs": [
-      "勝日寻芳泗水濱，无边光景一时新。",
-      "等閑识得东风面，万紫千红总是春。"
+      "胜日寻芳泗水滨，无边光景一时新。",
+      "等闲识得东风面，万紫千红总是春。"
     ],
     "pinyinLines": [
       [
         {
-          "char": "勝",
+          "char": "胜",
           "py": "shèng"
         },
         {
@@ -14451,7 +14289,7 @@ module.exports = [
           "py": "shuǐ"
         },
         {
-          "char": "濱",
+          "char": "滨",
           "py": "bīn"
         },
         {
@@ -14497,7 +14335,7 @@ module.exports = [
           "py": "děng"
         },
         {
-          "char": "閑",
+          "char": "闲",
           "py": "xián"
         },
         {
@@ -14565,7 +14403,7 @@ module.exports = [
     "theme": "写景",
     "sentences": [
       {
-        "text": "勝日寻芳泗水濱，",
+        "text": "胜日寻芳泗水滨，",
         "py": "shèng rì xún fāng sì shuǐ bīn",
         "charCount": 8,
         "trans": "",
@@ -14579,7 +14417,7 @@ module.exports = [
         "words": []
       },
       {
-        "text": "等閑识得东风面，",
+        "text": "等闲识得东风面，",
         "py": "děng xián shí dé dōng fēng miàn",
         "charCount": 8,
         "trans": "",
@@ -14597,7 +14435,7 @@ module.exports = [
     "appreciation": "这首诗表面上写找春天，实际上有更深的意思。「万紫千红总是春」是名句中的名句，它告诉我们：春天不是某个单一的景物，而是百花齐放、万物更新的大好时光。这首诗也常常被用来比喻学问的丰富多彩——当你认真读书之后，就像找到了春天一样，眼前豁然开朗。",
     "background": "朱熹是南宋最伟大的理学家。传说他有一天在泗水边（孔子的故乡在泗水边）游览，看到了春天百花盛开的景象，心中非常欢喜。但其实他并没有真正去过泗水（当时泗水已被金国占领），这首诗是用「寻芳」来比喻追求学问的道理。",
     "author_info": "朱熹（1130—1200），字元晦，号晦庵，南宋理学家、教育家。他把儒家学说发展到了一个新的高度，对中国后世思想影响极大。他的诗也很有哲理。代表作有《春日》《观书有感》等。",
-    "notes": "谷雨：是二十四节气之第6个节气，春季的最后一个节气。黛色：青黑色。戴胜：亦作“戴鵀”﹑“戴任”﹑“戴纴”。鸟名。状似雀，头有冠，五色如方胜，",
+    "notes": "风和日丽之时游览泗水之滨，无边无际的风光焕然一新。诗人将圣人之道比作催发生机、点染万物的春风，是一首哲理诗。",
     "tags": [
       "春日",
       "写景",
@@ -14605,7 +14443,7 @@ module.exports = [
     ],
     "gwd_id": "a99d905f9d84",
     "gwd_url": "https://www.guwendao.net/shiwenv_a99d905f9d84.aspx",
-    "translation_gwd": "谷雨时节，春天的光景，犹如破晓的太阳光；山岳江河，青翠的草木，好像披上一件青色的衣裳。树叶枝杈间，只见戴胜鸟“咕、咕、咕”叫个不停；积聚的湖水里，生长出许多水浮萍来。温暖的小屋内，像蚂蚁一样的幼蚕，尽情咀嚼桑叶；和煦的春风下，像葶草黄花一样的麦田，不停摇摆。一只鸠鸟空自掸拭自己的羽毛，仿佛在等待另一半；这事真可信，要不听它凄厉的叫声我怎会不忍心。",
+    "translation_gwd": "泗水之滨春光明媚，无边无际的风光焕然一新。人人都能轻易看出春天的面貌，春风吹得百花开放、万紫千红，到处都是春天的景致。",
     "appreciation_gwd": "",
     "background_gwd": "",
     "author_info_gwd": ""

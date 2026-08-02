@@ -744,10 +744,22 @@ Page({
     bgAudio.onError(this._bgAudioErrorHandler)
 
     // 事件全部注册完毕，再设 title/src 触发播放
-    bgAudio.title = this.data.poem.title || '诗芽朗读'
+    const poem = this.data.poem
+    const firstLine = poem.paragraphs && poem.paragraphs[0] ? poem.paragraphs[0].split(/[，。？！]/)[0] : ''
+    bgAudio.title = '《' + (poem.title || '诗芽') + '》' + (poem.author ? ' · ' + poem.author : '')
+    bgAudio.singer = poem.author || ''      // 作者名，系统播放控件会显示
+    bgAudio.epname = poem.dynasty ? poem.dynasty + ' · ' + (firstLine || '') : (firstLine || '')  // 朝代+首句
+    bgAudio.coverImgUrl = ''               // 不使用封面图（避免加载延迟）
     bgAudio.src = url
 
-    console.log('[audio] BackgroundAudioManager 已启动:', bgAudio.title, '| src:', url)
+    console.log('[audio] BackgroundAudioManager 已启动:', bgAudio.title, '| 作者:', poem.author, '| src:', url)
+
+    // 播放开始时轻提示作者信息（仅在真机显示，模拟器无感）
+    if (poem.author && poem.author !== '佚名' && poem.author !== '汉乐府' && poem.author !== '北朝民歌') {
+      setTimeout(() => {
+        wx.showToast({ title: poem.author + ' · ' + (poem.dynasty || ''), icon: 'none', duration: 1500 })
+      }, 500)
+    }
 
     this._audio = bgAudio
   },
