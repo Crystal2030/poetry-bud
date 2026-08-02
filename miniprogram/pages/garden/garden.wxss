@@ -14,10 +14,80 @@
 
 .section-title { display: flex; align-items: center; gap: 8rpx; font-size: 28rpx; font-weight: 700; color: var(--ink); margin: 32rpx 36rpx 20rpx; }
 
-.badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20rpx; padding: 0 32rpx 40rpx; }
-.badge-cell { border-radius: 28rpx; padding: 28rpx 20rpx; text-align: center; background: #f0ede6; }
-.badge-cell.earned { background: #fff; box-shadow: 0 4rpx 16rpx rgba(201, 162, 75, 0.12); }
-.badge-icon { display: flex; justify-content: center; margin-bottom: 4rpx; }
-.badge-name { font-size: 26rpx; font-weight: 600; color: var(--ink-soft); margin-top: 8rpx; display: block; }
-.badge-cell.earned .badge-name { color: var(--ink); }
-.badge-desc { font-size: 20rpx; color: var(--ink-soft); opacity: 0.7; margin-top: 4rpx; display: block; }
+/* ═══ 花园 v3.0 新增样式 ═══ */
+.garden-page { min-height: 100vh; padding-bottom: 140rpx; }
+.garden-scroll { height: calc(100vh - 100rpx); }
+
+/* 天空背景 */
+.sky-canvas { position: relative; height: 320rpx; overflow: hidden; transition: background 2s; }
+.sky-canvas.morning { background: linear-gradient(180deg, #FDE8C8, #F4EBDA); }
+.sky-canvas.noon   { background: linear-gradient(180deg, #C8E6F5, #F4EBDA); }
+.sky-canvas.evening{ background: linear-gradient(180deg, #F5C8A0, #F4EBDA); }
+.sky-canvas.night  { background: linear-gradient(180deg, #1A1A2E, #3D3D5C); }
+
+.sun-moon { position: absolute; width: 80rpx; height: 80rpx; border-radius: 50%; top: 40rpx; right: 80rpx; }
+.morning .sun-moon { background: #FFD700; box-shadow: 0 0 60rpx rgba(255,215,0,0.4); }
+.noon .sun-moon   { background: #FFE44D; box-shadow: 0 0 80rpx rgba(255,228,77,0.5); }
+.evening .sun-moon{ background: #FF8C42; box-shadow: 0 0 60rpx rgba(255,140,66,0.4); }
+.night .sun-moon  { background: #F5F5DC; box-shadow: 0 0 40rpx rgba(245,245,220,0.3); }
+
+.cloud { position: absolute; background: rgba(255,255,255,0.6); border-radius: 50rpx; }
+.cloud.c1 { width:120rpx; height:50rpx; top:60rpx; left:10%; animation: cloudDrift 20s linear infinite; }
+.cloud.c2 { width:160rpx; height:60rpx; top:100rpx; left:50%; animation: cloudDrift 25s linear infinite 5s; }
+.cloud.c3 { width:100rpx; height:45rpx; top:30rpx; left:70%; animation: cloudDrift 18s linear infinite 10s; }
+@keyframes cloudDrift { 0% { transform: translateX(0); } 100% { transform: translateX(80rpx); } }
+
+.star { position: absolute; width: 6rpx; height: 6rpx; background: #fff; border-radius: 50%; opacity: 0.6; animation: twinkle 2s ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+
+/* 顶部信息栏 */
+.garden-head { padding: 24rpx 36rpx; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+.head-title { display: flex; align-items: center; gap: 10rpx; }
+.head-icon { font-size: 32rpx; }
+.head-icon-img { width: 32rpx; height: 32rpx; }
+.head-text { font-size: 30rpx; font-weight: 700; color: var(--ink); }
+.head-stats { display: flex; align-items: center; gap: 12rpx; font-size: 24rpx; color: var(--ink-soft); }
+.hs-num { color: var(--seal); font-weight: 700; font-size: 28rpx; margin: 0 2rpx; }
+.hs-divider { color: rgba(0,0,0,0.15); }
+
+/* 生长树 */
+.growth-tree-area { display: flex; flex-direction: column; align-items: center; padding: 40rpx 0 20rpx; position: relative; z-index: 1; margin-top: -20rpx; }
+.tree-stage { width: 240rpx; height: 280rpx; display: flex; align-items: center; justify-content: center; }
+.tree-image { width: 200rpx; height: 240rpx; }
+.tree-label { text-align: center; margin-top: 8rpx; }
+.tree-name { font-size: 30rpx; font-weight: 700; color: var(--moss-deep); display: block; }
+.tree-hint { font-size: 22rpx; color: var(--ink-soft); margin-top: 6rpx; display: block; }
+.tree-num { color: var(--seal); font-weight: 600; }
+
+/* 纸花网格 */
+.flower-grid-section { margin: 20rpx 32rpx; }
+.section-label { display: flex; align-items: center; gap: 8rpx; margin-bottom: 16rpx; }
+.sl-icon { font-size: 28rpx; }
+.sl-icon-img { width: 28rpx; height: 28rpx; }
+.sl-text { font-size: 26rpx; font-weight: 700; color: var(--ink); }
+.flower-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12rpx; }
+.flower-cell { display: flex; flex-direction: column; align-items: center; padding: 12rpx 6rpx; border-radius: var(--radius-md); background: rgba(255,255,255,0.5); }
+.flower-cell.bloomed { background: rgba(201,162,75,0.1); }
+.flower-icon-img { width: 36rpx; height: 36rpx; }
+.flower-name { font-size: 18rpx; color: var(--ink-soft); margin-top: 4rpx; }
+
+/* 旅程时间线 */
+.timeline-section { margin: 20rpx 0; }
+.timeline-scroll { width: 100%; white-space: nowrap; padding: 0 32rpx; }
+.timeline-track { display: inline-flex; align-items: flex-start; gap: 32rpx; padding: 20rpx 0; position: relative; }
+.tl-line { position: absolute; top: 32rpx; left: 0; right: 0; height: 3rpx; background: rgba(0,0,0,0.1); z-index: 0; }
+.tl-dot { display: flex; flex-direction: column; align-items: center; gap: 4rpx; z-index: 1; min-width: 100rpx; opacity: 0.5; }
+.tl-dot.done { opacity: 1; }
+.tl-icon-img { width: 32rpx; height: 32rpx; }
+.tl-date { font-size: 20rpx; color: var(--ink-soft); }
+.tl-text { font-size: 18rpx; color: var(--ink); text-align: center; white-space: normal; max-width: 120rpx; }
+
+/* 徽章增强 */
+.badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; padding: 0 32rpx 40rpx; }
+.badge-cell { border-radius: var(--radius-lg); padding: 24rpx 16rpx; text-align: center; background: var(--paper-warm); transition: all 0.3s; }
+.badge-cell.earned { background: #fff; box-shadow: 0 2px 8px var(--shadow-gold); }
+.badge-cell.locked { opacity: 0.4; }
+.badge-icon-img { width: 40rpx; height: 40rpx; display: block; margin-bottom: 6rpx; }
+.badge-name { font-size: 24rpx; font-weight: 600; color: var(--ink); display: block; }
+.badge-cell.locked .badge-name { color: var(--ink-soft); }
+.badge-desc { font-size: 18rpx; color: var(--ink-soft); margin-top: 2rpx; display: block; }

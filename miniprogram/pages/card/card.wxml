@@ -10,6 +10,7 @@
       <view class="sc-pic">
         <image class="sc-bg" src="{{poemBg}}" mode="aspectFill" />
         <view class="sc-poem">
+          <view class="sc-scroll-bg"></view>
           <poem-vertical poem="{{poem}}" size="md" mode="light" />
         </view>
       </view>
@@ -36,7 +37,7 @@
         <view class="sa-icon"><icon-svg name="paper_share" size="48" stroke="0" /></view>
         <text>分享</text>
       </view>
-      <view class="sa-btn">
+      <view class="sa-btn" bind:tap="printCard">
         <view class="sa-icon"><icon-svg name="paper_print" size="48" stroke="0" /></view>
         <text>打印</text>
       </view>

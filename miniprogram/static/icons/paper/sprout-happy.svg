@@ -1,0 +1,24 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- 纸影圆底 -->
+  <circle cx="20.6" cy="20.8" r="18" fill="#B5A68A"/>
+  <!-- 脸圆底 -->
+  <circle cx="20" cy="20" r="18" fill="#6E8A5E"/>
+  <!-- 脸亮面 -->
+  <circle cx="20" cy="20" r="16.5" fill="#8AAE7A"/>
+  <!-- 纸艺芽芽 -->
+  <ellipse cx="20.4" cy="5.6" rx="2.5" ry="3.3" fill="#B5A68A"/>
+  <path d="M20.4 6.5Q21.8 3 24 2.3" stroke="#B5A68A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="20" cy="5" rx="2.5" ry="3.3" fill="#6E8A5E"/>
+  <path d="M20 5.8Q21.5 2.5 23.8 1.8" stroke="#6E8A5E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="24.5" cy="2" rx="2.3" ry="1.4" fill="#6E8A5E" transform="rotate(-20,24.5,2)"/>
+  <!-- 笑眯豆眼 (happy版) -->
+  <path d="M11.5 18.5Q14 16 16.5 18.5" stroke="#2C2A26" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M23.5 18.5Q26 16 28.5 18.5" stroke="#2C2A26" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- 更大笑容 -->
+  <path d="M14 25.5Q20 31 26 25.5" stroke="#2C2A26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <!-- 脸颊纸艺腮红 -->
+  <circle cx="11" cy="23.5" r="3.5" fill="#C0553F" opacity=".18"/>
+  <circle cx="29" cy="23.5" r="3.5" fill="#C0553F" opacity=".18"/>
+  <!-- 领巾装饰 -->
+  <path d="M15 34l5-3 5 3" stroke="#F4EBDA" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/>
+</svg>

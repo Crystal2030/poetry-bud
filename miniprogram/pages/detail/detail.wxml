@@ -44,7 +44,10 @@
           </view>
         </view>
         <view class="read-info">
-          <text class="ri-title">{{recordMode ? '🎤 跟读模式·请大声跟读' : (playing ? '正在朗读 第' + (currentSentenceIdx + 1) + '句' : '点击朗读古诗')}}</text>
+          <view class="ri-title">
+            <image wx:if="{{recordMode}}" class="icon-sm" src="/static/icons/paper/mic.svg" mode="aspectFit"/>
+            <text>{{recordMode ? '跟读模式·请大声跟读' : (playing ? '正在朗读 第' + (currentSentenceIdx + 1) + '句' : '点击朗读古诗')}}</text>
+          </view>
           <view class="wave-row" wx:if="{{playing && !recordMode}}">
             <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14]}}" wx:key="*this" class="wave-bar" style="animation-delay:{{item * 0.08}}s"></view>
           </view>
@@ -52,9 +55,10 @@
             <view class="rec-wave" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" style="animation-delay:{{item * 0.15}}s"></view>
           </view>
         </view>
-        <!-- 跟读按钮 -->
-        <view class="record-btn {{recordMode ? 'active' : ''}}" bind:tap="toggleRecordMode" hover-class="record-btn-tap">
-          <text class="rec-icon">{{recordMode ? '⏹' : '🎤'}}</text>
+        <!-- 跟读按钮（暂时隐藏） -->
+        <view class="record-btn {{recordMode ? 'active' : ''}}" bind:tap="toggleRecordMode" hover-class="record-btn-tap" wx:if="{{false}}">
+          <image wx:if="{{recordMode}}" class="rec-icon-img" src="/static/icons/paper/stop.svg" mode="aspectFit"/>
+          <image wx:else class="rec-icon-img" src="/static/icons/paper/mic.svg" mode="aspectFit"/>
           <text class="rec-label">{{recordMode ? '结束' : '跟读'}}</text>
         </view>
       </view>
@@ -65,8 +69,10 @@
       <view class="rec-score-panel" wx:if="{{showScore}}">
         <text class="score-title">朗读报告</text>
         <view class="score-stars">
-          <text wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
-            class="score-star {{item <= scoreStars ? 'lit' : ''}}">⭐</text>
+          <image wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
+            class="score-star {{item <= scoreStars ? 'lit' : ''}}"
+            src="{{item <= scoreStars ? '/static/icons/paper/star.svg' : '/static/icons/paper/star-empty.svg'}}"
+            mode="aspectFit"/>
         </view>
         <view class="score-detail">
           <text class="sd-item">发音 {{scoreDetail.accuracy}}%</text>
@@ -226,7 +232,7 @@
           <!-- 背诵统计头 -->
           <view class="recite-stats-card">
             <view class="rs-badge-area">
-              <text class="rs-badge-icon">{{reciteBadge.icon}}</text>
+              <image class="rs-badge-icon-img" src="{{reciteBadge.icon}}" mode="aspectFit"/>
               <text class="rs-badge-name">{{reciteBadge.name}}</text>
             </view>
             <view class="rs-count-area">
@@ -234,24 +240,24 @@
               <text class="rs-count-label">首已背</text>
             </view>
             <view class="rs-next-area" wx:if="{{reciteNextBadge}}">
-              <text class="rs-next-hint">距{{reciteNextBadge.icon}}{{reciteNextBadge.name}}还差{{reciteNextBadge.min - reciteTotal}}首</text>
+              <text class="rs-next-hint">距「{{reciteNextBadge.name}}」还差{{reciteNextBadge.min - reciteTotal}}首</text>
             </view>
           </view>
 
           <!-- 三阶模式选择器 -->
           <view class="recite-mode-bar">
             <view class="rm-item {{reciteMode === 'follow' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="follow">
-              <text class="rm-icon">📖</text>
+              <image class="rm-icon-img" src="/static/icons/paper/book.svg" mode="aspectFit"/>
               <text class="rm-label">跟背</text>
               <text class="rm-desc">看字跟读</text>
             </view>
             <view class="rm-item {{reciteMode === 'fill' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="fill">
-              <text class="rm-icon">✏️</text>
+              <image class="rm-icon-img" src="/static/icons/paper/pencil.svg" mode="aspectFit"/>
               <text class="rm-label">填空</text>
               <text class="rm-desc">回忆补全</text>
             </view>
             <view class="rm-item {{reciteMode === 'full' ? 'active' : ''}}" bindtap="switchReciteMode" data-mode="full">
-              <text class="rm-icon">🧠</text>
+              <image class="rm-icon-img" src="/static/icons/paper/brain.svg" mode="aspectFit"/>
               <text class="rm-label">默背</text>
               <text class="rm-desc">全文背诵</text>
             </view>
@@ -260,7 +266,10 @@
           <!-- 跟背模式 -->
           <block wx:if="{{reciteMode === 'follow'}}">
             <view class="recite-guide">
-              <text class="rg-title">📖 跟背模式</text>
+              <view class="rg-title">
+                <image class="icon-sm" src="/static/icons/paper/book.svg" mode="aspectFit"/>
+                <text>跟背模式</text>
+              </view>
               <text class="rg-desc">看着诗文，逐句大声朗读。读完点击"完成跟背"记录进度。</text>
             </view>
             <view class="recite-poem-display">
@@ -273,7 +282,11 @@
             </view>
             <view class="recite-actions">
               <button class="ra-btn primary" bindtap="completeFollowRecite" disabled="{{reciteFollowCompleted}}">
-                {{reciteFollowCompleted ? '✅ 已完成' : '🎤 完成跟背'}}
+                <view class="ra-btn-content">
+                  <image wx:if="{{!reciteFollowCompleted}}" class="icon-sm" src="/static/icons/paper/mic.svg" mode="aspectFit"/>
+                  <image wx:if="{{reciteFollowCompleted}}" class="icon-sm" src="/static/icons/paper/check.svg" mode="aspectFit"/>
+                  <text>{{reciteFollowCompleted ? '已完成' : '完成跟背'}}</text>
+                </view>
               </button>
             </view>
           </block>
@@ -281,7 +294,10 @@
           <!-- ── 填空模式 ── -->
           <block wx:if="{{reciteMode === 'fill'}}">
             <view class="recite-guide">
-              <text class="rg-title">✏️ 填空挑战</text>
+              <view class="rg-title">
+                <image class="icon-sm" src="/static/icons/paper/pencil.svg" mode="aspectFit"/>
+                <text>填空挑战</text>
+              </view>
               <text class="rg-desc">诗句中有空缺，试着回忆补全。点击空白处可看答案。</text>
             </view>
             <view class="recite-poem-display">
@@ -301,14 +317,22 @@
               </view>
             </view>
             <view class="recite-actions" wx:if="{{fillAllRevealed}}">
-              <button class="ra-btn primary" bindtap="completeFillRecite">✅ 完成填空</button>
+              <button class="ra-btn primary" bindtap="completeFillRecite">
+                <view class="ra-btn-content">
+                  <image class="icon-sm" src="/static/icons/paper/check.svg" mode="aspectFit"/>
+                  <text>完成填空</text>
+                </view>
+              </button>
             </view>
           </block>
 
           <!-- ── 默背模式 ── -->
           <block wx:if="{{reciteMode === 'full'}}">
             <view class="recite-guide">
-              <text class="rg-title">🧠 默背挑战</text>
+              <view class="rg-title">
+                <image class="icon-sm" src="/static/icons/paper/brain.svg" mode="aspectFit"/>
+                <text>默背挑战</text>
+              </view>
               <text class="rg-desc">诗句全部隐藏，试着从记忆中背诵全文。完成后点击"揭示原文"自行核对。</text>
             </view>
 
@@ -321,7 +345,12 @@
                 </view>
               </view>
               <view class="recite-actions">
-                <button class="ra-btn outline" bindtap="revealFullRecite">👁️ 揭示原文</button>
+                <button class="ra-btn outline" bindtap="revealFullRecite">
+                  <view class="ra-btn-content">
+                    <image class="icon-sm" src="/static/icons/paper/eye.svg" mode="aspectFit"/>
+                    <text>揭示原文</text>
+                  </view>
+                </button>
               </view>
             </block>
 
@@ -337,19 +366,23 @@
                 <text class="rsr-title">自我评价：</text>
                 <view class="rsr-options">
                   <view class="rsr-opt {{fullReciteRating === 3 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="3">
-                    <text class="rsr-icon">🌟</text>
+                    <image class="rsr-icon-img" src="/static/icons/paper/sparkle.svg" mode="aspectFit"/>
                     <text>完全正确</text>
                   </view>
                   <view class="rsr-opt {{fullReciteRating === 2 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="2">
-                    <text class="rsr-icon">👍</text>
                     <text>基本正确</text>
                   </view>
                   <view class="rsr-opt {{fullReciteRating === 1 ? 'chosen' : ''}}" bindtap="rateFullRecite" data-rating="1">
-                    <text class="rsr-icon">📝</text>
+                    <image class="rsr-icon-img" src="/static/icons/paper/pencil.svg" mode="aspectFit"/>
                     <text>还需练习</text>
                   </view>
                 </view>
-                <button class="ra-btn primary" bindtap="completeFullRecite" wx:if="{{fullReciteRating > 0}}">🏆 完成默背</button>
+                <button class="ra-btn primary" bindtap="completeFullRecite" wx:if="{{fullReciteRating > 0}}">
+                  <view class="ra-btn-content">
+                    <image class="icon-sm" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
+                    <text>完成默背</text>
+                  </view>
+                </button>
               </view>
             </block>
           </block>
@@ -357,8 +390,8 @@
           <!-- 徽章升级弹窗 -->
           <view class="badge-upgrade-overlay" wx:if="{{showBadgeUpgrade}}" catch:tap="dismissBadgeUpgrade">
             <view class="badge-upgrade-card" catch:tap="">
-              <text class="bu-icon">{{reciteBadge.icon}}</text>
-              <text class="bu-title">🎉 徽章升级！</text>
+              <image class="bu-icon-img" src="{{reciteBadge.icon}}" mode="aspectFit"/>
+              <text class="bu-title">徽章升级！</text>
               <text class="bu-badge">{{reciteBadge.name}}</text>
               <text class="bu-desc">{{reciteBadge.desc}}</text>
               <view class="bu-from" wx:if="{{oldBadgeName}}">
@@ -378,7 +411,10 @@
     <view class="quiz-overlay" wx:if="{{showQuiz}}" catch:tap="">
       <view class="quiz-card" catch:tap="">
         <view class="quiz-header">
-          <text class="quiz-title">🎯 挑战一下！（{{quizIdx + 1}}/{{quizQuestions.length}}）</text>
+          <view class="quiz-title">
+            <image class="icon-sm" src="/static/icons/paper/target.svg" mode="aspectFit"/>
+            <text>挑战一下！（{{quizIdx + 1}}/{{quizQuestions.length}}）</text>
+          </view>
         </view>
         <view class="quiz-question">{{currentQ.q}}</view>
         <view class="quiz-choices">
@@ -393,4 +429,80 @@
       </view>
     </view>
   </block>
+
+  <!-- ══════════ P0-02 完成反馈三层系统 ══════════ -->
+
+  <!-- Layer 1: Toast -->
+  <view class="feedback-toast {{showToast?'toast-show':''}}" wx:if="{{toastMsg}}">
+    <image class="toast-sprout-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
+    <text class="toast-text">{{toastMsg}}</text>
+  </view>
+
+  <!-- Layer 2: 完成卡片（底部弹入半屏） -->
+  <view class="completion-overlay {{showCard?'overlay-show':''}}" wx:if="{{showCard}}" bindtap="closeCard">
+    <view class="completion-card paper-card-v5" catchtap="noop">
+      <view class="card-close" bindtap="closeCard">
+        <image class="icon-sm" src="/static/icons/paper/close.svg" mode="aspectFit"/>
+      </view>
+      <view class="card-header-area">
+        <image class="icon-sm" src="/static/icons/paper/flower.svg" mode="aspectFit"/>
+        <text class="card-congrats">恭喜完成！</text>
+      </view>
+      <view class="card-poem">
+        <text class="card-poem-title">{{completionPoem.title}}</text>
+        <text class="card-poem-author">{{completionPoem.dynasty}} · {{completionPoem.author}}</text>
+      </view>
+      <view class="card-results">
+        <view class="results-title">
+          <image class="icon-sm" src="/static/icons/paper/book.svg" mode="aspectFit"/>
+          <text>今日收获</text>
+        </view>
+        <view class="result-row">
+          <text class="result-label">朗读 · 芽芽说</text>
+          <text class="result-comment">"{{completionPoem.comment}}"</text>
+          <view class="result-stars">
+            <image class="icon-sm" src="/static/icons/paper/star.svg" mode="aspectFit"/>
+            <text>{{completionPoem.stars}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="card-actions">
+        <button class="action-btn action-primary" bindtap="readNext">
+          <view class="ra-btn-content">
+            <image class="icon-sm" src="/static/icons/paper/book.svg" mode="aspectFit"/>
+            <text>再读一首</text>
+          </view>
+        </button>
+        <button class="action-btn action-secondary" bindtap="genCard">
+          <view class="ra-btn-content">
+            <image class="icon-sm" src="/static/icons/paper/scroll.svg" mode="aspectFit"/>
+            <text>生成诗卡</text>
+          </view>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- Layer 3: 全屏庆祝（里程碑触发） -->
+  <view class="celebration-overlay {{showCelebrate?'celebration-show':''}}" wx:if="{{showCelebrate}}" bindtap="dismissCelebrate" data-dbl="true">
+    <view class="petal-container">
+      <view class="petal" wx:for="{{8}}" wx:key="*this" style="animation-delay:{{item*0.3}}s;left:{{item*12}}%"></view>
+    </view>
+    <view class="celebration-content">
+      <image class="sprout-cheer-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
+      <view class="celebrate-badge-title">
+        <image class="icon-sm" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
+        <text>新徽章解锁！</text>
+      </view>
+      <text class="celebrate-badge-name">{{badgeName}}</text>
+      <text class="celebrate-badge-desc">{{badgeDesc}}</text>
+      <button class="celebrate-share-btn gold-btn-sm" catchtap="shareBadge">
+        <view class="ra-btn-content">
+          <image class="icon-sm" src="/static/icons/paper/sparkle.svg" mode="aspectFit"/>
+          <text>告诉爸爸妈妈</text>
+        </view>
+      </button>
+      <text class="skip-hint">双击任意位置跳过</text>
+    </view>
+  </view>
 </view>

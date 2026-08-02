@@ -1,0 +1,13 @@
+<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+  <!-- 土壤 -->
+  <ellipse cx="60" cy="100" rx="48" ry="18" fill="#B5A68A"/>
+  <ellipse cx="60" cy="102" rx="44" ry="14" fill="#C4A87C"/>
+  <!-- 种子 -->
+  <ellipse cx="60" cy="88" rx="10" ry="13" fill="#6E8A5E"/>
+  <ellipse cx="57" cy="84" rx="4" ry="6" fill="#8AAE7A" opacity=".6"/>
+  <!-- 小根 -->
+  <path d="M60 100Q58 110 52 116" stroke="#6E8A5E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M60 100Q62 108 68 114" stroke="#6E8A5E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- 标签 -->
+  <text x="60" y="42" text-anchor="middle" font-size="14" font-family="sans-serif" fill="#2C2A26" font-weight="bold">种子阶段</text>
+</svg>

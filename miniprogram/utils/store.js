@@ -119,11 +119,13 @@ function getBgmUrl(poem) {
 function getDailyPoem(ageBand) {
   const poems = app.globalData.poems
   if (!poems.length) return null
-  const band = ageBand || wx.getStorageSync('pb_age_band') || '5-8'
+  const band = ageBand || wx.getStorageSync('pb_age_band') || '7-10'
   // 筛选匹配年龄段的诗
   const filtered = poems.filter(p => {
-    if (!p.ageBand || typeof p.ageBand !== 'string') return true
-    return p.ageBand.split(',').some(a => a.trim() === band)
+    if (!p.ageBand) return true
+    if (Array.isArray(p.ageBand)) return p.ageBand.some(a => a === band)
+    if (typeof p.ageBand === 'string') return p.ageBand.split(',').some(a => a.trim() === band)
+    return true
   })
   const pool = filtered.length ? filtered : poems
   const d = new Date()
@@ -135,8 +137,10 @@ function getPoemsByFilter(dim, val, ageBand) {
   // 按年龄段筛选
   if (ageBand) {
     f = f.filter(p => {
-      if (!p.ageBand || typeof p.ageBand !== 'string') return true
-      return p.ageBand.split(',').some(a => a.trim() === ageBand)
+      if (!p.ageBand) return true
+      if (Array.isArray(p.ageBand)) return p.ageBand.some(a => a === ageBand)
+      if (typeof p.ageBand === 'string') return p.ageBand.split(',').some(a => a.trim() === ageBand)
+      return true
     })
   }
   if (val === '全部') return f
@@ -372,12 +376,12 @@ function getSceneMode(sceneId) {
 
 const RECITE_KEY = 'pb_recite'
 const RECITE_BADGES = [
-  { name: '诗童', icon: '🌱', min: 0, desc: '开始背诵之旅' },
-  { name: '诗生', icon: '🌿', min: 3, desc: '背诵3首古诗' },
-  { name: '诗秀', icon: '🎋', min: 10, desc: '背诵10首古诗' },
-  { name: '诗杰', icon: '🏅', min: 20, desc: '背诵20首古诗' },
-  { name: '诗魁', icon: '👑', min: 50, desc: '背诵50首古诗' },
-  { name: '诗仙', icon: '🌟', min: 100, desc: '背诵100首古诗！' }
+  { name: '诗童', icon: '/static/icons/paper/sprout-small.svg', min: 0, desc: '开始背诵之旅' },
+  { name: '诗生', icon: '/static/icons/paper/sprout-large.svg', min: 3, desc: '背诵3首古诗' },
+  { name: '诗秀', icon: '/static/icons/paper/bamboo.svg', min: 10, desc: '背诵10首古诗' },
+  { name: '诗杰', icon: '/static/icons/paper/medal.svg', min: 20, desc: '背诵20首古诗' },
+  { name: '诗魁', icon: '/static/icons/paper/crown.svg', min: 50, desc: '背诵50首古诗' },
+  { name: '诗仙', icon: '/static/icons/paper/sparkle.svg', min: 100, desc: '背诵100首古诗！' }
 ]
 
 function _getReciteData() {

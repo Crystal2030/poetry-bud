@@ -1,32 +1,90 @@
-<!-- 花园 -->
-<view class="page">
+<!-- 花园 v3.0 -->
+<view class="garden-page">
+  <!-- 时间感知天空背景（4态：morning/noon/evening/night） -->
+  <view class="sky-canvas {{skyPhase}}">
+    <view class="sun-moon"></view>
+    <view class="cloud-layer">
+      <view class="cloud c1"></view><view class="cloud c2"></view><view class="cloud c3"></view>
+    </view>
+    <view class="star-layer" wx:if="{{skyPhase === 'night'}}">
+      <view class="star" wx:for="{{6}}" wx:key="*this" style="left:{{item*14+5}}%;top:{{item*8+10}}%"></view>
+    </view>
+  </view>
+
+  <!-- 顶部信息栏 -->
   <view class="garden-head">
-    <view class="title-row"><icon-svg name="paper_sprout_lg" size="32" stroke="0" /><text>诗径花园</text></view>
-    <text class="count">已学 {{readCount}} 首</text>
-  </view>
-
-  <view class="garden-section">
-    <view class="tree-icon"><icon-svg name="paper_sprout_lg" size="100" stroke="0" /></view>
-    <text class="progress-num">{{progress}}%</text>
-    <text class="progress-label">已读 {{readCount}}/{{total}} 首</text>
-    <view class="garden-bar">
-      <view class="garden-bar-fill" style="width:{{progress}}%"></view>
+    <view class="head-title">
+      <image class="head-icon-img" src="/static/icons/paper/flower.svg" mode="aspectFit"/>
+      <text class="head-text">诗径花园</text>
     </view>
-    <view class="stats">
-      <view class="stat-row"><icon-svg name="paper_heart" size="22" stroke="0" /><text>收藏 {{favCount}}</text></view>
-      <view class="stat-row"><icon-svg name="book" size="22" color="var(--ink-soft)" /><text>总诗库 {{total}}</text></view>
-      <view class="stat-row"><icon-svg name="star" size="22" color="#E8C063" /><text>级别 {{level}}</text></view>
+    <view class="head-stats">
+      <text class="hs-item">种活<text class="hs-num">{{flowerCount}}</text>朵</text>
+      <text class="hs-divider">|</text>
+      <text class="hs-item">连续<text class="hs-num">{{streakDays}}</text>天</text>
     </view>
   </view>
 
-  <view class="section-title"><icon-svg name="paper_badge_medal" size="28" stroke="0" /><text>成长徽章</text></view>
-  <view class="badge-grid">
-    <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : ''}}">
-      <icon-svg class="badge-icon" name="{{item.earned ? item.icon : 'paper_badge_lock'}}" size="60" stroke="0" />
-      <text class="badge-name">{{item.name}}</text>
-      <text class="badge-desc">{{item.desc}}</text>
+  <scroll-view class="garden-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- 中心生长树（5阶段：seed/sprout/sapling/flowering/bloom） -->
+    <view class="growth-tree-area">
+      <view class="tree-stage stage-{{treeStage}}">
+        <image class="tree-image" src="/static/icons/tree-{{treeStage}}.svg" mode="aspectFit"/>
+      </view>
+      <view class="tree-label">
+        <text class="tree-name">{{treeStageName}}</text>
+        <text class="tree-hint">再读<text class="tree-num">{{poemsToNextStage}}</text>首 → {{nextStageName}}</text>
+      </view>
     </view>
-  </view>
+
+    <!-- 纸花网格（3列，读一首开一朵） -->
+    <view class="flower-grid-section">
+      <view class="section-label">
+        <image class="sl-icon-img" src="/static/icons/paper/bouquet.svg" mode="aspectFit"/>
+        <text class="sl-text">我的纸花园</text>
+      </view>
+      <view class="flower-grid">
+        <view class="flower-cell {{f.earned ? 'bloomed' : 'seed'}}" wx:for="{{flowers}}" wx:key="name">
+          <image class="flower-icon-img" src="/static/icons/paper/flower.svg" mode="aspectFit" wx:if="{{f.earned}}"/>
+          <image class="flower-icon-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit" wx:else/>
+          <text class="flower-name">{{f.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 旅程时间线（水平滚动） -->
+    <view class="timeline-section">
+      <view class="section-label">
+        <image class="sl-icon-img" src="/static/icons/paper/scroll.svg" mode="aspectFit"/>
+        <text class="sl-text">成长旅程</text>
+      </view>
+      <scroll-view class="timeline-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+        <view class="timeline-track">
+          <view class="tl-dot {{item.achieved ? 'done' : ''}}" wx:for="{{milestones}}" wx:key="id">
+            <image class="tl-icon-img" src="{{item.icon}}" mode="aspectFit"/>
+            <text class="tl-date">{{item.date}}</text>
+            <text class="tl-text">{{item.text}}</text>
+          </view>
+          <view class="tl-line"></view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 成长徽章（保留原有，增强样式） -->
+    <view class="section-label">
+      <image class="sl-icon-img" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
+      <text class="sl-text">成长徽章</text>
+    </view>
+    <view class="badge-grid">
+      <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : 'locked'}}">
+        <image class="badge-icon-img" src="{{item.earned ? item.emoji : '/static/icons/paper/lock.svg'}}" mode="aspectFit"/>
+        <text class="badge-name">{{item.name}}</text>
+        <text class="badge-desc">{{item.desc}}</text>
+      </view>
+    </view>
+
+    <view style="height:200rpx"></view>
+  </scroll-view>
 
   <custom-tabbar current="{{2}}" />
 </view>

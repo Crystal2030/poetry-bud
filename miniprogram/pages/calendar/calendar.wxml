@@ -1,0 +1,109 @@
+<!-- 打卡日历 -->
+<view class="calendar-page">
+  <!-- 头部 -->
+  <view class="cal-head">
+    <view class="cal-title-row">
+      <image class="cal-icon-img" src="/static/icons/paper/calendar.svg" mode="aspectFit"/>
+      <text class="cal-title">打卡日历</text>
+    </view>
+    <view class="cal-streak-badge" wx:if="{{streakDays >= 3}}">
+      <image class="csb-fire-img" src="/static/icons/paper/fire.svg" mode="aspectFit"/>
+      <text class="csb-text">连续<text class="csb-num">{{streakDays}}</text>天</text>
+    </view>
+  </view>
+
+  <!-- 芽芽问候 -->
+  <view class="sprout-greeting">
+    <image class="sg-icon-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
+    <text class="sg-text">{{sproutMessage}}</text>
+  </view>
+
+  <!-- 月份切换 -->
+  <view class="month-switcher">
+    <view class="ms-arrow" bindtap="prevMonth">◀</view>
+    <text class="ms-label">{{year}}年{{month}}月</text>
+    <view class="ms-arrow" bindtap="nextMonth">▶</view>
+  </view>
+
+  <!-- 星期头 -->
+  <view class="weekday-row">
+    <text class="wd-cell" wx:for="{{weekdays}}" wx:key="*this">{{item}}</text>
+  </view>
+
+  <!-- 日历热力图网格 -->
+  <view class="cal-grid">
+    <block wx:for="{{calendarGrid}}" wx:for-item="row" wx:key="*this">
+      <view class="cal-row">
+        <view 
+          wx:for="{{row}}" wx:for-item="day" wx:key="dateStr"
+          class="cal-cell {{day.isToday ? 'today' : ''}} {{day.isCheckedIn ? 'checked-in' : ''}} {{day.isFuture ? 'future' : ''}} {{!day.inMonth ? 'out-month' : ''}}"
+          style="{{day.isCheckedIn ? 'background:' + day.heatColor : ''}}"
+          bindtap="onDayTap" data-date="{{day.dateStr}}"
+        >
+          <text class="cal-day-num">{{day.day}}</text>
+          <image class="cal-day-icon-img" src="/static/icons/paper/flower.svg" mode="aspectFit" wx:if="{{day.isCheckedIn}}"/>
+          <text class="cal-day-emoji" wx:if="{{day.isToday && !day.isCheckedIn}}">·</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 图例 -->
+  <view class="heat-legend">
+    <text class="hl-label">打卡热度</text>
+    <view class="hl-box hl-l0"></view><text class="hl-num">0</text>
+    <view class="hl-box hl-l1"></view><text class="hl-num">1</text>
+    <view class="hl-box hl-l2"></view><text class="hl-num">2</text>
+    <view class="hl-box hl-l3"></view><text class="hl-num">3+</text>
+  </view>
+
+  <!-- Streak 统计卡片 -->
+  <view class="streak-cards">
+    <view class="streak-card paper-card-v5">
+      <image class="sk-label-img" src="/static/icons/paper/fire.svg" mode="aspectFit"/>
+      <text class="sk-label">当前连续</text>
+      <text class="sk-num">{{streakDays}}</text>
+      <text class="sk-unit">天</text>
+    </view>
+    <view class="streak-card paper-card-v5">
+      <image class="sk-label-img" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
+      <text class="sk-label">最长连续</text>
+      <text class="sk-num">{{maxStreak}}</text>
+      <text class="sk-unit">天</text>
+    </view>
+    <view class="streak-card paper-card-v5">
+      <image class="sk-label-img" src="/static/icons/paper/calendar.svg" mode="aspectFit"/>
+      <text class="sk-label">本月打卡</text>
+      <text class="sk-num">{{monthCheckins}}</text>
+      <text class="sk-unit">天</text>
+    </view>
+  </view>
+
+  <!-- 冻结卡 -->
+  <view class="freeze-section">
+    <view class="freeze-header">
+      <image class="fh-icon-img" src="/static/icons/paper/snowflake.svg" mode="aspectFit"/>
+      <text class="fh-title">冻结卡</text>
+      <text class="fh-hint">每周一自动发放 1 张，可累积</text>
+    </view>
+    <view class="freeze-cards">
+      <view class="freeze-card {{freezeCards > 0 ? 'active' : 'used'}}" wx:for="{{freezeSlots}}" wx:key="*this">
+        <image class="fc-icon-img" wx:if="{{item.available}}" src="/static/icons/paper/snowflake.svg" mode="aspectFit"/>
+        <image class="fc-icon-img" wx:else src="/static/icons/paper/wind.svg" mode="aspectFit"/>
+        <text class="fc-label">{{item.available ? '可用' : '已用'}}</text>
+      </view>
+    </view>
+    <button 
+      class="freeze-activate-btn {{freezeCards > 0 ? '' : 'disabled'}}" 
+      bindtap="activateFreeze"
+      disabled="{{freezeCards === 0}}"
+    >
+      <image class="freeze-btn-icon" wx:if="{{freezeCards > 0}}" src="/static/icons/paper/snowflake.svg" mode="aspectFit"/>
+      <text wx:if="{{freezeCards > 0}}">激活冻结卡（保护今天）</text>
+      <text wx:else>暂无冻结卡，下周一发放</text>
+    </button>
+    <text class="freeze-desc">激活后，今天不打卡也不断连续记录</text>
+  </view>
+
+  <view style="height:60rpx"></view>
+</view>

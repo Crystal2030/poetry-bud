@@ -23,7 +23,7 @@
 
   <!-- 连续打卡 -->
   <view class="streak-card" wx:if="{{streak > 0}}">
-    <text class="streak-fire">🔥</text>
+    <image class="streak-fire-img" src="/static/icons/paper/fire.svg" mode="aspectFit"/>
     <text class="streak-num">{{streak}}</text>
     <text class="streak-label">连续打卡天数</text>
   </view>
@@ -46,10 +46,10 @@
 
   <!-- 本周统计 -->
   <view class="weekly-card" wx:if="{{weekStats.totalPoems > 0}}">
-    <view class="weekly-title">📊 本周学习简报</view>
+    <view class="weekly-title"><image class="weekly-title-icon" src="/static/icons/paper/chart.svg" mode="aspectFit"/>本周学习简报</view>
     <view class="weekly-row">
-      <text class="weekly-item">📖 读诗 {{weekStats.totalPoems}} 首</text>
-      <text class="weekly-item">⏱ 约 {{weekStats.estMinutes}} 分钟</text>
+      <text class="weekly-item"><image class="weekly-item-icon" src="/static/icons/paper/book.svg" mode="aspectFit"/>读诗 {{weekStats.totalPoems}} 首</text>
+      <text class="weekly-item"><image class="weekly-item-icon" src="/static/icons/paper/timer.svg" mode="aspectFit"/>约 {{weekStats.estMinutes}} 分钟</text>
     </view>
   </view>
 
@@ -60,7 +60,7 @@
     </view>
   </view>
 
-  <view class="version">诗芽 PoetryBud v2.0 · 一诗一景 · 四步学习</view>
+  <view class="version">诗芽古诗词 v1.0 · 一诗一景 · 四步学习</view>
 
   <custom-tabbar current="{{3}}" />
 </view>

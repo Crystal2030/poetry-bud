@@ -1,0 +1,108 @@
+<!-- 学习周报 -->
+<view class="report-page">
+  <!-- 头部 -->
+  <view class="report-head">
+    <view class="rh-left">
+      <image class="rh-icon-img" src="/static/icons/paper/chart.svg" mode="aspectFit"/>
+      <text class="rh-title">学习周报</text>
+    </view>
+    <view class="rh-week">{{weekLabel}}</view>
+  </view>
+
+  <scroll-view class="report-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- 2×2 概览纸卡 -->
+    <view class="overview-grid">
+      <view class="ov-card paper-card-v5">
+        <image class="ov-icon-img" src="/static/icons/paper/book.svg" mode="aspectFit"/>
+        <text class="ov-num">{{weekStats.poemsRead}}</text>
+        <text class="ov-label">本周读诗</text>
+      </view>
+      <view class="ov-card paper-card-v5">
+        <image class="ov-icon-img" src="/static/icons/paper/timer.svg" mode="aspectFit"/>
+        <text class="ov-num">{{weekStats.totalMinutes}}</text>
+        <text class="ov-label">学习分钟</text>
+      </view>
+      <view class="ov-card paper-card-v5">
+        <image class="ov-icon-img" src="/static/icons/paper/target.svg" mode="aspectFit"/>
+        <text class="ov-num">{{weekStats.avgAccuracy}}%</text>
+        <text class="ov-label">平均正确率</text>
+      </view>
+      <view class="ov-card paper-card-v5">
+        <image class="ov-icon-img" src="/static/icons/paper/fire.svg" mode="aspectFit"/>
+        <text class="ov-num">{{weekStats.streakDays}}</text>
+        <text class="ov-label">连续天数</text>
+      </view>
+    </view>
+
+    <!-- 五维雷达图 -->
+    <view class="radar-section">
+      <view class="section-label">
+        <text class="sl-text">能力雷达</text>
+        <text class="sl-sub">本周 {{comparisonLabel}}</text>
+      </view>
+      <view class="radar-container">
+        <canvas 
+          type="2d" 
+          id="radarCanvas" 
+          class="radar-canvas"
+          style="width:480rpx;height:480rpx"
+        ></canvas>
+        <view class="radar-legend">
+          <view class="rl-item">
+            <view class="rl-dot" style="background:#4C6B47"></view>
+            <text class="rl-text">本周</text>
+          </view>
+          <view class="rl-item">
+            <view class="rl-dot" style="background:#ccc"></view>
+            <text class="rl-text">上周</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折线趋势图 -->
+    <view class="trend-section">
+      <view class="section-label">
+        <image class="sl-icon-img" src="/static/icons/paper/chart.svg" mode="aspectFit"/>
+        <text class="sl-text">背诵正确率趋势</text>
+        <text class="sl-sub">近4周</text>
+      </view>
+      <view class="trend-container">
+        <canvas 
+          type="2d" 
+          id="trendCanvas" 
+          class="trend-canvas"
+          style="width:600rpx;height:300rpx"
+        ></canvas>
+      </view>
+    </view>
+
+    <!-- 芽芽寄语 -->
+    <view class="sprout-advice card paper-card-v5">
+      <view class="sa-header">
+        <image class="sa-sprout-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
+        <text class="sa-sprout">芽芽说</text>
+      </view>
+      <text class="sa-message">{{sproutMessage}}</text>
+    </view>
+
+    <!-- 下一步建议 -->
+    <view class="next-steps">
+      <view class="section-label">
+        <image class="sl-icon-img" src="/static/icons/paper/target.svg" mode="aspectFit"/>
+        <text class="sl-text">下一步建议</text>
+      </view>
+      <view class="ns-card paper-card-v5" wx:for="{{nextSteps}}" wx:key="title">
+        <view class="nsc-header">
+          <image class="nsc-icon-img" src="{{item.icon}}" mode="aspectFit"/>
+          <text class="nsc-title">{{item.title}}</text>
+        </view>
+        <text class="nsc-desc">{{item.desc}}</text>
+        <button class="nsc-btn" wx:if="{{item.action}}" bindtap="goAction" data-action="{{item.action}}">{{item.btnLabel}}</button>
+      </view>
+    </view>
+
+    <view style="height:80rpx"></view>
+  </scroll-view>
+</view>

@@ -27,5 +27,8 @@ Page({
     // 小程序分享
     wx.showShareMenu({ withShareTicket: true })
     U.showToast('点击右上角分享')
+  },
+  printCard() {
+    wx.showToast({ title: '请截图后打印', icon: 'none', duration: 2000 })
   }
 })

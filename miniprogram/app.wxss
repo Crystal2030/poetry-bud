@@ -19,6 +19,37 @@ page {
   --shadow: rgba(43, 42, 40, 0.2);
   --snow: #E8EEF2;
 
+  /* ── 新增 V5 令牌 ── */
+  --shadow-sm:  rgba(43,42,40,0.12);
+  --shadow-md:  rgba(43,42,40,0.18);
+  --shadow-lg:  rgba(43,42,40,0.25);
+  --shadow-gold:rgba(201,162,75,0.35);
+
+  --radius-sm:  12rpx;
+  --radius-md:  16rpx;
+  --radius-lg:  24rpx;
+  --radius-xl:  32rpx;
+  --radius-2xl: 40rpx;
+
+  --font-xs:    20rpx;
+  --font-sm:    22rpx;
+  --font-md:    26rpx;
+  --font-lg:    28rpx;
+  --font-xl:    32rpx;
+  --font-2xl:   34rpx;
+  --font-3xl:   40rpx;
+  --poem-char-size: 34rpx;
+
+  --dur-fast:   150ms;
+  --dur-normal: 300ms;
+  --dur-slow:   500ms;
+  --dur-ceremony:800ms;
+  --ease-out:   cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease-bounce:cubic-bezier(0.68,-0.55,0.265,1.55);
+  --ease-spring:cubic-bezier(0.175,0.885,0.32,1.275);
+
+  --touch-min:  88rpx;
+
   font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
   background: #E8E2D6;
   color: #2C2A26;
@@ -49,4 +80,42 @@ page {
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ── 分龄字号 ── */
+.age-band-3-6 {
+  --poem-char-size: 40rpx;
+  --font-xs: 24rpx; --font-sm: 26rpx; --font-md: 32rpx;
+  --font-lg: 34rpx; --font-xl: 38rpx;
+}
+.age-band-7-10 {
+  --poem-char-size: 34rpx;
+}
+.age-band-10-12 {
+  --poem-char-size: 28rpx;
+  --font-xs: 18rpx; --font-sm: 20rpx; --font-md: 22rpx;
+  --font-lg: 24rpx; --font-xl: 28rpx;
+}
+
+/* ── 纸片阴影工具类 ── */
+.paper-shadow {
+  filter: drop-shadow(0 2px 3px rgba(43,42,40,0.25));
+}
+.paper-shadow-gold {
+  filter: drop-shadow(0 2px 4px rgba(201,162,75,0.35));
+}
+
+/* ── 图标尺寸工具类 ── */
+.icon-xs { width: 18rpx; height: 18rpx; flex-shrink: 0; }
+.icon-sm { width: 28rpx; height: 28rpx; flex-shrink: 0; }
+.icon-md { width: 36rpx; height: 36rpx; flex-shrink: 0; }
+.icon-lg { width: 48rpx; height: 48rpx; flex-shrink: 0; }
+.icon-xl { width: 64rpx; height: 64rpx; flex-shrink: 0; }
+
+/* ── 通用纸卡样式 ── */
+.paper-card-v5 {
+  background: var(--paper-warm);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 3px var(--shadow-lg);
+  border: 1px solid rgba(255,255,255,0.3);
 }

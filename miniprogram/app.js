@@ -12,7 +12,12 @@ App({
     themeMap: {},
     durationMap: {},
     readCount: 0,
+    readSet: null,
     favorites: [],
+    reviewSchedule: null,
+    checkinData: null,
+    reciteData: null,
+    quizTotal: 0,
     CDN
   },
 
@@ -37,12 +42,12 @@ App({
       const data = require('./data/poems.js')
       this.globalData.poems = data
       this.globalData.loaded = true
-      console.log('🌸 诗芽 · 已加载 ' + data.length + ' 首诗')
+      console.log('[诗芽] 已加载 ' + data.length + ' 首诗')
 
       // 加载主题背景图映射
       try {
         this.globalData.themeMap = require('./data/theme-map.js')
-        console.log('🖼 主题映射已加载，共 ' + Object.keys(this.globalData.themeMap).length + ' 条')
+        console.log('[诗芽] 主题映射已加载，共 ' + Object.keys(this.globalData.themeMap).length + ' 条')
       } catch (e2) {
         console.warn('主题映射加载失败，降级使用 scene 图', e2)
         this.globalData.themeMap = {}
@@ -66,7 +71,7 @@ App({
   loadDurationMap() {
     try {
       this.globalData.durationMap = require('./data/durations.js')
-      console.log('🔊 时长映射已加载')
+      console.log('[诗芽] 时长映射已加载')
     } catch (e) {
       console.warn('时长映射加载失败，使用默认值', e)
     }

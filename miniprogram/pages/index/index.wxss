@@ -41,7 +41,7 @@
   border-color: var(--gold-deep);
   box-shadow: 0 4rpx 16rpx rgba(201,162,75,0.35);
 }
-.age-emoji { font-size: 24rpx; }
+.age-icon-img { width: 28rpx; height: 28rpx; }
 
 /* ── 打卡印章 ── */
 .checkin-stamp {
@@ -60,7 +60,13 @@
   transform: rotate(0deg);
   box-shadow: 0 4rpx 16rpx rgba(192,85,63,0.4);
 }
-.daily-bg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.checkin-done { display: flex; align-items: center; gap: 4rpx; }
+.daily-bg {
+  display: block;
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
 .daily-badge { position: absolute; top: 24rpx; left: 24rpx; z-index: 4; display: flex; align-items: center; gap: 8rpx; background: rgba(255,255,255,0.88); color: var(--seal); font-size: 22rpx; font-weight: 700; padding: 10rpx 22rpx; border-radius: 28rpx; }
 .daily-badge text { display: inline-block; }
 .daily-poem {
@@ -82,6 +88,9 @@
   position: relative; overflow: hidden;
   height: 496rpx; border-radius: 40rpx;
   margin-bottom: 24rpx;
+  /* ── 远程图加载失败时的暖色兜底，避免一片空白 ── */
+  background: linear-gradient(135deg, #C9D9C0 0%, #B8C9A8 40%, #A8B894 100%);
+  background-color: #B8C9A8;
 }
 
 .section-title { font-size: 28rpx; font-weight: 700; color: var(--ink); margin: 32rpx 8rpx 20rpx; }
@@ -111,6 +120,12 @@
 .buddy-row .b2 { display: flex; align-items: center; gap: 4rpx; }
 .buddy-row .txt .b1 { font-size: 26rpx; font-weight: 600; color: var(--ink); display: block; }
 .buddy-row .txt .b2 { font-size: 22rpx; color: var(--ink-soft); margin-top: 4rpx; display: block; }
+
+/* ── 通用图标尺寸 ── */
+.icon-xs { width: 16rpx; height: 16rpx; }
+.icon-sm { width: 28rpx; height: 28rpx; }
+.icon-md { width: 36rpx; height: 36rpx; }
+.icon-lg { width: 48rpx; height: 48rpx; }
 
 /* ── 卷轴端头：左右金色小圆轴（首页版，略小） ── */
 .daily-poem::before,

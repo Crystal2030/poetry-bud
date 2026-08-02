@@ -9,6 +9,29 @@
   </view>
 
   <view class="home-body">
+    <!-- P0-01/04 家长价值信息条 -->
+    <view class="info-bar" wx:if="{{!hideInfoBar}}">
+      <image class="icon-md" src="/static/icons/paper/graduate.svg" mode="aspectFit"/>
+      <text class="info-text">对标《语文课程标准(2022)》· 125首必背篇目</text>
+      <text class="info-link" bindtap="openFAQ">了解详情 →</text>
+    </view>
+
+    <!-- P1-09 芽芽每日推荐诗卡 -->
+    <view class="daily-poem-card paper-card-v5" wx:if="{{dailyPoem}}">
+      <view class="card-header">
+        <view class="card-badge"><image class="icon-sm" src="/static/icons/paper/flower.svg" mode="aspectFit"/><text>芽芽推荐</text></view>
+        <text class="card-age-badge">{{ageLabel}}</text>
+      </view>
+      <view class="poem-preview" bindtap="goDetail" data-id="{{dailyPoem.id}}">
+        <text class="poem-title-text">{{dailyPoem.title}}</text>
+        <text class="poem-meta">{{dailyPoem.dynasty}} · {{dailyPoem.author}}</text>
+      </view>
+      <view class="poem-tags">
+        <text class="tag-sm" wx:for="{{dailyPoem.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+      <button class="explore-btn gold-btn-sm" bindtap="goDetail" data-id="{{dailyPoem.id}}">开始探索 →</button>
+    </view>
+
     <!-- 搜索栏 -->
     <view class="search-bar" bind:tap="goSearch">
       <icon-svg name="paper_search" size="32" stroke="0" />
@@ -19,27 +42,30 @@
     <!-- 分龄选择器 -->
     <view class="age-selector">
       <view class="age-pill {{ageBand === '3-6' ? 'active' : ''}}" bind:tap="switchAge" data-age="3-6">
-        <text class="age-emoji">🌱</text>
+        <image class="age-icon-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit"/>
         <text class="age-label">3-6岁</text>
       </view>
-      <view class="age-pill {{ageBand === '5-8' ? 'active' : ''}}" bind:tap="switchAge" data-age="5-8">
-        <text class="age-emoji">🌿</text>
-        <text class="age-label">5-8岁</text>
+      <view class="age-pill {{ageBand === '7-10' ? 'active' : ''}}" bind:tap="switchAge" data-age="7-10">
+        <image class="age-icon-img" src="/static/icons/paper/sprout-large.svg" mode="aspectFit"/>
+        <text class="age-label">7-10岁</text>
       </view>
-      <view class="age-pill {{ageBand === '8-12' ? 'active' : ''}}" bind:tap="switchAge" data-age="8-12">
-        <text class="age-emoji">🌳</text>
-        <text class="age-label">8-12岁</text>
+      <view class="age-pill {{ageBand === '10-12' ? 'active' : ''}}" bind:tap="switchAge" data-age="10-12">
+        <image class="age-icon-img" src="/static/icons/paper/tree.svg" mode="aspectFit"/>
+        <text class="age-label">10-12岁</text>
       </view>
     </view>
 
     <!-- 每日一诗 -->
     <view class="daily-card" wx:if="{{daily}}" bind:tap="goDetail" data-id="{{daily.id}}">
-      <image class="daily-bg" src="{{dailyBg}}" mode="aspectFill" />
+      <image class="daily-bg" src="{{dailyBg}}" mode="aspectFill" binderror="onDailyBgError" bindload="onDailyBgLoad" />
       <view class="daily-badge"><icon-svg name="sparkle" size="24" color="#C73E3A" stroke="1.8" /><text>每日一诗</text></view>
       <!-- 打卡印章 -->
       <view class="checkin-stamp {{checkedIn ? 'done' : ''}}" catch:tap="doCheckin">
         <text wx:if="{{!checkedIn}}">打卡</text>
-        <text wx:else>✓ 已打卡</text>
+        <view wx:else class="checkin-done">
+          <image class="icon-xs" src="/static/icons/paper/check.svg" mode="aspectFit"/>
+          <text>已打卡</text>
+        </view>
       </view>
       <view class="daily-poem">
         <poem-vertical poem="{{daily}}" size="sm" mode="{{sceneMode}}" />

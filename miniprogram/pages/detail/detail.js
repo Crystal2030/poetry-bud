@@ -46,7 +46,7 @@ Page({
     /* F-004 背诵挑战 */
     reciteMode: 'follow',       // follow | fill | full
     reciteTotal: 0,
-    reciteBadge: { name: '诗童', icon: '🌱', desc: '开始背诵之旅' },
+    reciteBadge: { name: '诗童', icon: '/static/icons/paper/sprout-small.svg', desc: '开始背诵之旅' },
     reciteNextBadge: null,
     reciteFollowIdx: -1,
     reciteFollowCompleted: false,
@@ -58,7 +58,16 @@ Page({
     oldBadgeName: '',
 
     /* 译文段落（按 poem.paragraphs 分段） */
-    translationParas: []
+    translationParas: [],
+
+    // 完成反馈
+    showToast: false,
+    toastMsg: '',
+    showCard: false,
+    showCelebrate: false,
+    completionPoem: { title: '', dynasty: '', author: '', comment: '', stars: 0 },
+    badgeName: '',
+    badgeDesc: '',
   },
 
   _timer: null,
@@ -191,7 +200,7 @@ Page({
     if (result.badgeUpgraded) {
       this.setData({ showBadgeUpgrade: true, oldBadgeName: result.oldBadge.name })
     } else {
-      wx.showToast({ title: '✅ 跟背完成！', icon: 'none' })
+      wx.showToast({ title: '跟背完成！', icon: 'none' })
     }
   },
 
@@ -246,7 +255,7 @@ Page({
     if (result.badgeUpgraded) {
       this.setData({ showBadgeUpgrade: true, oldBadgeName: result.oldBadge.name })
     } else {
-      wx.showToast({ title: '✅ 填空挑战完成！', icon: 'none' })
+      wx.showToast({ title: '填空挑战完成！', icon: 'none' })
     }
   },
 
@@ -271,7 +280,7 @@ Page({
     if (result.badgeUpgraded) {
       this.setData({ showBadgeUpgrade: true, oldBadgeName: result.oldBadge.name })
     } else {
-      wx.showToast({ title: '🏆 默背完成！太厉害了！', icon: 'none' })
+      wx.showToast({ title: '默背完成！太厉害了！', icon: 'none' })
     }
   },
 
@@ -317,6 +326,10 @@ Page({
     // 初始化跟读状态
     this._recSentenceIdx = 0
     this._recResults = []
+    this._recAudio = null
+    this._recAutoStopTimer = null
+    // 初始化句子时长数据（直接从诗句计算，不依赖先前的 startAudio 调用）
+    this._timings = U.getSentenceTimings(this.data.poem)
     this.setData({
       recordMode: true,
       showScore: false,
@@ -335,6 +348,8 @@ Page({
     // 使用 wx.getRecorderManager
     this._recorder = wx.getRecorderManager()
     this._recorder.onStop((res) => {
+      // 已退出跟读模式，不再处理
+      if (!this.data.recordMode) return
       // 录音完成回调
       if (res.tempFilePath) {
         this._recResults.push({
@@ -357,6 +372,7 @@ Page({
 
     this._recorder.onError((err) => {
       console.error('[recorder] 错误:', err)
+      if (!this.data.recordMode) return
       wx.showToast({ title: '录音失败，请重试', icon: 'none' })
       this.setData({ recording: false })
     })
@@ -368,33 +384,32 @@ Page({
     const sentences = U.getPoemSentences(poem)
     if (!poem || idx >= sentences.length) return
 
+    // 如果已退出跟读模式，不再继续
+    if (!this.data.recordMode) return
+
     const sent = sentences[idx]
-    this.setData({
-      currentSentenceIdx: idx,
-      highlightIdx: this._sentenceCharOffsets ? this._sentenceCharOffsets[idx] : 0
-    })
+    this.setData({ currentSentenceIdx: idx })
 
     // 用 InnerAudioContext 播放单句（带句子时长）
     const audio = wx.createInnerAudioContext()
+    this._recAudio = audio  // 存储引用，供 _endRecordMode 销毁
     const url = U.getAudioUrl(poem)
+    const timings = this._timings
 
-    // 计算播放起始时间和时长
-    const timings = this._timings || U.getSentenceTimings(poem)
-    if (timings && timings[idx]) {
-      // Seek to sentence start
-      audio.src = url
-      const startSec = timings[idx].start / 1000
-      setTimeout(() => {
+    // 核心修复：在 onCanplay 回调里 seek，确保音频已就绪
+    audio.onCanplay(() => {
+      if (!this.data.recordMode) { audio.destroy(); return }
+      if (timings && timings[idx]) {
+        const startSec = timings[idx].start / 1000
         audio.seek(startSec)
-        audio.play()
-      }, 300)
-    } else {
-      audio.src = url
+      }
       audio.play()
-    }
+    })
 
     audio.onEnded(() => {
       audio.destroy()
+      this._recAudio = null
+      if (!this.data.recordMode) return
       // 提示开始录音
       wx.showToast({ title: '现在跟读：' + (sent.text || '').substring(0, 6) + '…', icon: 'none', duration: 2000 })
       setTimeout(() => this._startRecording(), 2500)
@@ -403,13 +418,19 @@ Page({
     audio.onError((err) => {
       console.error('[audio] 播放失败:', err)
       audio.destroy()
+      this._recAudio = null
+      if (!this.data.recordMode) return
       // 跳过播放直接录音
       setTimeout(() => this._startRecording(), 500)
     })
+
+    // 设置 src 触发加载 → onCanplay 将自动处理后续
+    audio.src = url
   },
 
   _startRecording() {
     if (!this._recorder) return
+    if (!this.data.recordMode) return  // 已退出跟读模式
     this.setData({ recording: true })
     this._recorder.start({
       duration: 15000,  // 最长15秒
@@ -419,11 +440,12 @@ Page({
       format: 'mp3'
     })
 
-    // 自动停止录音（5秒后）
-    setTimeout(() => {
+    // 自动停止录音（6秒后），存储引用以支持退出时 cleanUp
+    this._recAutoStopTimer = setTimeout(() => {
       if (this.data.recording && this._recorder) {
         try { this._recorder.stop() } catch (e) {}
       }
+      this._recAutoStopTimer = null
     }, 6000)
   },
 
@@ -434,8 +456,19 @@ Page({
   },
 
   _endRecordMode() {
+    // 1. 清除录音自动停止定时器，防止退出后触发
+    if (this._recAutoStopTimer) {
+      clearTimeout(this._recAutoStopTimer)
+      this._recAutoStopTimer = null
+    }
+    // 2. 停止当前录音
     if (this.data.recording) this._stopRecording()
-    this.setData({ recordMode: false, recording: false })
+    // 3. 销毁正在播放的句子音频，防止退出后后台继续播放
+    if (this._recAudio) {
+      try { this._recAudio.destroy() } catch (e) {}
+      this._recAudio = null
+    }
+    this.setData({ recordMode: false, recording: false, currentSentenceIdx: -1 })
     this._recSentenceIdx = 0
     this._recResults = []
   },
@@ -581,10 +614,10 @@ Page({
     const correct = choice === current.answer
 
     if (correct) {
-      wx.showToast({ title: '✓ 答对了！', icon: 'none', duration: 800 })
+      wx.showToast({ title: '答对了！', icon: 'none', duration: 800 })
       this.setData({ quizCorrect: this.data.quizCorrect + 1 })
     } else {
-      wx.showToast({ title: '✗ 答案是：' + current.answer, icon: 'none', duration: 1200 })
+      wx.showToast({ title: '答案是：' + current.answer, icon: 'none', duration: 1200 })
     }
 
     // 保存错题
@@ -607,7 +640,7 @@ Page({
           g.quizTotal = (g.quizTotal || 0) + 1
           if (g.quizTotal >= 10) {
             setTimeout(() => {
-              wx.showModal({ title: '🏆 小状元徽章', content: '你已经答对10次全对啦！获得「小状元」徽章！', showCancel: false })
+              wx.showModal({ title: '小状元徽章', content: '你已经答对10次全对啦！获得「小状元」徽章！', showCancel: false })
             }, 2000)
           }
         }
@@ -648,7 +681,6 @@ Page({
 
     this.setData({
       playing: true,
-      highlightIdx: 0,
       currentSentenceIdx: 0,
       audioProgress: 0,
       audioDuration: initDuration
@@ -694,7 +726,6 @@ Page({
       }
       this.setData({
         audioProgress: pct,
-        highlightIdx: offsets[si] != null ? offsets[si] : 0,
         currentSentenceIdx: si
       })
     })
@@ -798,5 +829,47 @@ Page({
       drawerRadius: cfg.radius,
       readBarBottom: cfg.barBottom
     })
-  }
+  },
+
+  // 触发完成反馈
+  triggerCompleteFeedback(poem, isMilestone) {
+    const that = this
+    // Layer 1 Toast
+    this.setData({ showToast: true, toastMsg: `太棒了！《${poem.title}》收到诗库里啦！` })
+    setTimeout(() => { that.setData({ showToast: false }) }, 2000)
+
+    // Layer 2 卡片
+    setTimeout(() => {
+      that.setData({
+        showCard: true,
+        completionPoem: {
+          title: poem.title, dynasty: poem.dynasty, author: poem.author,
+          comment: '读得真流利！', stars: 4
+        }
+      })
+    }, 800)
+
+    // Layer 3 庆祝（仅里程碑）
+    if (isMilestone) {
+      setTimeout(() => {
+        that.setData({ showCelebrate: true, badgeName: '坚持不懈者', badgeDesc: '连续学习7天！' })
+        wx.vibrateShort({ type: 'medium' })
+      }, 2500)
+    }
+  },
+
+  closeCard() { this.setData({ showCard: false }) },
+  dismissCelebrate() { this.setData({ showCelebrate: false }) },
+  shareBadge() { wx.showToast({ title: '已保存到相册', icon: 'success' }) },
+  noop() {},
+
+  readNext() {
+    this.setData({ showCard: false })
+    wx.navigateBack()
+  },
+
+  genCard() {
+    this.setData({ showCard: false })
+    wx.navigateTo({ url: '/pages/card/card?id=' + this.data.poem.id })
+  },
 })

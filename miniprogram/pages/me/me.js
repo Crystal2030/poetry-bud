@@ -100,6 +100,14 @@ Page({
           wx.removeStorageSync('pb_checkin')
           wx.removeStorageSync('pb_recite')
           wx.removeStorageSync('pb_mistakes')
+          wx.removeStorageSync('pb_onboarded')
+          wx.removeStorageSync('pb_age_band')
+          wx.removeStorageSync('pb_streak')
+          wx.removeStorageSync('pb_freeze_dates')
+          wx.removeStorageSync('pb_freeze_count')
+          wx.removeStorageSync('pb_freeze_last_issue')
+          wx.removeStorageSync('pb_read_dates')
+          wx.removeStorageSync('pb_rec_accuracy')
           const g = getApp().globalData
           g.readCount = 0
           g.readSet = null
@@ -107,6 +115,7 @@ Page({
           g.reviewSchedule = null
           g.checkinData = null
           g.reciteData = null
+          g.quizTotal = 0
           this.setData({
             readCount: 0, favCount: 0, reviewCount: 0,
             streak: 0, weekStats: { totalPoems: 0, estMinutes: 0 }

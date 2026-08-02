@@ -3795,7 +3795,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "李白哥哥是不是和我们一样，想家的时候会看月亮呢？🌙",
+    "funTip": "李白哥哥是不是和我们一样，想家的时候会看月亮呢？",
     "sceneId": "night",
     "sceneName": "月夜",
     "bgTheme": "",
@@ -8907,7 +8907,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "小娃娃偷偷去采白莲花，真调皮！🪷",
+    "funTip": "小娃娃偷偷去采白莲花，真调皮！",
     "sceneId": "snow",
     "sceneName": "雪景",
     "bgTheme": "",
@@ -9922,7 +9922,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "一个人在雪地里钓鱼，是不是很酷？❄️",
+    "funTip": "一个人在雪地里钓鱼，是不是很酷？",
     "sceneId": "snow",
     "sceneName": "雪景",
     "bgTheme": "",
@@ -10342,7 +10342,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "深秋的枫叶比春天的花还要红呢～🍁",
+    "funTip": "深秋的枫叶比春天的花还要红呢～",
     "sceneId": "night",
     "sceneName": "月夜",
     "bgTheme": "",
@@ -11349,7 +11349,7 @@ module.exports = [
         }
       ]
     ],
-    "funTip": "过年啦！放鞭炮、喝屠苏酒，真热闹呀！🧨",
+    "funTip": "过年啦！放鞭炮、喝屠苏酒，真热闹呀！",
     "sceneId": "courtyard",
     "sceneName": "庭院",
     "bgTheme": "",

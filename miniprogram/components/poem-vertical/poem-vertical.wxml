@@ -2,16 +2,16 @@
 <view class="vpoem mode-{{mode}} size-{{size}}">
   <!-- 标题列（每字一行，从上到下） -->
   <view class="col-title" wx:if="{{poem.title}}" style="font-size:{{titleSize}}rpx">
-    <text class="char" wx:for="{{titleChars}}" wx:key="*this">{{item}}</text>
+    <text class="char" wx:for="{{titleChars}}" wx:for-index="ti" wx:key="ti">{{item}}</text>
   </view>
 
   <!-- 作者列（每字一行） -->
   <view class="col-author" wx:if="{{showAuthor && authorChars.length}}" style="font-size:{{authorSize}}rpx">
-    <text class="char" wx:for="{{authorChars}}" wx:key="*this">{{item}}</text>
+    <text class="char" wx:for="{{authorChars}}" wx:for-index="ai" wx:key="ai">{{item}}</text>
   </view>
 
   <!-- 诗句列：每句独立一列，每字一行 -->
   <view class="col-line {{sentenceHL[li] ? 'active' : ''}}" wx:for="{{sentenceLines}}" wx:for-index="li" wx:key="sentence-{{li}}" style="font-size:{{charSize}}rpx">
-    <text class="char" wx:for="{{item}}" wx:for-item="ch" wx:key="*this">{{ch}}</text>
+    <text class="char" wx:for="{{item}}" wx:for-item="ch" wx:for-index="ci" wx:key="ci">{{ch}}</text>
   </view>
 </view>

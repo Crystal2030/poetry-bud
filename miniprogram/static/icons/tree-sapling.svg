@@ -1,0 +1,16 @@
+<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+  <!-- 土壤 -->
+  <ellipse cx="60" cy="108" rx="48" ry="16" fill="#B5A68A"/>
+  <!-- 树干 -->
+  <rect x="55" y="60" width="10" height="46" rx="4" fill="#8B6F47"/>
+  <rect x="57" y="62" width="4" height="40" rx="2" fill="#A0835A" opacity=".6"/>
+  <!-- 树冠 3团 -->
+  <circle cx="52" cy="48" r="18" fill="#8AAE7A"/>
+  <circle cx="68" cy="45" r="17" fill="#8AAE7A"/>
+  <circle cx="60" cy="35" r="16" fill="#6E8A5E"/>
+  <!-- 高光 -->
+  <circle cx="56" cy="32" r="6" fill="#A4D494" opacity=".4"/>
+  <!-- 水滴 -->
+  <circle cx="42" cy="72" r="3" fill="#C8E6F5" opacity=".5"/>
+  <text x="60" y="22" text-anchor="middle" font-size="14" font-family="sans-serif" fill="#2C2A26" font-weight="bold">树苗阶段</text>
+</svg>

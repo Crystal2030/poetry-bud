@@ -1,0 +1,74 @@
+.calendar-page { min-height: 100vh; background: #E8E2D6; padding: 0 0 60rpx; }
+
+/* 头部 */
+.cal-head { padding: 24rpx 36rpx 12rpx; display: flex; justify-content: space-between; align-items: center; }
+.cal-title-row { display: flex; align-items: center; gap: 10rpx; }
+.cal-icon { font-size: 32rpx; }
+.cal-icon-img { width: 32rpx; height: 32rpx; }
+.cal-title { font-size: 30rpx; font-weight: 700; color: var(--ink); }
+.cal-streak-badge { display: flex; align-items: center; gap: 6rpx; background: linear-gradient(135deg, #FF6B35, #F7931E); color: #fff; padding: 8rpx 20rpx; border-radius: 24rpx; }
+.csb-fire { font-size: 24rpx; }
+.csb-fire-img { width: 24rpx; height: 24rpx; }
+.csb-text { font-size: 22rpx; }
+.csb-num { font-size: 28rpx; font-weight: 700; }
+
+/* 芽芽问候 */
+.sprout-greeting { display: flex; align-items: center; gap: 12rpx; padding: 16rpx 36rpx; }
+.sg-icon-img { width: 40rpx; height: 40rpx; }
+.sg-text { font-size: 26rpx; color: var(--ink-soft); line-height: 1.5; }
+
+/* 月份切换 */
+.month-switcher { display: flex; justify-content: center; align-items: center; gap: 32rpx; padding: 20rpx 0; }
+.ms-arrow { font-size: 28rpx; color: var(--ink-soft); padding: 8rpx 16rpx; }
+.ms-label { font-size: 32rpx; font-weight: 700; color: var(--ink); }
+
+/* 星期头 */
+.weekday-row { display: flex; padding: 0 20rpx; }
+.wd-cell { flex: 1; text-align: center; font-size: 22rpx; color: var(--ink-soft); padding: 12rpx 0; font-weight: 500; }
+
+/* 日历网格 */
+.cal-grid { padding: 0 20rpx; }
+.cal-row { display: flex; }
+.cal-cell { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1; margin: 2rpx; border-radius: var(--radius-sm); position: relative; transition: all 0.2s; }
+.cal-cell.today { border: 2px solid var(--seal); }
+.cal-cell.checked-in { background: var(--paper-warm); }
+.cal-cell.future { opacity: 0.3; }
+.cal-cell.out-month { opacity: 0.15; }
+.cal-day-num { font-size: 24rpx; color: var(--ink); }
+.cal-cell.out-month .cal-day-num { color: var(--ink-soft); }
+.cal-day-icon-img { width: 16rpx; height: 16rpx; margin-top: 2rpx; }
+
+/* 热力力图例 */
+.heat-legend { display: flex; align-items: center; gap: 8rpx; padding: 16rpx 36rpx; }
+.hl-label { font-size: 22rpx; color: var(--ink-soft); margin-right: 8rpx; }
+.hl-box { width: 28rpx; height: 20rpx; border-radius: 4rpx; }
+.hl-l0 { background: #E8E2D6; }
+.hl-l1 { background: #EDE0C8; }
+.hl-l2 { background: #D9A6A0; }
+.hl-l3 { background: #C0553F; }
+.hl-num { font-size: 20rpx; color: var(--ink-soft); margin-right: 12rpx; }
+
+/* Streak 统计卡片 */
+.streak-cards { display: flex; gap: 16rpx; padding: 20rpx 32rpx; }
+.streak-card { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 24rpx 16rpx; }
+.sk-label { font-size: 22rpx; color: var(--ink-soft); }
+.sk-label-img { width: 22rpx; height: 22rpx; margin-bottom: 4rpx; }
+.sk-num { font-size: 48rpx; font-weight: 700; color: var(--seal); margin: 4rpx 0; }
+.sk-unit { font-size: 20rpx; color: var(--ink-soft); }
+
+/* 冻结卡 */
+.freeze-section { margin: 24rpx 32rpx; background: #fff; border-radius: var(--radius-lg); padding: 28rpx; box-shadow: 0 2px 4px var(--shadow); }
+.freeze-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.fh-title { font-size: 28rpx; font-weight: 700; color: var(--ink); }
+.fh-icon-img { width: 28rpx; height: 28rpx; margin-right: 4rpx; }
+.fh-hint { font-size: 20rpx; color: var(--ink-soft); }
+.freeze-cards { display: flex; gap: 12rpx; margin-bottom: 20rpx; }
+.freeze-card { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 16rpx; border-radius: var(--radius-md); background: var(--paper-warm); }
+.freeze-card.active { background: rgba(100,149,237,0.1); border: 2px solid #6495ED; }
+.freeze-card.used { opacity: 0.4; }
+.fc-icon-img { width: 36rpx; height: 36rpx; }
+.fc-label { font-size: 20rpx; color: var(--ink-soft); margin-top: 4rpx; }
+.freeze-activate-btn { background: linear-gradient(135deg, #6495ED, #4169E1); color: #fff; border: none; border-radius: var(--radius-xl); padding: 20rpx 0; font-size: 28rpx; font-weight: 600; width: 100%; }
+.freeze-activate-btn.disabled { background: #ccc; color: #999; }
+.freeze-btn-icon { width: 28rpx; height: 28rpx; vertical-align: middle; margin-right: 6rpx; }
+.freeze-desc { font-size: 20rpx; color: var(--ink-soft); text-align: center; margin-top: 12rpx; display: block; }
