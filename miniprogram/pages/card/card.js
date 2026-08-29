@@ -309,19 +309,19 @@ Page({
 
   // ─── 完整卡片绘制（saveCard / shareCard / printCard 共用） ───
   _drawFullCard(ctx, bgImg, poem, qrImg, layout) {
-    // ─── 动态化布局：从 rpx 单位传进来的 layout 转 canvas 设计 px ───
-    // wxml rpx → canvas px 走 SCALE 倍率（iPhone 6 基准 1rpx=0.5px，canvas 用 2x 高清）
-    const PIC_H  = layout.picH * SCALE                       // 图片区高度（设计 px）
-    const POEM_X = POEM_PAD_L_R * SCALE                       // 卷轴背景左边
-    const POEM_Y = (POEM_TOP_R + POEM_PAD_T_R) * SCALE       // 卷轴背景顶
-    const POEM_W = (CW / SCALE - POEM_RIGHT_R - POEM_PAD_L_R - POEM_PAD_R_R) * SCALE   // 卷轴背景宽
-    const POEM_H = (layout.contentH + POEM_PAD_T_R + POEM_PAD_B_R) * SCALE   // 卷轴背景高（诗内容 + padding）
-    // 诗词起始 Y（画图前给点小偏移，16 是设计 px 不是 rpx）
-    const POEM_TEXT_TOP = (POEM_TOP_R + POEM_PAD_T_R) * SCALE + 16   // = 88+16 = 104
-    const POEM_TEXT_RIGHT_X = (CW / SCALE - POEM_RIGHT_R - POEM_PAD_R_R) * SCALE   // = 424
+    // ─── canvas 坐标系 = 设计 rpx = iPhone 屏物理像素（rpx 1 = 屏物理 1）───
+    // 之前这里全部 ×SCALE=2、CW=520 不×SCALE，导致导出 PNG 高=屏高×2。
+    // 全部用设计 rpx 单位后，导出 PNG 比例与屏幕卡片比例一致（≈1:1.4）。
+    const PIC_H  = layout.picH                       // 图片区高度（设计 rpx）
+    const POEM_X = POEM_PAD_L_R                      // 卷轴背景左边
+    const POEM_Y = POEM_TOP_R + POEM_PAD_T_R         // 卷轴背景顶
+    const POEM_W = CW - POEM_RIGHT_R - POEM_PAD_L_R - POEM_PAD_R_R   // 卷轴背景宽
+    const POEM_H = layout.contentH + POEM_PAD_T_R + POEM_PAD_B_R   // 卷轴背景高（诗内容 + padding）
+    const POEM_TEXT_TOP    = POEM_TOP_R + POEM_PAD_T_R + 16         // 诗词起始 Y（给点小偏移）
+    const POEM_TEXT_RIGHT_X = CW - POEM_RIGHT_R - POEM_PAD_R_R        // 诗词最右列 X
 
-    // 卡片总高（设计 px）= 图片区 + 信息区 + 底部脚注
-    const CH = PIC_H + (INFO_H + FOOT_H) * SCALE
+    // 卡片总高（设计 rpx）
+    const CH = PIC_H + INFO_H + FOOT_H
 
     // 0) 清除画布，避免复用 Canvas 节点时残留上次绘制内容
     ctx.clearRect(0, 0, CW, CH)
@@ -426,9 +426,9 @@ Page({
             return reject(new Error('获取 Canvas 失败'))
           }
           const node = info.node
-          // 设置 Canvas 像素尺寸：宽固定 CW，高度按诗词布局动态计算（2x 高清）
+          // 设置 Canvas backing store 像素：宽固定 CW，高度按诗词布局动态算（与 _drawFullCard 同坐标系 = 设计 rpx）
           const layout = this._layout || { picH: MIN_PIC_H_R }
-          const CH = (layout.picH + INFO_H + FOOT_H) * SCALE
+          const CH = layout.picH + INFO_H + FOOT_H
           node.width = CW
           node.height = CH
           this._canvasNode = node
@@ -600,9 +600,9 @@ Page({
    */
   _canvasToTemp(canvas) {
     return new Promise((resolve, reject) => {
-      // 高度按诗词布局动态算（导出图与预览一致）
+      // 高度按诗词布局动态算（导出 PNG 与屏幕卡片同比例 1:1.42，不再 ×2 拉长）
       const layout = this._layout || { picH: MIN_PIC_H_R }
-      const CH = (layout.picH + INFO_H + FOOT_H) * SCALE
+      const CH = layout.picH + INFO_H + FOOT_H
       wx.canvasToTempFilePath({
         canvas,
         x: 0,
