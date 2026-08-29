@@ -32,6 +32,8 @@ Page({
   data: {
     poem: null,
     poemBg: '',
+    qrUrl: '',
+    qrFail: false,
     waveHeights: [],
     canvasStyleW: CW / SCALE,
     canvasStyleH: CH / SCALE,
@@ -49,11 +51,17 @@ Page({
     this.setData({
       poem: p,
       poemBg: U.getPoemBg(p, 'full'),
+      qrUrl: U.getQrUrl(p.id),
       waveHeights: heights
     })
   },
 
   goBack() { wx.navigateBack() },
+
+  // 预览卡片二维码加载失败 → 回退嫩芽占位（避免空白/破碎图）
+  onQrError() {
+    this.setData({ qrFail: true })
+  },
 
   // ─── 核心：Canvas2D 绘制卡片 → 保存到相册 ───
   async saveCard() {

@@ -24,8 +24,9 @@
           <view wx:for="{{waveHeights}}" wx:key="*this" class="wbar" style="height:{{item}}rpx"></view>
         </view>
         <view class="sc-qr">
-          <icon-svg name="paper_sprout_sm" size="52" stroke="0" />
-          <text style="font-size:16rpx">扫码听诗</text>
+          <image wx:if="{{!qrFail}}" class="sc-qr-img" src="{{qrUrl}}" mode="aspectFit" binderror="onQrError" />
+          <icon-svg wx:else name="paper_sprout_sm" size="52" stroke="0" />
+          <text class="sc-qr-tip">扫码听诗</text>
         </view>
       </view>
       <view class="sc-foot">扫码听 · 诗芽 · 一诗一景</view>
