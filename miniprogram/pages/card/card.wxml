@@ -1,6 +1,6 @@
 <!-- 诗卡页 -->
 <view class="card-page">
-  <view class="back-btn" bind:tap="goBack">
+  <view class="back-btn" style="top:{{backBtnTop}}px" bind:tap="goBack">
     <icon-svg name="paper_back" size="36" stroke="0" />
   </view>
   <view class="loading" wx:if="{{!poem}}">加载中...</view>

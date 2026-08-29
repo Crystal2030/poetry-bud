@@ -1,5 +1,5 @@
 .card-page { min-height: 100vh; background: linear-gradient(160deg, #3a4a5e, #26303f); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 44rpx; }
-.back-btn { position: absolute; top: 100rpx; left: 32rpx; z-index: 50; width: 68rpx; height: 68rpx; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; }
+.back-btn { position: absolute; top: 0; left: 32rpx; z-index: 50; width: 68rpx; height: 68rpx; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; transition: top 0.2s; }
 
 /* 离屏 Canvas — display:none 会导致 query 拿不到 Canvas2D 节点，改为不可见但保留在渲染树中 */
 .card-canvas {
@@ -16,7 +16,7 @@
 /* 高度由 onLoad 根据诗词长度动态计算（picH），范围 460 ~ 760 rpx */
 .sc-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* 诗词容器高度由 poemH 动态计算，竖排在右上 */
-.sc-poem { position: absolute; top: 24rpx; right: 24rpx; z-index: 3; padding: 20rpx 24rpx 20rpx 28rpx; }
+.sc-poem { position: absolute; top: 24rpx; right: 24rpx; z-index: 3; padding: 20rpx 32rpx 20rpx 28rpx; }
 /* ── 书卷衬底：暖纸 + 金色卷轴端头 ── */
 .sc-scroll-bg {
   position: absolute; inset: 0; z-index: 0; border-radius: 16rpx;

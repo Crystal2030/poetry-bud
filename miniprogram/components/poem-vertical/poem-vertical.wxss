@@ -1,12 +1,13 @@
 /* ===== 竖排诗组件 · iOS 兼容版（每字一个 block 元素） ===== */
 
 /* 整组：列从右到左 */
-/* 字体优先级：先 Kaiti 系列（macOS 系统字体），再 Songti/SimSun（中易宋体），最后平台默认 */
+/* 字体优先级：先 Kaiti 系列（iOS/macOS 系统字体），再 Songti/SimSun/思源宋体（Android 衬线），最后落到 serif */
+/* 去掉 "PingFang SC"/"Microsoft YaHei" 等无衬线兜底，避免 Android 上 fallback 到黑体观感 */
 .vpoem {
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-start;
-  font-family: "STKaiti", "Kaiti SC", "Kaiti", "Songti SC", "STSong", "FangSong", "STFangsong", "FangSong_GB2312", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "Heiti SC", serif;
+  font-family: "STKaiti", "Kaiti SC", "Kaiti", "BiauKai", "KaiTi", "STKaiti-TC", "Songti SC", "STSong", "FangSong", "STFangsong", "SimSun", "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif", serif;
   color: #2C2A26;
   /* 优化：每字加宽字符间距，楷体观感更舒展 */
   letter-spacing: 0.05em;

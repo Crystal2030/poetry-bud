@@ -22,9 +22,9 @@ const LINE_H_RATIO = 1.4    // 竖排字符行高倍率（与 poem-vertical.wxss
 // .sc-pic 上下 padding:24rpx
 const PIC_PAD_T_R   = 24
 const PIC_PAD_B_R   = 24
-// .sc-poem padding: 20 24 20 28 rpx
+// .sc-poem padding: 20 32 20 28 rpx（右边距加大，避免诗句贴死卷轴右边）
 const POEM_PAD_T_R  = 20
-const POEM_PAD_R_R  = 24
+const POEM_PAD_R_R  = 32
 const POEM_PAD_B_R  = 20
 const POEM_PAD_L_R  = 28
 // .sc-poem top:24rpx / right:24rpx
@@ -54,6 +54,7 @@ Page({
     poemH: 240,                 // .sc-poem 高度（onLoad 时按诗重算）
     canvasStyleW: CW / SCALE,
     canvasStyleH: 800,          // 初始估值；onLoad 按 PIC_H + INFO_H + FOOT_H × SCALE 重算
+    backBtnTop: 0,              // 返回按钮 top（px），onLoad 时按胶囊位置动态计算
     saving: false
   },
 
@@ -71,6 +72,17 @@ Page({
     // canvasStyleH = canvas DOM CSS 高 (px) = (picH + INFO + FOOT) / SCALE
     const canvasH = (layout.picH + INFO_H + FOOT_H) / SCALE
 
+    // 返回按钮位置：与右上角「胶囊」垂直居中对齐（真机 iOS 状态栏更高，硬编码 100rpx 会下挤）
+    // 基础库 2.13.0+ 提供 getMenuButtonBoundingClientRect，旧版无此 API 时保持默认值 0
+    let backBtnTop = 0
+    try {
+      const rect = wx.getMenuButtonBoundingClientRect()
+      if (rect && rect.height) {
+        const backH = 34 // 68rpx / 2 = 34px
+        backBtnTop = Math.round((rect.top + rect.bottom) / 2 - backH / 2)
+      }
+    } catch (e) { /* 旧基础库无此 API，back-btn 默认 top:0 */ }
+
     // 背景图用 medium（800x540 jpg ≈186KB）替代 full PNG（1264x848 ≈2MB），加载提速 10 倍
     // 预览层与 canvas 绘制层共用 medium，保证所见即所得
     this.setData({
@@ -81,7 +93,8 @@ Page({
       waveHeights: heights,
       picH: layout.picH,
       poemH: layout.poemH,
-      canvasStyleH: canvasH
+      canvasStyleH: canvasH,
+      backBtnTop
     })
     // 提前缓存 layout，省去 _drawFullCard 内重算
     this._layout = layout
@@ -217,9 +230,9 @@ Page({
       const colW = fontSize  // 列宽约等于字号
       curX -= colW
 
-      // 字体栈：先 Kaiti 系列（macOS 系统自带），再 fallback 到平台默认
-      // iOS 真机无 Kaiti 时落到 PingFang SC（无衬线），Android 落到 Noto Sans CJK
-      ctx.font = (col.bold ? 'bold ' : '') + fontSize + 'px "STKaiti","Kaiti SC","Songti SC","STSong","SimSun","PingFang SC","Hiragino Sans GB",serif'
+      // 字体栈：先 Kaiti 系列（macOS/iOS 系统自带），再思源宋体（Android 衬线），
+      // 去掉 PingFang SC / Microsoft YaHei 等黑体兜底，避免 Android 落到无衬线观感
+      ctx.font = (col.bold ? 'bold ' : '') + fontSize + 'px "STKaiti","Kaiti SC","Kaiti","BiauKai","KaiTi","Songti SC","STSong","FangSong","STFangsong","SimSun","Noto Serif SC","Source Han Serif SC","Noto Serif CJK SC",serif'
 
       // Canvas2D 无 text-shadow；用「八方向浅色描边 + 深色字」模拟书卷压印效果
       // 描边方向：上下左右 + 四对角，共 8 个偏移
