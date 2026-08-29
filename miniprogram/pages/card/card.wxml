@@ -14,7 +14,7 @@
         <image class="sc-bg" src="{{poemBg}}" mode="aspectFill" />
         <view class="sc-poem" style="height:{{poemH}}rpx">
           <view class="sc-scroll-bg"></view>
-          <poem-vertical poem="{{poem}}" size="md" mode="light" />
+          <poem-vertical poem="{{poem}}" size="md" mode="dark" />
         </view>
       </view>
       <view class="sc-info">

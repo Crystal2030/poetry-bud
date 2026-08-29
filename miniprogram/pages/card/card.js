@@ -16,7 +16,7 @@ const AUTHOR_SIZE = 24
 const COL_GAP_T   = 7       // 标题列左间距（flex row-reverse）
 const COL_GAP_A   = 5       // 作者列左间距
 const COL_GAP_L   = 8       // 诗句列左间距
-const LINE_H_RATIO = 1.25   // 竖排字符行高倍率
+const LINE_H_RATIO = 1.4    // 竖排字符行高倍率（与 poem-vertical.wxss line-height:1.4 保持一致）
 
 // ── 卷轴布局常量（wxml rpx 值为准；canvas 内统一 × SCALE 转换）──
 // .sc-pic 上下 padding:24rpx
@@ -37,8 +37,9 @@ const MAX_PIC_H_R    = 760
 const SCENE_SPACER_R = 180
 
 // ── 竖排文字颜色：Canvas2D 无 text-shadow，使用深色 ink 适配书卷暖纸底色 ─��
-const POEM_TEXT_COLOR = '#2C2A26'
-const POEM_TEXT_SHADOW = 'rgba(0,0,0,0.18)'  // 模拟 CSS text-shadow
+const POEM_TEXT_COLOR   = '#1F1B16'                              // 深墨色
+const POEM_TEXT_HALO    = 'rgba(255, 248, 232, 0.85)'             // 暖白纸色光晕（描边）
+const POEM_TEXT_HALO_DX = 2                                       // 光晕描边宽（屏物理 px）
 
 Page({
   data: {
@@ -203,19 +204,29 @@ Page({
       const colW = fontSize  // 列宽约等于字号
       curX -= colW
 
-      // 修复 Bug#1：使用深色 ink #2C2A26 替代白色 #FFFEF9
-      // Canvas2D 不支持 CSS text-shadow，通过先画 shadow 层再画文字层模拟
-      ctx.font = (col.bold ? 'bold ' : '') + fontSize + 'px "STKaiti","Kaiti SC",serif'
+      // 字体栈：先 Kaiti 系列（macOS 系统自带），再 fallback 到平台默认
+      // iOS 真机无 Kaiti 时落到 PingFang SC（无衬线），Android 落到 Noto Sans CJK
+      ctx.font = (col.bold ? 'bold ' : '') + fontSize + 'px "STKaiti","Kaiti SC","Songti SC","STSong","SimSun","PingFang SC","Hiragino Sans GB",serif'
+
+      // Canvas2D 无 text-shadow；用「八方向浅色描边 + 深色字」模拟书卷压印效果
+      // 描边方向：上下左右 + 四对角，共 8 个偏移
+      const D = POEM_TEXT_HALO_DX
+      const haloOffsets = [
+        [ D, 0], [-D, 0], [0,  D], [0, -D],
+        [ D,  D], [ D, -D], [-D,  D], [-D, -D]
+      ]
 
       col.chars.forEach((ch, i) => {
         const cx = curX + colW / 2   // 字符中心 X
         const cy = topY + i * lineH  // 字符顶部 Y
 
-        // 阴影层：偏移 2px，半透明黑色
-        ctx.fillStyle = POEM_TEXT_SHADOW
-        ctx.fillText(ch, cx + 2, cy + 2)
+        // 第一层：浅色光晕描边（八方向）
+        ctx.fillStyle = POEM_TEXT_HALO
+        for (let k = 0; k < haloOffsets.length; k++) {
+          ctx.fillText(ch, cx + haloOffsets[k][0], cy + haloOffsets[k][1])
+        }
 
-        // 文字层：深色 ink
+        // 第二层：深墨色字
         ctx.fillStyle = POEM_TEXT_COLOR
         ctx.fillText(ch, cx, cy)
       })

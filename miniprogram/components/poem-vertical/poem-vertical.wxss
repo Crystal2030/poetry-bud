@@ -1,12 +1,15 @@
 /* ===== 竖排诗组件 · iOS 兼容版（每字一个 block 元素） ===== */
 
 /* 整组：列从右到左 */
+/* 字体优先级：先 Kaiti 系列（macOS 系统字体），再 Songti/SimSun（中易宋体），最后平台默认 */
 .vpoem {
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-start;
-  font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+  font-family: "STKaiti", "Kaiti SC", "Kaiti", "Songti SC", "STSong", "FangSong", "STFangsong", "FangSong_GB2312", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "Heiti SC", serif;
   color: #2C2A26;
+  /* 优化：每字加宽字符间距，楷体观感更舒展 */
+  letter-spacing: 0.05em;
 }
 
 /* 每列：内部从上下堆叠 */
@@ -21,7 +24,8 @@
 /* 关键：每个字独立成行（不依赖 writing-mode） */
 .char {
   display: block;
-  line-height: 1.25;
+  /* 行高 1.4：竖排诗需要更多呼吸感，楷体字本身纵向比无衬线更舒展 */
+  line-height: 1.4;
   text-align: center;
   white-space: nowrap;
 }
@@ -53,10 +57,15 @@
   text-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.55);
 }
 
-/* 暗色模式：深字 + 淡影轮廓 */
+/* 暗色模式：深字 + 暖纸色光晕（让米色卷轴上的字"压印"出来，对比度好） */
 .mode-dark {
-  color: #2C2A26;
-  text-shadow: 0 2rpx 8rpx rgba(255, 255, 255, 0.7);
+  color: #1F1B16;
+  text-shadow:
+    0 0 2rpx rgba(255, 248, 232, 0.9),
+    1rpx 1rpx 0 rgba(255, 248, 232, 0.85),
+    -1rpx -1rpx 0 rgba(255, 248, 232, 0.85),
+    1rpx -1rpx 0 rgba(255, 248, 232, 0.85),
+    -1rpx 1rpx 0 rgba(255, 248, 232, 0.85);
 }
 
 /* 整句高亮（当 highlightIdx 落在此句） */
