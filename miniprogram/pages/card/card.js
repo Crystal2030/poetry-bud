@@ -2,9 +2,11 @@ const U = require('../../utils/store')
 
 // ── 画布参数（2x 高清，iPhone 基准 rpx×2 → canvas px）──
 const SCALE = 2
-const CW = 520              // 卡片宽
-const CH = 860              // 卡片高（pic 640 + info 160 + foot 60）
-const PIC_H = 640           // 图片区高
+const CW = 520              // 卡片宽（内坐标系，宽与导出图 destWidth 一致）
+// CH 由 PIC_H 动态推算（PIC_H + INFO_H + FOOT_H）
+// PIC_H 由 _calcLayout() 根据诗词最长列字符数动态计算
+const INFO_H = 160          // 信息区高（设计 px）
+const FOOT_H = 60           // 底部脚注高（设计 px）
 const RADIUS = 40           // 卡片圆角
 
 // ── 诗词竖排绘制参数（对应 poem-vertical "md" 尺寸 × SCALE）──
@@ -16,13 +18,23 @@ const COL_GAP_A   = 5       // 作者列左间距
 const COL_GAP_L   = 8       // 诗句列左间距
 const LINE_H_RATIO = 1.25   // 竖排字符行高倍率
 
-// ── 诗歌区域定位（sc-poem: top:24rpx, right:24rpx, padding 20/24/20/28）──
-const POEM_TOP  = 48        // 24*2
-const POEM_RIGHT = 48
-const POEM_PAD_T = 40       // 20*2
-const POEM_PAD_R = 48       // 24*2
-const POEM_PAD_B = 40
-const POEM_PAD_L = 56       // 28*2
+// ── 卷轴布局常量（wxml rpx 值为准；canvas 内统一 × SCALE 转换）──
+// .sc-pic 上下 padding:24rpx
+const PIC_PAD_T_R   = 24
+const PIC_PAD_B_R   = 24
+// .sc-poem padding: 20 24 20 28 rpx
+const POEM_PAD_T_R  = 20
+const POEM_PAD_R_R  = 24
+const POEM_PAD_B_R  = 20
+const POEM_PAD_L_R  = 28
+// .sc-poem top:24rpx / right:24rpx
+const POEM_TOP_R    = 24
+const POEM_RIGHT_R  = 24
+
+// ── 自适应高度区间（rpx）──
+const MIN_PIC_H_R    = 460
+const MAX_PIC_H_R    = 760
+const SCENE_SPACER_R = 180
 
 // ── 竖排文字颜色：Canvas2D 无 text-shadow，使用深色 ink 适配书卷暖纸底色 ─��
 const POEM_TEXT_COLOR = '#2C2A26'
@@ -35,8 +47,11 @@ Page({
     qrUrl: '',
     qrFail: false,
     waveHeights: [],
+    // 自适应诗词区域尺寸（rpx 单位，wxml 与 _drawFullCard 共用同一来源）
+    picH: MIN_PIC_H_R,         // .sc-pic 高度（onLoad 时按诗重算）
+    poemH: 240,                 // .sc-poem 高度（onLoad 时按诗重算）
     canvasStyleW: CW / SCALE,
-    canvasStyleH: CH / SCALE,
+    canvasStyleH: 800,          // 初始估值；onLoad 按 PIC_H + INFO_H + FOOT_H × SCALE 重算
     saving: false
   },
 
@@ -48,12 +63,23 @@ Page({
     if (!p) return
     const heights = []
     for (let i = 0; i < 15; i++) heights.push(Math.floor(10 + Math.random() * 34))
+
+    // 诗词竖排所需高度（与 wxml 行内样式共用同一组 rpx 值）
+    const layout = this._calcLayout(p)
+    // canvasStyleH = canvas DOM CSS 高 (px) = (picH + INFO + FOOT) / SCALE
+    const canvasH = (layout.picH + INFO_H + FOOT_H) / SCALE
+
     this.setData({
       poem: p,
       poemBg: U.getPoemBg(p, 'full'),
       qrUrl: U.getQrUrl(p.id),
-      waveHeights: heights
+      waveHeights: heights,
+      picH: layout.picH,
+      poemH: layout.poemH,
+      canvasStyleH: canvasH
     })
+    // 提前缓存 layout，省去 _drawFullCard 内重算
+    this._layout = layout
   },
 
   goBack() { wx.navigateBack() },
@@ -61,6 +87,51 @@ Page({
   // 预览卡片二维码加载失败 → 回退嫩芽占位（避免空白/破碎图）
   onQrError() {
     this.setData({ qrFail: true })
+  },
+
+  /**
+   * 计算诗词区域自适应布局（与 canvas _drawFullCard 共用同一规则）
+   * 返回 picH/poemH/contentH（rpx 单位），供 wxml 行内样式与 canvas 节点共用
+   *
+   * 思路：竖排诗词整体高度 = 最长一列的字数 × 字号 × 行高。
+   * 短诗（4-5 字）撑不起容器，加 SCENE_SPACER_R 给背景图留氛围；
+   * 长诗（>=7 字）限制 PIC_H 上限，避免撑爆整张卡片。
+   */
+  _calcLayout(poem) {
+    // 统计字符数（剔除标点与空白；标点只用作分句边界）
+    const PUNCT = '，。？！；、：,!?;:\n\r '
+    const countChars = s => {
+      const cs = (s || '').split('').filter(c => PUNCT.indexOf(c) === -1)
+      return cs.length
+    }
+
+    // 取标题列、作者列、各句子列中最长的一列
+    let maxChars = 0
+    maxChars = Math.max(maxChars, countChars(poem.title || ''))
+    maxChars = Math.max(maxChars, countChars(((poem.dynasty || '') + '·' + (poem.author || ''))))
+    const sentences = U.getPoemSentences(poem) || []
+    sentences.forEach(s => {
+      const n = countChars(s.text || '')
+      if (n > maxChars) maxChars = n
+    })
+    // 极端数据兜底：古诗最长句不超过 14 字（"夜泊牛渚怀古"等长律），cap 16 留余量
+    maxChars = Math.max(4, Math.min(16, maxChars))
+
+    // 竖排内容高度：用 TITLE_SIZE 保底（最长列字号可能更小，但撑出最大空间避免字符贴底）
+    const contentH = maxChars * TITLE_SIZE * LINE_H_RATIO
+    // 诗容器高度（内容 + 上下 padding）
+    const poemH = contentH + POEM_PAD_T_R + POEM_PAD_B_R
+    // 图片框高度（容器 + 上下留白 + 场景留白）
+    let picH = PIC_PAD_T_R + poemH + PIC_PAD_B_R + SCENE_SPACER_R
+    // 区间兜底
+    picH = Math.max(MIN_PIC_H_R, Math.min(MAX_PIC_H_R, picH))
+
+    return {
+      picH,           // rpx 高度（wxml 行内 style 与 canvas PIC_H 共用）
+      poemH,          // rpx 高度（wxml 行内 style 共用）
+      maxChars,       // 最长列字符数（调试用）
+      contentH        // 诗内容高度（rpx，不含 padding），canvas 绘制诗词时用
+    }
   },
 
   // ─── 核心：Canvas2D 绘制卡片 → 保存到相册 ───
@@ -77,7 +148,7 @@ Page({
       const qrImg = await this._getQrImage(canvas, poem.id)
 
       // 使用统一绘制方法（修复 Bug#3：消除重复代码）
-      this._drawFullCard(ctx, bgImg, poem, qrImg)
+      this._drawFullCard(ctx, bgImg, poem, qrImg, this._layout || this._calcLayout(poem))
 
       // 导出 → 保存
       const tempPath = await this._canvasToTemp(canvas)
@@ -170,7 +241,7 @@ Page({
       const poem = this.data.poem
       const qrImg = await this._getQrImage(canvas, poem.id)
 
-      this._drawFullCard(ctx, bgImg, poem, qrImg)
+      this._drawFullCard(ctx, bgImg, poem, qrImg, this._layout || this._calcLayout(poem))
       const tempPath = await this._canvasToTemp(canvas)
       wx.hideLoading()
 
@@ -210,7 +281,7 @@ Page({
       const poem = this.data.poem
       const qrImg = await this._getQrImage(canvas, poem.id)
 
-      this._drawFullCard(ctx, bgImg, poem, qrImg)
+      this._drawFullCard(ctx, bgImg, poem, qrImg, this._layout || this._calcLayout(poem))
       const tempPath = await this._canvasToTemp(canvas)
       wx.hideLoading()
 
@@ -237,7 +308,21 @@ Page({
   },
 
   // ─── 完整卡片绘制（saveCard / shareCard / printCard 共用） ───
-  _drawFullCard(ctx, bgImg, poem, qrImg) {
+  _drawFullCard(ctx, bgImg, poem, qrImg, layout) {
+    // ─── 动态化布局：从 rpx 单位传进来的 layout 转 canvas 设计 px ───
+    // wxml rpx → canvas px 走 SCALE 倍率（iPhone 6 基准 1rpx=0.5px，canvas 用 2x 高清）
+    const PIC_H  = layout.picH * SCALE                       // 图片区高度（设计 px）
+    const POEM_X = POEM_PAD_L_R * SCALE                       // 卷轴背景左边
+    const POEM_Y = (POEM_TOP_R + POEM_PAD_T_R) * SCALE       // 卷轴背景顶
+    const POEM_W = (CW / SCALE - POEM_RIGHT_R - POEM_PAD_L_R - POEM_PAD_R_R) * SCALE   // 卷轴背景宽
+    const POEM_H = (layout.contentH + POEM_PAD_T_R + POEM_PAD_B_R) * SCALE   // 卷轴背景高（诗内容 + padding）
+    // 诗词起始 Y（画图前给点小偏移，16 是设计 px 不是 rpx）
+    const POEM_TEXT_TOP = (POEM_TOP_R + POEM_PAD_T_R) * SCALE + 16   // = 88+16 = 104
+    const POEM_TEXT_RIGHT_X = (CW / SCALE - POEM_RIGHT_R - POEM_PAD_R_R) * SCALE   // = 424
+
+    // 卡片总高（设计 px）= 图片区 + 信息区 + 底部脚注
+    const CH = PIC_H + (INFO_H + FOOT_H) * SCALE
+
     // 0) 清除画布，避免复用 Canvas 节点时残留上次绘制内容
     ctx.clearRect(0, 0, CW, CH)
 
@@ -249,25 +334,24 @@ Page({
     this._roundRect(ctx, 0, 0, CW, CH, RADIUS)
     ctx.clip()
 
-    // 2) 上半部分：背景图
+    // 2) 上半部分：背景图（顶对齐，留氛围空间）
     ctx.drawImage(bgImg, 0, 0, CW, PIC_H)
 
     // 3) 书卷衬底（poem 区域）
-    const poemW = CW - POEM_RIGHT - POEM_PAD_L - POEM_PAD_R
-    const poemH = PIC_H - POEM_TOP - POEM_PAD_T - POEM_PAD_B
     ctx.fillStyle = 'rgba(245,235,218,0.78)'
-    this._roundRect(ctx, POEM_PAD_L, POEM_TOP + POEM_PAD_T, poemW, poemH, 16)
+    this._roundRect(ctx, POEM_X, POEM_Y, POEM_W, POEM_H, 16)
     ctx.fill()
-    // 金色卷轴端头
+    // 金色卷轴端头（顶部向下 20，底部向上 20，单位设计 px）
     const barW = 10
+    const BAR_INSET = 20
     ctx.fillStyle = '#C9A24B'
-    this._roundRect(ctx, POEM_PAD_L - barW / 2, POEM_TOP + POEM_PAD_T + 20, barW, poemH - 40, 5)
+    this._roundRect(ctx, POEM_X - barW / 2, POEM_Y + BAR_INSET, barW, POEM_H - BAR_INSET * 2, 5)
     ctx.fill()
-    this._roundRect(ctx, POEM_PAD_L + poemW - barW / 2, POEM_TOP + POEM_PAD_T + 20, barW, poemH - 40, 5)
+    this._roundRect(ctx, POEM_X + POEM_W - barW / 2, POEM_Y + BAR_INSET, barW, POEM_H - BAR_INSET * 2, 5)
     ctx.fill()
 
     // 4) 竖排诗句（从右到左）
-    this._drawVerticalPoem(ctx, poem, CW - POEM_RIGHT - POEM_PAD_R, POEM_TOP + POEM_PAD_T + 16)
+    this._drawVerticalPoem(ctx, poem, POEM_TEXT_RIGHT_X, POEM_TEXT_TOP)
 
     // 5) 下半部分：信息区
     ctx.restore() // 退出卡片圆角裁剪
@@ -342,7 +426,9 @@ Page({
             return reject(new Error('获取 Canvas 失败'))
           }
           const node = info.node
-          // 设置 Canvas 像素尺寸（2x 高清）
+          // 设置 Canvas 像素尺寸：宽固定 CW，高度按诗词布局动态计算（2x 高清）
+          const layout = this._layout || { picH: MIN_PIC_H_R }
+          const CH = (layout.picH + INFO_H + FOOT_H) * SCALE
           node.width = CW
           node.height = CH
           this._canvasNode = node
@@ -514,6 +600,9 @@ Page({
    */
   _canvasToTemp(canvas) {
     return new Promise((resolve, reject) => {
+      // 高度按诗词布局动态算（导出图与预览一致）
+      const layout = this._layout || { picH: MIN_PIC_H_R }
+      const CH = (layout.picH + INFO_H + FOOT_H) * SCALE
       wx.canvasToTempFilePath({
         canvas,
         x: 0,
