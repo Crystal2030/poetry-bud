@@ -1,8 +1,17 @@
 // 诗芽 PoetryBud - 小程序入口
-// 静态资源 CDN（GitHub + jsDelivr，无鉴权、全球加速、永久有效）
+// 静态资源 CDN（GitHub 仓库，jsDelivr 官方多节点 + 加载失败自动降级）
+// 优先走 Cloudflare 节点（国内可达性更稳定），失败依次降级到默认节点 / GCore 节点
+const CDN_HOSTS = [
+  'https://testingcf.jsdelivr.net', // Cloudflare 节点（主）
+  'https://cdn.jsdelivr.net',       // 默认节点（备1）
+  'https://gcore.jsdelivr.net'      // GCore 节点（备2）
+]
+const CDN_PATH = '/gh/Crystal2030/poetry-bud-assets@444efbd'
 const CDN = {
-  images: 'https://cdn.jsdelivr.net/gh/Crystal2030/poetry-bud-assets@main/bg-samples/',
-  audio:  'https://cdn.jsdelivr.net/gh/Crystal2030/poetry-bud-assets@main/audio/'
+  hosts: CDN_HOSTS,
+  images: CDN_HOSTS[0] + CDN_PATH + '/bg-samples/',
+  audio:  CDN_HOSTS[0] + CDN_PATH + '/audio/',
+  qr:     CDN_HOSTS[0] + CDN_PATH + '/qr/'
 }
 
 App({
@@ -18,10 +27,25 @@ App({
     checkinData: null,
     reciteData: null,
     quizTotal: 0,
+    cloudReady: false,
     CDN
   },
 
   onLaunch() {
+    // 云开发初始化（用于生成小程序码，扫码直达详情页）
+    // 未开通云开发 / 未配置环境时静默跳过，卡片二维码会降级为占位码
+    try {
+      if (wx.cloud) {
+        wx.cloud.init({ traceUser: true })
+        this.globalData.cloudReady = true
+      } else {
+        this.globalData.cloudReady = false
+      }
+    } catch (e) {
+      this.globalData.cloudReady = false
+      console.warn('[诗芽] 云开发初始化失败（二维码将降级为占位码）', e)
+    }
+
     // 恢复本地存储
     try {
       const fav = wx.getStorageSync('pb_fav')

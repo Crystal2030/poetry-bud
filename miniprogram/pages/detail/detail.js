@@ -10,7 +10,19 @@ Page({
     currentSentenceIdx: -1,
     audioProgress: 0,
     audioDuration: 0,
-    speedRate: 0.8,  // 跟读语速：0.8 倍速，适合儿童跟读
+
+    /* 语速（倍速）调节 */
+    speedRate: 0.8,       // 默认 0.8x，适合儿童跟读；会在 onLoad 从本地存储恢复
+    speedLabel: '0.8x',
+    speedRates: [
+      { rate: 0.5, label: '0.5x' },
+      { rate: 0.7, label: '0.7x' },
+      { rate: 0.8, label: '0.8x' },
+      { rate: 1.0, label: '1.0x' },
+      { rate: 1.25, label: '1.25x' },
+      { rate: 1.5, label: '1.5x' }
+    ],
+    showSpeedPanel: false,
 
     /* 抽屉状态：collapsed / half / full */
     drawerState: 'half',
@@ -77,18 +89,41 @@ Page({
   _recResults: [],
 
   onLoad(options) {
-    const id = options.id
+    let id = options.id
+    // 扫码进入：小程序码带 scene 参数（如 'id=kid_1'），需解码提取
+    if (!id && options.scene) {
+      try {
+        const scene = decodeURIComponent(options.scene)
+        const m = scene.match(/(?:^|&)id=([^&]+)/)
+        if (m) id = m[1]
+      } catch (e) {
+        console.warn('[detail] scene 解析失败', e)
+      }
+    }
     const p = getApp().globalData.poems.find(p => p.id === id)
     if (!p) { wx.showToast({ title: '诗未找到', icon: 'none' }); return }
+    // 恢复用户上次选择的语速
+    const savedRate = U.getSpeedRate()
+    const rateOpt = this.data.speedRates.find(o => o.rate === savedRate)
     this.setData({
       poem: p,
       isFav: U.isFav(id),
-      poemBg: U.getPoemBg(p),
-      translationParas: this._splitTranslationPara(p)
+      poemBg: U.getPoemBg(p, 'full'),
+      translationParas: this._splitTranslationPara(p),
+      speedRate: savedRate,
+      speedLabel: rateOpt ? rateOpt.label : (savedRate + 'x')
     })
     U.markRead(id)
     // 间隔复习：如果是待复习诗，进入即完成一次复习
     U.completeReview(id)
+  },
+
+  // 背景图加载失败 → 自动切换 CDN 节点降级
+  onBgError() {
+    const next = U.nextBgFallback(this.data.poem, this.data.poemBg)
+    if (next && next !== this.data.poemBg) {
+      this.setData({ poemBg: next })
+    }
   },
 
   // ── 译文按诗句段落数分段（一段对应一联） ──
@@ -303,6 +338,29 @@ Page({
     this.startAudio()
   },
 
+  // ── 语速（倍速）调节 ──
+  toggleSpeedPanel() {
+    this.setData({ showSpeedPanel: !this.data.showSpeedPanel })
+  },
+
+  selectSpeed(e) {
+    const rate = Number(e.currentTarget.dataset.rate)
+    const label = e.currentTarget.dataset.label || (rate + 'x')
+    if (!rate || isNaN(rate)) return
+
+    this.setData({ speedRate: rate, speedLabel: label, showSpeedPanel: false })
+    U.setSpeedRate(rate)
+
+    // 若正在朗读，实时生效（BackgroundAudioManager 是全局单例）
+    if (this.data.playing) {
+      try {
+        wx.getBackgroundAudioManager().playbackRate = rate
+      } catch (err) {
+        console.warn('[speed] 实时调整失败:', err)
+      }
+    }
+  },
+
   // BGM 已移除（BackgroundAudioManager 不支持双轨，后续可用 InnerAudioContext 独立轨恢复）
   toggleBgm() { },
 
@@ -395,6 +453,13 @@ Page({
     this._recAudio = audio  // 存储引用，供 _endRecordMode 销毁
     const url = U.getAudioUrl(poem)
     const timings = this._timings
+
+    // 语速：跟读模式也按用户选择的倍速播放（在 src 赋值前设置）
+    try {
+      audio.playbackRate = this.data.speedRate
+    } catch (err) {
+      console.warn('[audio] 设置跟读语速失败:', err)
+    }
 
     // 核心修复：在 onCanplay 回调里 seek，确保音频已就绪
     audio.onCanplay(() => {
@@ -683,12 +748,20 @@ Page({
       playing: true,
       currentSentenceIdx: 0,
       audioProgress: 0,
-      audioDuration: initDuration
+      audioDuration: initDuration,
+      showSpeedPanel: false
     })
 
     // BackgroundAudioManager 是全局单例，src 赋值即自动播放。
     // ⚠️ 所有事件回调必须在 src 赋值之前注册，否则可能丢失回调。
     const bgAudio = wx.getBackgroundAudioManager()
+
+    // 语速：在 src 赋值前设置 playbackRate，确保按当前倍速播放
+    try {
+      bgAudio.playbackRate = this.data.speedRate
+    } catch (err) {
+      console.warn('[audio] 设置语速失败:', err)
+    }
 
     // 先移除旧的监听（防止同一页面多次播放叠加回调）
     this._stopBgAudioListeners()

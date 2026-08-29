@@ -4,26 +4,71 @@ const app = getApp()
 // 常量
 const THEMES = ['全部', '思乡', '咏物', '山水', '童趣', '送别', '边塞', '哲理', '田园', '写景', '爱国', '亲情', '友情', '读书', '节日', '羁旅']
 const DYNASTIES = ['全部', '先秦', '汉', '南北朝', '唐', '宋', '元', '明', '清', '现代']
-const GRADES = ['全部', '一年级上', '一年级下', '二年级上', '二年级下', '三年级上', '三年级下', '四年级上', '四年级下', '五年级上', '五年级下', '六年级上', '六年级下']
+const GRADES = ['全部', '一年级上', '一年级下', '二年级上', '二年级下', '三年级上', '三年级下', '四年级上', '四年级下', '五年级上', '五年级下', '六年级上', '六年级下', '课外拓展']
 
 // 间隔复习阶段（艾宾浩斯儿童简化版）：1d → 2d → 4d → 7d → 15d → 30d → 已掌握
 const REVIEW_INTERVALS = [1, 2, 4, 7, 15, 30]
 
 // ===== CDN 资源路径 =====
 
-function getPoemBg(poem) {
+// size: 'thumb' (400x270 jpg, 列表) | 'medium' (800x540 jpg, 卡片) | 'full' (1264x848 png, 详情/分享)
+// 注：poem.id 已含 'kid_' 前缀，CDN 文件名 = 直接 {id}.{ext}
+function getPoemBg(poem, size) {
   if (!poem) return ''
   const g = app.globalData
-  const tid = g.themeMap[poem.id]
   const base = g.CDN.images
+  // 1. 小学诗优先用专属封面图（一词一景，无文字）
+  if (poem.grade && poem.grade !== '课外拓展' && poem.id) {
+    const id = poem.id
+    if (size === 'thumb') return base + 'covers-thumb/' + id + '.jpg'
+    if (size === 'medium') return base + 'covers-medium/' + id + '.jpg'
+    // full 或默认：原图 PNG（详情/分享/未指定时）
+    return base + 'covers/' + id + '.png'
+  }
+  // 2. 课外诗 → 主题图（PNG）
+  const tid = g.themeMap[poem.id]
   if (tid) return base + 'themes/' + tid + '.png'
+  // 3. 兜底 → 场景图（PNG）
   const sc = poem.sceneId || 'generic'
   return base + 'scene-' + sc + '.png'
+}
+
+// 图片加载失败的统一兜底：优先切换 CDN 节点（同尺寸路径），节点耗尽后升级到原图 png。
+// 返回下一个应尝试的 URL；无更多选项时返回 ''（调用方据此停止重试，避免死循环）。
+function nextBgFallback(poem, currentUrl) {
+  if (!currentUrl) return ''
+  const g = app.globalData
+  const hosts = (g.CDN && g.CDN.hosts) || ['https://cdn.jsdelivr.net']
+  const PATH_MARK = '/gh/Crystal2030/poetry-bud-assets@444efbd'
+  const pi = currentUrl.indexOf(PATH_MARK)
+  if (pi < 0) return ''            // 非本项目 CDN 路径，不处理
+  const path = currentUrl.slice(pi)
+  let idx = hosts.findIndex(h => currentUrl.indexOf(h) === 0)
+  if (idx < 0) idx = hosts.length - 1  // 未识别的 host 视作已到最后
+  // 1) 还有下一节点 → 同路径切到下一节点
+  if (idx < hosts.length - 1) {
+    return hosts[idx + 1] + path
+  }
+  // 2) 已是最后节点：若当前不是 full png 封面，则升级到 full（回到第一个节点）
+  if (poem && poem.grade && poem.grade !== '课外拓展' && poem.id) {
+    const fullPath = PATH_MARK + '/bg-samples/covers/' + poem.id + '.png'
+    if (path !== fullPath) {
+      return hosts[0] + fullPath
+    }
+  }
+  return ''
 }
 
 function getAudioUrl(poem) {
   if (!poem) return ''
   return app.globalData.CDN.audio + poem.id + '.mp3'
+}
+
+// 小程序码 CDN 地址（scene=id=诗id 已烧录进图片，扫码直达详情页）
+function getQrUrl(poemId) {
+  if (!poemId) return ''
+  const g = app.globalData
+  return (g.CDN && g.CDN.qr ? g.CDN.qr : '') + poemId + '.jpg'
 }
 
 // 从 paragraphs 提取句子（与 poem-vertical 组件 computeLines 一致的分句逻辑）
@@ -60,6 +105,26 @@ function getPoemSentences(poem) {
   return []
 }
 
+// 规范化作者名（与 TTS 脚本 tts_synthesize.py 的 _clean_author 保持一致）
+function _cleanAuthor(author) {
+  let a = (author || '').trim()
+  a = a.replace(/《/g, '').replace(/》/g, '')
+  a = a.replace(/[（(].*?[）)]/g, '')
+  return a.trim()
+}
+
+// 朗读开头的「《标题》，朝代，作者。」前言文本（用于估算前言时长）
+function getIntroText(poem) {
+  if (!poem) return ''
+  const title = poem.title || ''
+  const author = _cleanAuthor(poem.author)
+  const dynasty = (poem.dynasty || '').trim()
+  const merged = ['汉乐府', '北朝民歌', '古诗十九首', '韩非子'].indexOf(author) !== -1
+  if (merged) return `《${title}》，${author}。`
+  if (dynasty && author) return `《${title}》，${dynasty}，${author}。`
+  return `《${title}》，${author || dynasty}。`
+}
+
 function getSentenceTimings(poem, overrideDuration) {
   if (!poem) return []
   const sentences = getPoemSentences(poem)
@@ -67,10 +132,24 @@ function getSentenceTimings(poem, overrideDuration) {
   const totalChars = sentences.reduce((s, sent) => s + (sent.text || '').length, 0)
   if (!totalChars) return []
   const dur = overrideDuration || getAudioDuration(poem) || 5000
+
+  // 朗读开头会先读「《标题》，朝代，作者。」（前言），
+  // 需把这部分时长从诗句时间轴里扣除，否则高亮会整体偏移。
+  const introText = getIntroText(poem)
+  const introChars = introText.replace(/[《》，。、；！？\s]/g, '').length
+
   const READ_RATIO = 0.83
   const PAUSE_RATIO = 0.17
   const readTime = dur * READ_RATIO
   const pausePool = dur * PAUSE_RATIO
+
+  // 前言时长：按字数占比分走朗读时长，另加与 TTS <break time='700ms'/> 对齐的停顿
+  const allChars = totalChars + introChars
+  const introReadTime = allChars ? readTime * (introChars / allChars) : 0
+  const INTRO_BREAK = 700
+  const introOffset = introReadTime + (introChars ? INTRO_BREAK : 0)
+  const bodyReadTime = readTime - introReadTime
+
   const STRONG_PAUSE = { '。': 1, '！': 1, '？': 1, '!': 1, '?': 1, '\n': 1 }
   const pauseWeights = sentences.map(s => {
     const text = s.text || ''
@@ -79,11 +158,11 @@ function getSentenceTimings(poem, overrideDuration) {
     return STRONG_PAUSE[lastChar] ? 2 : 1
   })
   const totalPauseWeight = pauseWeights.reduce((s, w) => s + w, 0)
-  let elapsed = 0
+  let elapsed = introOffset
   return sentences.map((sent, i) => {
     const text = sent.text || ''
     const charWeight = text.length / totalChars
-    const sentenceReadTime = readTime * charWeight
+    const sentenceReadTime = bodyReadTime * charWeight
     const isLast = i === sentences.length - 1
     const pauseMs = isLast ? 0 : (pausePool * pauseWeights[i] / totalPauseWeight)
     const seg = { text: text, start: elapsed, duration: sentenceReadTime + pauseMs }
@@ -95,6 +174,27 @@ function getSentenceTimings(poem, overrideDuration) {
 function getAudioDuration(poem) {
   if (!poem) return 0
   return app.globalData.durationMap[poem.id] || 0
+}
+
+// ===== 朗读语速（倍速）=====
+// BackgroundAudioManager / InnerAudioContext 的 playbackRate 有效范围 0.5～2.0
+const SPEED_RATES = [0.5, 0.7, 0.8, 1.0, 1.25, 1.5]
+const SPEED_KEY = 'pb_speed_rate'
+const DEFAULT_SPEED = 0.8
+
+function getSpeedRate() {
+  let rate = DEFAULT_SPEED
+  try {
+    const v = parseFloat(wx.getStorageSync(SPEED_KEY))
+    if (!isNaN(v) && v >= 0.5 && v <= 2) rate = v
+  } catch (e) { /* 忽略，用默认值 */ }
+  return rate
+}
+
+function setSpeedRate(rate) {
+  try {
+    wx.setStorageSync(SPEED_KEY, String(rate))
+  } catch (e) { /* 静默失败 */ }
 }
 
 // BGM 列表（保留供后续独立音频轨恢复使用）
@@ -464,11 +564,24 @@ function getPoemReciteRecord(poemId) {
   return data.poems.find(p => p.id === poemId) || null
 }
 
+// 诗库总条数（动态，避免在 onboarding/splash 硬编码）
+function getPoemCount() {
+  const all = require('../data/poems.js')
+  return all.length
+}
+
+// 课标诗条数（kid_ 开头的视为课标小学诗）
+function getCurriculumPoemCount() {
+  const all = require('../data/poems.js')
+  return all.filter(p => p.id && p.id.startsWith('kid_')).length
+}
+
 module.exports = {
   THEMES, DYNASTIES, GRADES,
-  getPoemBg, getAudioUrl, getAudioDuration, getSentenceTimings, getPoemSentences,
+  getPoemBg, nextBgFallback, getAudioUrl, getQrUrl, getAudioDuration, getSentenceTimings, getPoemSentences, getIntroText,
   getBgmUrl, BGM_LIST,
-  getDailyPoem, getPoemsByFilter,
+  SPEED_RATES, getSpeedRate, setSpeedRate,
+  getDailyPoem, getPoemsByFilter, getPoemCount, getCurriculumPoemCount,
   markRead, completeReview, getReviewList,
   getCheckinStatus, doCheckin,
   toggleFav, isFav, showToast, getSceneMode,
