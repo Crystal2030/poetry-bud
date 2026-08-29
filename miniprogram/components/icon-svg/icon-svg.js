@@ -30,7 +30,16 @@ const PAPER_ICONS = {
   'paper_badge_fruit':    '/static/icons/paper/badge-fruit.svg',
   'paper_badge_tree':     '/static/icons/paper/badge-tree.svg',
   'paper_badge_poet':     '/static/icons/paper/badge-poet.svg',
-  'paper_badge_lock':     '/static/icons/paper/badge-lock.svg'
+  'paper_badge_lock':     '/static/icons/paper/badge-lock.svg',
+
+  // ===== 内容 Tab 标题图标 =====
+  'paper_book':     '/static/icons/paper/book.svg',
+  'paper_check':    '/static/icons/paper/check.svg',
+  'paper_card':     '/static/icons/paper/card.svg',
+  'paper_tips':     '/static/icons/paper/tips.svg',
+  'paper_paint':    '/static/icons/paper/paint.svg',
+  'paper_mountain': '/static/icons/paper/mountain.svg',
+  'paper_person':   '/static/icons/paper/person.svg'
 }
 
 // Simple 模式图标（viewBox: 0 0 24 24，纯路径）

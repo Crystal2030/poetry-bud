@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <!-- 纸影：人像轮廓 -->
+  <circle cx="12" cy="8.5" r="4.5" fill="#B5A68A"/>
+  <path d="M4 21.5 v-1 a8 8 0 0 1 16 0 v1 z" fill="#B5A68A"/>
+  <!-- 头部（墨黑） -->
+  <circle cx="12" cy="8" r="4" fill="#1F1F1F"/>
+  <!-- 身体（深色） -->
+  <path d="M5 21 v-0.5 a7 7 0 0 1 14 0 V21 z" fill="#1F1F1F"/>
+  <!-- 衣领点缀 -->
+  <path d="M9 16 a3 3 0 0 1 6 0" fill="none" stroke="#F4EBDA" stroke-width="0.8" opacity=".5"/>
+</svg>

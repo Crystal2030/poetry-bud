@@ -24,7 +24,7 @@
   <!-- 诗卡网格 -->
   <view class="lib-grid">
     <view class="pcard" wx:for="{{filteredPoems}}" wx:key="id" bind:tap="goDetail" data-id="{{item.id}}">
-      <image class="pc-bg" src="{{item._bg}}" mode="aspectFill" />
+      <image class="pc-bg" src="{{item._bg}}" mode="aspectFill" lazy-load="true" data-id="{{item.id}}" binderror="onBgError" />
       <text class="pc-tag">{{item.theme || item.sceneName || '诗词'}}</text>
       <view class="pc-poem">
         <poem-vertical poem="{{item}}" size="sm" mode="light" />

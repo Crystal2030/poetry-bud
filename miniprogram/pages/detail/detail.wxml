@@ -1,6 +1,6 @@
 <!-- 详情页 -->
 <view class="detail-page">
-  <image class="d-bg" src="{{poemBg}}" mode="aspectFill" wx:if="{{poem}}" />
+  <image class="d-bg" src="{{poemBg}}" mode="aspectFill" lazy-load="true" wx:if="{{poem}}" binderror="onBgError" />
   <view class="d-veil-t"></view>
   <view class="d-veil-b"></view>
 
@@ -33,6 +33,18 @@
     </view>
 
     <view class="read-bar-wrap" style="bottom: {{readBarBottom}}">
+      <!-- 语速倍速选择面板 -->
+      <view class="speed-panel" wx:if="{{showSpeedPanel}}">
+        <view
+          class="sp-option {{speedRate === item.rate ? 'active' : ''}}"
+          wx:for="{{speedRates}}"
+          wx:key="rate"
+          bind:tap="selectSpeed"
+          data-rate="{{item.rate}}"
+          data-label="{{item.label}}"
+        >{{item.label}}</view>
+      </view>
+
       <view class="read-bar">
         <view class="play-btn" bind:tap="togglePlay" hover-class="play-btn-tap">
           <!-- 播放三角 -->
@@ -54,6 +66,10 @@
           <view class="record-indicator" wx:if="{{recording}}">
             <view class="rec-wave" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" style="animation-delay:{{item * 0.15}}s"></view>
           </view>
+        </view>
+        <!-- 语速调节按钮 -->
+        <view class="speed-btn {{showSpeedPanel ? 'on' : ''}}" bind:tap="toggleSpeedPanel" hover-class="speed-btn-tap">
+          <text class="speed-label">{{speedLabel}}</text>
         </view>
         <!-- 跟读按钮（暂时隐藏） -->
         <view class="record-btn {{recordMode ? 'active' : ''}}" bind:tap="toggleRecordMode" hover-class="record-btn-tap" wx:if="{{false}}">
@@ -123,13 +139,13 @@
         <!-- ===== Tab 1: 逐句解析 ===== -->
         <block wx:if="{{activeTab === 'sentence'}}">
           <view class="drawer-section" wx:if="{{poem.funTip || poem.note}}">
-            <view class="ds-label"><icon-svg name="book" size="24" color="var(--moss-deep)" /> 诗意</view>
+            <view class="ds-label"><icon-svg name="paper_book" size="24" stroke="0" /> 诗意</view>
             <view class="ds-text">{{poem.funTip || poem.note}}</view>
             <view class="ds-text-secondary" wx:if="{{poem.funTip && poem.note}}">{{poem.note}}</view>
           </view>
 
           <block wx:if="{{poem.sentences && poem.sentences.length}}">
-            <view class="ds-label"><icon-svg name="check" size="24" color="var(--moss-deep)" /> 逐句解析</view>
+            <view class="ds-label"><icon-svg name="paper_check" size="24" stroke="0" /> 逐句解析</view>
             <view class="sentence-card" wx:for="{{poem.sentences}}" wx:for-item="s" wx:key="idx">
               <view class="sc-original">{{s.text}}</view>
               <view class="sc-pinyin" wx:if="{{s.py}}">{{s.py}}</view>
@@ -144,7 +160,7 @@
           </block>
 
           <block wx:else>
-            <view class="ds-label"><icon-svg name="tips" size="24" color="#E8C063" /> 小提示</view>
+            <view class="ds-label"><icon-svg name="paper_tips" size="24" stroke="0" /> 小提示</view>
             <view class="ds-text">意境优美，朗朗上口。点击播放按钮，跟着芽芽一起朗读吧～</view>
           </block>
         </block>
@@ -157,7 +173,7 @@
               {{item}}
             </view>
             <view class="trans-summary" wx:if="{{poem.funTip || poem.note}}">
-              <icon-svg name="tips" size="22" color="#E8C063" style="margin-right:6rpx;flex-shrink:0" />
+              <icon-svg name="paper_tips" size="22" stroke="0" style="margin-right:6rpx;flex-shrink:0" />
               <text>{{poem.funTip || poem.note}}</text>
             </view>
           </block>
@@ -168,14 +184,14 @@
 
         <!-- ===== Tab 3: 赏析 ===== -->
         <block wx:if="{{activeTab === 'appreciation'}}">
-          <view class="ds-label"><icon-svg name="paint" size="24" color="var(--moss-deep)" /> 赏析</view>
+          <view class="ds-label"><icon-svg name="paper_paint" size="24" stroke="0" /> 赏析</view>
           <block wx:if="{{poem.appreciation}}">
             <view class="appre-text">{{poem.appreciation}}</view>
           </block>
           <block wx:else>
             <view wx:if="{{poem.funTip || poem.note}}" class="appre-text">
               <view class="appre-section">
-                <view class="as-title"><icon-svg name="book" size="22" color="var(--moss-deep)" /> 诗意</view>
+                <view class="as-title"><icon-svg name="paper_book" size="22" stroke="0" /> 诗意</view>
                 <view class="as-body">{{poem.funTip || poem.note}}</view>
                 <view class="as-body-secondary" wx:if="{{poem.funTip && poem.note}}">{{poem.note}}</view>
               </view>
@@ -186,7 +202,7 @@
 
         <!-- ===== Tab 4: 背景 ===== -->
         <block wx:if="{{activeTab === 'background'}}">
-          <view class="ds-label"><icon-svg name="mountain" size="24" color="var(--seal)" /> 创作背景</view>
+          <view class="ds-label"><icon-svg name="paper_mountain" size="24" stroke="0" /> 创作背景</view>
           <block wx:if="{{poem.background}}">
             <view class="bg-text">{{poem.background}}</view>
           </block>
@@ -205,7 +221,7 @@
 
         <!-- ===== Tab 5: 作者介绍 ===== -->
         <block wx:if="{{activeTab === 'author'}}">
-          <view class="ds-label"><icon-svg name="person" size="24" color="var(--ink)" /> 作者</view>
+          <view class="ds-label"><icon-svg name="paper_person" size="24" stroke="0" /> 作者</view>
           <view class="author-header">
             <view class="author-avatar">{{poem.author ? poem.author[0] : '?'}}</view>
             <view class="author-name-block">
@@ -220,7 +236,7 @@
           <block wx:else>
             <view class="author-text">
               <view wx:if="{{poem.funTip || poem.note}}" class="author-placeholder">
-                <view class="ap-label"><icon-svg name="book" size="22" color="var(--moss-deep)" /> 诗意</view>
+                <view class="ap-label"><icon-svg name="paper_book" size="22" stroke="0" /> 诗意</view>
                 <text class="ap-body">{{poem.funTip || poem.note}}</text>
               </view>
               <view wx:else class="ds-text" style="color:var(--ink-soft);opacity:.7">作者介绍数据正在制作中，先看看其他 tab 吧～</view>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <!-- 纸影：山形背景 -->
+  <path d="M2 21.5 L9 10.5 L13 16.5 L17 12.5 L22 21.5 Z" fill="#B5A68A"/>
+  <!-- 远山（浅红） -->
+  <path d="M3 11 L8 4.5 L13 11 L17 7 L21 11 Z" fill="#E8B49D" opacity=".7"/>
+  <!-- 主山（印章红） -->
+  <path d="M2 21 L9 10 L13 16 L17 12 L22 21 Z" fill="#B85A3E"/>
+  <!-- 雪顶点缀 -->
+  <path d="M7.5 8.5 L9 10 L10 9 Z M16.5 11 L17 12 L18 11.2 Z" fill="#F4EBDA" opacity=".85"/>
+  <!-- 山脚 -->
+  <rect x="2" y="20.3" width="20" height="1" fill="#8C3E2A" opacity=".5"/>
+</svg>

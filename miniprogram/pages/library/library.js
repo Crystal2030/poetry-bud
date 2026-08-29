@@ -43,6 +43,20 @@ Page({
     this.setData({ searchFocus: false })
   },
 
+  // 背景图加载失败 → 自动降级：先切换 CDN 节点，节点耗尽后再升级原图
+  onBgError(e) {
+    const id = e.currentTarget.dataset.id
+    if (!id) return
+    const arr = this.data.filteredPoems || []
+    const p = arr.find(x => x.id === id)
+    if (!p) return
+    const next = U.nextBgFallback(p, p._bg)
+    if (next && next !== p._bg) {
+      const arr2 = arr.map(x => x.id === id ? { ...x, _bg: next } : x)
+      this.setData({ filteredPoems: arr2 })
+    }
+  },
+
   switchDim(e) {
     this.setData({ dim: e.currentTarget.dataset.key, searchQuery: '' })
     this.buildItems()
@@ -55,14 +69,14 @@ Page({
     else if (d === 'dynasty') items = U.DYNASTIES
     else if (d === 'author') items = ['全部', ...new Set(getApp().globalData.poems.map(p => p.author).filter(Boolean))]
     else if (d === 'grade') items = U.GRADES
-    const poems = U.getPoemsByFilter(d, '全部').map(p => ({ ...p, _bg: U.getPoemBg(p) }))
+    const poems = U.getPoemsByFilter(d, '全部').map(p => ({ ...p, _bg: U.getPoemBg(p, 'thumb') }))
     this.setData({ items, poems, selected: '全部' })
     this.applyFilter()
   },
 
   filter(e) {
     const val = e.currentTarget.dataset.val
-    const poems = U.getPoemsByFilter(this.data.dim, val).map(p => ({ ...p, _bg: U.getPoemBg(p) }))
+    const poems = U.getPoemsByFilter(this.data.dim, val).map(p => ({ ...p, _bg: U.getPoemBg(p, 'thumb') }))
     this.setData({ selected: val, poems })
     this.applyFilter()
   },

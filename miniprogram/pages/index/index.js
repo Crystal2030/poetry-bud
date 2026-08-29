@@ -29,7 +29,7 @@ Page({
       timeGreet: this.getTimeGreet(),
       sceneMode: daily ? U.getSceneMode(daily.sceneId) : 'light',
       readCount: g.readCount,
-      dailyBg: daily ? U.getPoemBg(daily) : '',
+      dailyBg: daily ? U.getPoemBg(daily, 'medium') : '',
       ageBand: savedAge,
       ageLabel: savedAge.replace('-', '–') + '岁',  // e.g. "5–8岁"
       checkedIn: checkinStatus.checkedIn,
@@ -56,7 +56,7 @@ Page({
     this.setData({
       daily,
       sceneMode: daily ? U.getSceneMode(daily.sceneId) : 'light',
-      dailyBg: daily ? U.getPoemBg(daily) : ''
+      dailyBg: daily ? U.getPoemBg(daily, 'medium') : ''
     })
   },
 
@@ -65,7 +65,11 @@ Page({
     console.log('[每日一诗] 背景图加载成功:', this.data.dailyBg)
   },
   onDailyBgError(e) {
-    console.warn('[每日一诗] 背景图加载失败:', this.data.dailyBg, e && e.detail)
+    console.warn('[每日一诗] 背景图加载失败，自动降级:', this.data.dailyBg, e && e.detail)
+    const next = U.nextBgFallback(this.data.daily, this.data.dailyBg)
+    if (next && next !== this.data.dailyBg) {
+      this.setData({ dailyBg: next })
+    }
   },
 
   // ── 每日打卡 ──
