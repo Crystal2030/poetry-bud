@@ -44,7 +44,8 @@ const POEM_TEXT_HALO_DX = 2                                       // 光晕描�
 Page({
   data: {
     poem: null,
-    poemBg: '',
+    poemBg: '',       // 预览层背景图（medium，加载快）
+    drawBg: '',       // canvas 绘制层背景图（medium，与预览一致，加载快）
     qrUrl: '',
     qrFail: false,
     waveHeights: [],
@@ -70,9 +71,12 @@ Page({
     // canvasStyleH = canvas DOM CSS 高 (px) = (picH + INFO + FOOT) / SCALE
     const canvasH = (layout.picH + INFO_H + FOOT_H) / SCALE
 
+    // 背景图用 medium（800x540 jpg ≈186KB）替代 full PNG（1264x848 ≈2MB），加载提速 10 倍
+    // 预览层与 canvas 绘制层共用 medium，保证所见即所得
     this.setData({
       poem: p,
-      poemBg: U.getPoemBg(p, 'full'),
+      poemBg: U.getPoemBg(p, 'medium'),
+      drawBg: U.getPoemBg(p, 'medium'),
       qrUrl: U.getQrUrl(p.id),
       waveHeights: heights,
       picH: layout.picH,
@@ -88,6 +92,14 @@ Page({
   // 预览卡片二维码加载失败 → 回退嫩芽占位（避免空白/破碎图）
   onQrError() {
     this.setData({ qrFail: true })
+  },
+
+  // 预览层背景图加载失败 → 按 CDN 节点顺序降级重试
+  onBgError() {
+    const next = U.nextBgFallback(this.data.poem, this.data.poemBg)
+    if (next && next !== this.data.poemBg) {
+      this.setData({ poemBg: next })
+    }
   },
 
   /**
@@ -144,8 +156,8 @@ Page({
     try {
       const canvas = await this._getCanvas()
       const ctx = canvas.getContext('2d')
-      const bgImg = await this._loadImage(canvas, this.data.poemBg)
       const poem = this.data.poem
+      const bgImg = await this._loadBgImage(canvas, poem)
       const qrImg = await this._getQrImage(canvas, poem.id)
 
       // 使用统一绘制方法（修复 Bug#3：消除重复代码）
@@ -157,9 +169,10 @@ Page({
 
     } catch (e) {
       console.error('saveCard error:', e)
-      // 用户主动取消权限弹窗等场景不弹错误提示
-      if (e.message && e.message !== '用户取消') {
-        wx.showToast({ title: e.message, icon: 'none' })
+      // 用户主动取消权限弹窗等场景不弹错误提示；其余失败给出明确原因
+      const msg = (e && e.message) || '保存失败，请重试'
+      if (msg !== '用户取消') {
+        wx.showToast({ title: msg, icon: 'none', duration: 2500 })
       }
     } finally {
       this.setData({ saving: false })
@@ -248,8 +261,8 @@ Page({
     try {
       const canvas = await this._getCanvas()
       const ctx = canvas.getContext('2d')
-      const bgImg = await this._loadImage(canvas, this.data.poemBg)
       const poem = this.data.poem
+      const bgImg = await this._loadBgImage(canvas, poem)
       const qrImg = await this._getQrImage(canvas, poem.id)
 
       this._drawFullCard(ctx, bgImg, poem, qrImg, this._layout || this._calcLayout(poem))
@@ -271,7 +284,7 @@ Page({
     } catch (e) {
       console.error('shareCard error:', e)
       wx.hideLoading()
-      wx.showToast({ title: '生成失败', icon: 'none' })
+      wx.showToast({ title: '生成失败：' + ((e && e.message) || '请重试'), icon: 'none', duration: 2500 })
     } finally {
       // 修复 Bug#4：重置 saving 标志
       this.setData({ saving: false })
@@ -288,8 +301,8 @@ Page({
     try {
       const canvas = await this._getCanvas()
       const ctx = canvas.getContext('2d')
-      const bgImg = await this._loadImage(canvas, this.data.poemBg)
       const poem = this.data.poem
+      const bgImg = await this._loadBgImage(canvas, poem)
       const qrImg = await this._getQrImage(canvas, poem.id)
 
       this._drawFullCard(ctx, bgImg, poem, qrImg, this._layout || this._calcLayout(poem))
@@ -311,7 +324,7 @@ Page({
     } catch (e) {
       console.error('printCard error:', e)
       wx.hideLoading()
-      wx.showToast({ title: '生成失败', icon: 'none' })
+      wx.showToast({ title: '生成失败：' + ((e && e.message) || '请重试'), icon: 'none', duration: 2500 })
     } finally {
       // 修复 Bug#4：重置 saving 标志
       this.setData({ saving: false })
@@ -449,6 +462,25 @@ Page({
   },
 
   /**
+   * 加载卡片背景图（带 CDN 节点降级重试）
+   * 起始用 medium（快）；失败按 nextBgFallback 依次换节点 → 升 full PNG，最多 4 次尝试
+   */
+  async _loadBgImage(canvas, poem) {
+    let url = this.data.drawBg
+    const tried = []
+    while (url && tried.indexOf(url) === -1 && tried.length < 4) {
+      tried.push(url)
+      try {
+        return await this._loadImage(canvas, url)
+      } catch (e) {
+        console.warn('[card] 背景图加载失败，降级重试:', url)
+        url = U.nextBgFallback(poem, url)
+      }
+    }
+    throw new Error('背景图加载失败')
+  },
+
+  /**
    * 加载远程图片（带超时保护）
    * 修复 Bug#5：接受 canvas 节点参数，避免冗余调用 _getCanvas()
    * 修复 Bug#7：添加超时防止 onload/onerror 永不触发导致 Promise 挂起
@@ -456,7 +488,7 @@ Page({
   _loadImage(canvas, src) {
     return new Promise((resolve, reject) => {
       if (!src) return reject(new Error('背景图片地址为空'))
-      const TIMEOUT = 12000 // 12s 超时
+      const TIMEOUT = 8000 // 8s 超时（medium 图小，8s 足够，减少降级等待）
       let settled = false
 
       const timeout = setTimeout(() => {

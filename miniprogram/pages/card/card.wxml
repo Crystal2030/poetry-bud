@@ -11,7 +11,7 @@
   <block wx:if="{{poem}}">
     <view class="share-card">
       <view class="sc-pic" style="height:{{picH}}rpx">
-        <image class="sc-bg" src="{{poemBg}}" mode="aspectFill" />
+        <image class="sc-bg" src="{{poemBg}}" mode="aspectFill" binderror="onBgError" />
         <view class="sc-poem" style="height:{{poemH}}rpx">
           <view class="sc-scroll-bg"></view>
           <poem-vertical poem="{{poem}}" size="md" mode="dark" />
