@@ -1,3 +1,5 @@
+const U = require('../../utils/store.js')
+
 Page({
   data: {
     skyPhase: 'morning',        // morning/noon/evening/night
@@ -44,33 +46,59 @@ Page({
       flowers.push({ name: flowerNames[i], earned: i < rc })
     }
 
-    // 里程碑时间线（基于已读数）
-    const streaks = wx.getStorageSync('pb_streak') || 0
-    const dateRecords = wx.getStorageSync('pb_read_dates') || []
+    // v4 时间线成长节点（6 个，CDN 卡通萌系插画，节点「从小到大」看出成长）
+    const THRESHOLDS = [1, 5, 10, 20, 50, 100]
+    let currentThreshold = null
+    for (const t of THRESHOLDS) {
+      if (rc < t) { currentThreshold = t; break }
+    }
     const milestones = [
-      { id: 'start', icon: '/static/icons/paper/sprout-small.svg', date: dateRecords[0] || '今天', text: '种下第一颗种子', achieved: rc >= 1 },
-      { id: '5',    icon: '/static/icons/paper/sprout-large.svg', date: '已读 5 首', text: '小嫩芽破土', achieved: rc >= 5 },
-      { id: '10',   icon: '/static/icons/paper/tree.svg', date: '已读 10 首', text: '小树苗长成', achieved: rc >= 10 },
-      { id: '20',   icon: '/static/icons/paper/flower.svg', date: '已读 20 首', text: '第一朵花开', achieved: rc >= 20 },
-      { id: '50',   icon: '/static/icons/paper/bouquet.svg', date: '已读 50 首', text: '繁花满树', achieved: rc >= 50 },
-      { id: '100',  icon: '/static/icons/paper/trophy.svg', date: '已读 100 首', text: '诗径成花园', achieved: rc >= 100 }
-    ]
+      { asset: 'timeline-seed',         text: '种下种子',   threshold: 1 },
+      { asset: 'timeline-sprout',       text: '嫩芽破土',   threshold: 5 },
+      { asset: 'timeline-sapling',      text: '树苗长成',   threshold: 10 },
+      { asset: 'timeline-first-flower', text: '第一朵花开', threshold: 20 },
+      { asset: 'timeline-blossom',      text: '繁花满树',   threshold: 50 },
+      { asset: 'timeline-garden',       text: '诗径成花园', threshold: 100 }
+    ].map(m => ({
+      id: String(m.threshold),
+      icon: U.getGardenAsset(m.asset),
+      text: m.text,
+      date: '读 ' + m.threshold + ' 首',
+      achieved: rc >= m.threshold,
+      current: m.threshold === currentThreshold
+    }))
 
-    // 徽章保留但改用 emoji 替代 icon-svg（避免缺失图标）
-    const badges = [
-      { name: '初芽', emoji: '/static/icons/paper/sprout-small.svg', desc: '读了第1首诗', earned: rc >= 1 },
-      { name: '小苗', emoji: '/static/icons/paper/sprout-large.svg', desc: '读了5首诗', earned: rc >= 5 },
-      { name: '花开', emoji: '/static/icons/paper/flower.svg', desc: '读了10首诗', earned: rc >= 10 },
-      { name: '结果', emoji: '/static/icons/paper/fruit.svg', desc: '读了20首诗', earned: rc >= 20 },
-      { name: '小树', emoji: '/static/icons/paper/tree.svg', desc: '读了50首诗', earned: rc >= 50 },
-      { name: '诗仙', emoji: '/static/icons/paper/trophy.svg', desc: '读了100首诗', earned: rc >= 100 }
+    // v4 品质成长徽章（6 枚，每枚对应一个成长品质 + 寄语）
+    const VIRTUE_BADGES = [
+      { name: '勇气', desc: '种下第一颗种子，需要一点勇气', threshold: 1,   asset: 'badge-courage' },
+      { name: '坚持', desc: '连续 5 天，每天来浇水',         threshold: 5,   asset: 'badge-persist' },
+      { name: '好奇', desc: '你在诗里发现了新世界',           threshold: 10,  asset: 'badge-curious' },
+      { name: '耐心', desc: '等一朵花慢慢开',                threshold: 20,  asset: 'badge-patient' },
+      { name: '丰盈', desc: '心里装满了诗与远方',             threshold: 50,  asset: 'badge-abundant' },
+      { name: '诗意', desc: '你本身就是一首诗',               threshold: 100, asset: 'badge-poetic' }
     ]
+    const badges = VIRTUE_BADGES.map(b => ({
+      name: b.name,
+      desc: b.desc,
+      icon: U.getGardenAsset(b.asset),
+      earned: rc >= b.threshold
+    }))
+    // 「最新解锁」= 已解锁中阶段最高的那枚
+    let highestEarnedIdx = -1
+    for (let i = 0; i < badges.length; i++) {
+      if (badges[i].earned) highestEarnedIdx = i
+    }
+    for (let i = 0; i < badges.length; i++) {
+      badges[i].isLatest = (i === highestEarnedIdx)
+    }
+    const latestBadge = highestEarnedIdx >= 0 ? badges[highestEarnedIdx] : null
+    const streaks = wx.getStorageSync('pb_streak') || 0
 
     this.setData({
       skyPhase, flowerCount: rc, streakDays: streaks,
       treeStage: stage.key, treeStageName: stage.name,
       nextStageName, poemsToNextStage,
-      flowers, milestones, badges
+      flowers, milestones, badges, latestBadge
     })
   }
 })

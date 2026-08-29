@@ -82,12 +82,68 @@
 .tl-date { font-size: 20rpx; color: var(--ink-soft); }
 .tl-text { font-size: 18rpx; color: var(--ink); text-align: center; white-space: normal; max-width: 120rpx; }
 
-/* 徽章增强 */
-.badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16rpx; padding: 0 32rpx 40rpx; }
-.badge-cell { border-radius: var(--radius-lg); padding: 24rpx 16rpx; text-align: center; background: var(--paper-warm); transition: all 0.3s; }
-.badge-cell.earned { background: #fff; box-shadow: 0 2px 8px var(--shadow-gold); }
-.badge-cell.locked { opacity: 0.4; }
-.badge-icon-img { width: 40rpx; height: 40rpx; display: block; margin-bottom: 6rpx; }
-.badge-name { font-size: 24rpx; font-weight: 600; color: var(--ink); display: block; }
+/* ═══ v4 时间线：当前节点高亮 + 图标加大（节点肉眼可见「长大」） ═══ */
+.tl-dot { transition: all .3s; }
+.tl-icon-img { width: 56rpx; height: 56rpx; }
+.tl-text { font-size: 22rpx; font-weight: 500; color: var(--ink); }
+.tl-date { font-size: 18rpx; }
+.tl-dot.current { transform: scale(1.18); }
+.tl-dot.current .tl-icon-img { width: 76rpx; height: 76rpx; }
+.tl-dot.current .tl-text { color: #993C1D; font-weight: 600; }
+.tl-dot.done { color: var(--moss-deep); }
+
+/* ═══ v4 徽章：最新解锁大卡（仪式感）+ 横滑卡片 ═══ */
+.badge-hero {
+  position: relative;
+  margin: 0 32rpx 28rpx;
+  padding: 32rpx 28rpx;
+  background: #fff;
+  border: 2rpx solid #D85A30;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  overflow: hidden;
+}
+.badge-hero-ring {
+  position: absolute;
+  top: -40rpx; right: -40rpx;
+  width: 220rpx; height: 220rpx;
+  border-radius: 50%;
+  border: 2rpx dashed #D85A30;
+  opacity: .35;
+}
+.badge-hero-tag {
+  position: absolute;
+  top: 16rpx; right: 16rpx;
+  font-size: 20rpx;
+  color: #993C1D;
+  background: #FAECE7;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+}
+.badge-hero-img { width: 132rpx; height: 132rpx; flex-shrink: 0; }
+.badge-hero-info { flex: 1; min-width: 0; }
+.badge-hero-name { font-size: 32rpx; font-weight: 600; color: var(--moss-deep); display: block; }
+.badge-hero-desc { font-size: 24rpx; color: var(--ink-soft); margin-top: 8rpx; display: block; }
+
+.badge-scroll { width: 100%; white-space: nowrap; padding: 0 32rpx 40rpx; }
+.badge-track { display: inline-flex; gap: 16rpx; }
+.badge-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200rpx;
+  padding: 20rpx 12rpx;
+  border-radius: var(--radius-lg);
+  background: var(--paper-warm);
+  transition: all .3s;
+  white-space: normal;
+}
+.badge-cell.earned { background: #fff; box-shadow: 0 2rpx 8rpx rgba(0,0,0,.06); }
+.badge-cell.latest { box-shadow: 0 0 0 2rpx #D85A30, 0 4rpx 12rpx rgba(216,90,48,.25); }
+.badge-cell.locked { opacity: .35; filter: grayscale(.7); }
+.badge-icon-img { width: 72rpx; height: 72rpx; display: block; margin-bottom: 10rpx; }
+.badge-name { font-size: 26rpx; font-weight: 600; color: var(--ink); display: block; }
 .badge-cell.locked .badge-name { color: var(--ink-soft); }
-.badge-desc { font-size: 18rpx; color: var(--ink-soft); margin-top: 2rpx; display: block; }
+.badge-desc { font-size: 20rpx; color: var(--ink-soft); margin-top: 4rpx; display: block; line-height: 1.3; }

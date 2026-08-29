@@ -60,7 +60,7 @@
       </view>
       <scroll-view class="timeline-scroll" scroll-x enhanced show-scrollbar="{{false}}">
         <view class="timeline-track">
-          <view class="tl-dot {{item.achieved ? 'done' : ''}}" wx:for="{{milestones}}" wx:key="id">
+          <view class="tl-dot {{item.achieved ? 'done' : ''}} {{item.current ? 'current' : ''}}" wx:for="{{milestones}}" wx:key="id">
             <image class="tl-icon-img" src="{{item.icon}}" mode="aspectFit"/>
             <text class="tl-date">{{item.date}}</text>
             <text class="tl-text">{{item.text}}</text>
@@ -70,18 +70,31 @@
       </scroll-view>
     </view>
 
-    <!-- 成长徽章（保留原有，增强样式） -->
+    <!-- v4 成长徽章：最新解锁大卡（仪式感）+ 6 枚徽章横滑卡片 -->
     <view class="section-label">
       <image class="sl-icon-img" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
       <text class="sl-text">成长徽章</text>
     </view>
-    <view class="badge-grid">
-      <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : 'locked'}}">
-        <image class="badge-icon-img" src="{{item.earned ? item.emoji : '/static/icons/paper/lock.svg'}}" mode="aspectFit"/>
-        <text class="badge-name">{{item.name}}</text>
-        <text class="badge-desc">{{item.desc}}</text>
+    <!-- 最新解锁大卡：每次进入花园都展示 -->
+    <view class="badge-hero" wx:if="{{latestBadge}}">
+      <view class="badge-hero-ring"></view>
+      <view class="badge-hero-tag">最新解锁</view>
+      <image class="badge-hero-img" src="{{latestBadge.icon}}" mode="aspectFit"/>
+      <view class="badge-hero-info">
+        <text class="badge-hero-name">{{latestBadge.name}}</text>
+        <text class="badge-hero-desc">{{latestBadge.desc}}</text>
       </view>
     </view>
+    <!-- 6 枚徽章横滑卡片（已解锁=金边，未解锁=灰底） -->
+    <scroll-view class="badge-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="badge-track">
+        <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : 'locked'}} {{item.isLatest ? 'latest' : ''}}">
+          <image class="badge-icon-img" src="{{item.icon}}" mode="aspectFit"/>
+          <text class="badge-name">{{item.name}}</text>
+          <text class="badge-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </scroll-view>
 
     <view style="height:200rpx"></view>
   </scroll-view>
