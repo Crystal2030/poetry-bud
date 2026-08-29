@@ -6,7 +6,7 @@ const CDN_HOSTS = [
   'https://cdn.jsdelivr.net',       // 默认节点（备1）
   'https://gcore.jsdelivr.net'      // GCore 节点（备2）
 ]
-const CDN_PATH = '/gh/Crystal2030/poetry-bud-assets@6bd200a'
+const CDN_PATH = '/gh/Crystal2030/poetry-bud-assets@001ed1b'
 const CDN = {
   hosts: CDN_HOSTS,
   images: CDN_HOSTS[0] + CDN_PATH + '/bg-samples/',

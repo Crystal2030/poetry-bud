@@ -39,7 +39,7 @@ function nextBgFallback(poem, currentUrl) {
   if (!currentUrl) return ''
   const g = app.globalData
   const hosts = (g.CDN && g.CDN.hosts) || ['https://cdn.jsdelivr.net']
-  const PATH_MARK = '/gh/Crystal2030/poetry-bud-assets@6bd200a'
+  const PATH_MARK = '/gh/Crystal2030/poetry-bud-assets@001ed1b'
   const pi = currentUrl.indexOf(PATH_MARK)
   if (pi < 0) return ''            // 非本项目 CDN 路径，不处理
   const path = currentUrl.slice(pi)

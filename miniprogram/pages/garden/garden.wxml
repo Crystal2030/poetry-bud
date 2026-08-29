@@ -1,15 +1,34 @@
 <!-- 花园 v3.0 -->
 <view class="garden-page">
-  <!-- 时间感知天空背景（4态：morning/noon/evening/night） -->
-  <view class="sky-canvas {{skyPhase}}">
-    <view class="sun-moon"></view>
-    <view class="cloud-layer">
-      <view class="cloud c1"></view><view class="cloud c2"></view><view class="cloud c3"></view>
-    </view>
-    <view class="star-layer" wx:if="{{skyPhase === 'night'}}">
-      <view class="star" wx:for="{{6}}" wx:key="*this" style="left:{{item*14+5}}%;top:{{item*8+10}}%"></view>
-    </view>
+<!-- 天空背景（4态：晨/昼/暮/夜；v5 增强：月相+季节彩蛋+流星+云视差） -->
+<view class="sky-canvas {{skyPhase}}">
+  <view class="sun-moon">
+    <!-- 仅夜间显示月相阴影 -->
+    <view class="moon-mask phase-{{moonPhase}}" wx:if="{{skyPhase === 'night'}}"></view>
   </view>
+  <view class="cloud-layer">
+    <view class="cloud c1"></view><view class="cloud c2"></view><view class="cloud c3"></view>
+    <view class="cloud c4"></view><view class="cloud c5"></view>
+  </view>
+  <view class="star-layer" wx:if="{{skyPhase === 'night'}}">
+    <view class="star" wx:for="{{6}}" wx:key="*this" style="left:{{item*14+5}}%;top:{{item*8+10}}%"></view>
+  </view>
+  <!-- 流星（仅夜间） -->
+  <view class="meteor-layer" wx:if="{{skyPhase === 'night'}}">
+    <view class="meteor m1"></view>
+    <view class="meteor m2"></view>
+    <view class="meteor m3"></view>
+  </view>
+  <!-- 季节彩蛋（一直显示，spring=花瓣/summer=萤火/autumn=红叶/winter=雪花） -->
+  <view class="season-layer {{seasonName}}">
+    <view class="season-particle p1"></view>
+    <view class="season-particle p2"></view>
+    <view class="season-particle p3"></view>
+    <view class="season-particle p4"></view>
+    <view class="season-particle p5"></view>
+  </view>
+  <text class="sky-tag {{seasonName}}">{{seasonLabel}} · {{skyPhase === 'night' ? moonPhaseName : (skyPhase === 'morning' ? '日出' : skyPhase === 'noon' ? '晴午' : '黄昏')}}</text>
+</view>
 
   <!-- 顶部信息栏 -->
   <view class="garden-head">
@@ -37,18 +56,36 @@
       </view>
     </view>
 
-    <!-- 纸花网格（3列，读一首开一朵） -->
-    <view class="flower-grid-section">
+    <!-- v5 阶梯花园：每升一阶花园长大一圈；当前阶段高亮+中央大插画+阶梯条 -->
+    <view class="staircase-garden">
       <view class="section-label">
         <image class="sl-icon-img" src="/static/icons/paper/bouquet.svg" mode="aspectFit"/>
         <text class="sl-text">我的纸花园</text>
+        <view class="sl-tag">{{gardenStageName}}</view>
       </view>
-      <view class="flower-grid">
-        <view class="flower-cell {{f.earned ? 'bloomed' : 'seed'}}" wx:for="{{flowers}}" wx:key="name">
-          <image class="flower-icon-img" src="/static/icons/paper/flower.svg" mode="aspectFit" wx:if="{{f.earned}}"/>
-          <image class="flower-icon-img" src="/static/icons/paper/sprout-small.svg" mode="aspectFit" wx:else/>
-          <text class="flower-name">{{f.name}}</text>
+
+      <!-- 中央插画（当前阶段形象） -->
+      <view class="sg-stage-stage">
+        <image class="sg-stage-img" src="{{gardenStageAsset}}" mode="aspectFit"/>
+        <view class="sg-stage-shadow"></view>
+      </view>
+
+      <!-- 阶梯条：6 段，左低右高，当前段隆起 -->
+      <view class="sg-track">
+        <view wx:for="{{gardenStages}}" wx:for-index="gi" wx:key="key"
+              class="sg-step {{item.threshold <= gardenStages[gardenStageIdx].threshold ? 'achieved' : ''}} {{item.key === gardenStage ? 'current' : ''}}"
+              style="height:{{80 + gi*18}}rpx">
+          <text class="sg-step-num">{{item.threshold}}</text>
+          <text class="sg-step-name">{{item.name}}</text>
         </view>
+      </view>
+
+      <!-- 进度提示 -->
+      <view class="sg-hint" wx:if="{{nextGardenStageName !== '已是满园诗径'}}">
+        再读<text class="sg-hint-num">{{poemsToNextStageNum}}</text>首 → {{nextGardenStageName}}
+      </view>
+      <view class="sg-hint done" wx:else>
+        你已来到满园诗径 🌸
       </view>
     </view>
 

@@ -11,7 +11,23 @@ Page({
     poemsToNextStage: 5,
     flowers: [],
     milestones: [],
-    badges: []
+    badges: [],
+    latestBadge: null,
+
+    // v5 阶梯花园（独立于成长树 5 阶段，对齐时间线 6 张插画）
+    gardenStage: 'seed',
+    gardenStageName: '刚刚发芽',
+    gardenStageAsset: '',
+    gardenStageIdx: 0,
+    gardenStages: [],
+    poemsToNextStageNum: 4,
+    nextGardenStageName: '嫩芽初长',
+
+    // v5 天空增强
+    moonPhase: 0,               // 0..7 (新月/蛾眉/上弦/盈凸/满/亏凸/下弦/残月)
+    moonPhaseName: '新月',
+    seasonName: 'spring',       // spring/summer/autumn/winter
+    seasonLabel: '春'
   },
 
   onShow() {
@@ -94,11 +110,60 @@ Page({
     const latestBadge = highestEarnedIdx >= 0 ? badges[highestEarnedIdx] : null
     const streaks = wx.getStorageSync('pb_streak') || 0
 
+    // ═════════════════════════════════════════════════════════════
+    // v5 阶梯花园（6 段，直观看出成长进度；当前阶段高亮）
+    // ═════════════════════════════════════════════════════════════
+    const GARDEN_STAGES = [
+      { key: 'seed',         name: '刚刚发芽',   min: 1,   next: 5 },
+      { key: 'sprout',       name: '嫩芽初长',   min: 5,   next: 10 },
+      { key: 'sapling',      name: '小苗已成',   min: 10,  next: 20 },
+      { key: 'first-flower', name: '第一朵花开', min: 20,  next: 50 },
+      { key: 'blossom',      name: '繁花满树',   min: 50,  next: 100 },
+      { key: 'garden',       name: '满园诗径',   min: 100, next: null }
+    ]
+    let gardenStageIdx = 0
+    for (let i = GARDEN_STAGES.length - 1; i >= 0; i--) {
+      if (rc >= GARDEN_STAGES[i].min) { gardenStageIdx = i; break }
+    }
+    const gs = GARDEN_STAGES[gardenStageIdx]
+    const poemsToNextStageNum = gs.next ? Math.max(0, gs.next - rc) : 0
+    const nextGardenStageName = gs.next ? GARDEN_STAGES[gardenStageIdx + 1].name : '已是满园诗径'
+    const gardenStageAsset = U.getGardenAsset('timeline-' + gs.key)
+    const gardenStages = GARDEN_STAGES.map(s => ({
+      key: s.key, name: s.name, threshold: s.min
+    }))
+
+    // ═════════════════════════════════════════════════════════════
+    // v5 天空增强：月相（粗略按当月日计算，约 29.5 天一月相周期）
+    //              + 季节（春 3-5 / 夏 6-8 / 秋 9-11 / 冬 12-2）
+    // ═════════════════════════════════════════════════════════════
+    const _now = new Date()
+    const _dom = _now.getDate()
+    const moonPhase = Math.floor((_dom / 30) * 8) % 8
+    const MOON_NAMES = ['新月','蛾眉月','上弦月','盈凸月','满月','亏凸月','下弦月','残月']
+    const moonPhaseName = MOON_NAMES[moonPhase]
+    const _m = _now.getMonth() + 1
+    const seasonName = (_m >= 3 && _m <= 5) ? 'spring'
+                     : (_m >= 6 && _m <= 8) ? 'summer'
+                     : (_m >= 9 && _m <= 11) ? 'autumn' : 'winter'
+    const seasonLabel = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' }[seasonName]
+
     this.setData({
       skyPhase, flowerCount: rc, streakDays: streaks,
       treeStage: stage.key, treeStageName: stage.name,
       nextStageName, poemsToNextStage,
-      flowers, milestones, badges, latestBadge
+      flowers, milestones, badges, latestBadge,
+      gardenStage: gs.key,
+      gardenStageName: gs.name,
+      gardenStageAsset,
+      gardenStageIdx,
+      gardenStages,
+      poemsToNextStageNum,
+      nextGardenStageName,
+      moonPhase,
+      moonPhaseName,
+      seasonName,
+      seasonLabel
     })
   }
 })
