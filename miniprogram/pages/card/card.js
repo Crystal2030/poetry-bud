@@ -342,7 +342,10 @@ Page({
     const POEM_W = CW - POEM_RIGHT_R - POEM_PAD_L_R - POEM_PAD_R_R   // 卷轴背景宽
     const POEM_H = layout.contentH + POEM_PAD_T_R + POEM_PAD_B_R   // 卷轴背景高（诗内容 + padding）
     const POEM_TEXT_TOP    = POEM_TOP_R + POEM_PAD_T_R + 16         // 诗词起始 Y（给点小偏移）
-    const POEM_TEXT_RIGHT_X = CW - POEM_RIGHT_R - POEM_PAD_R_R        // 诗词最右列 X
+    // 诗句最右列右边缘：卷轴衬底右边界向内收一个右边 padding，
+    // 与预览层 .sc-poem { padding-right: 24rpx } 对齐，避免诗句贴死卷轴右边
+    const POEM_SCROLL_RIGHT = POEM_X + POEM_W                        // 卷轴衬底右边界
+    const POEM_TEXT_RIGHT_X = POEM_SCROLL_RIGHT - POEM_PAD_R_R       // 诗词最右列 X（距卷轴右边留间距）
 
     // 卡片总高（设计 rpx）
     const CH = PIC_H + INFO_H + FOOT_H
