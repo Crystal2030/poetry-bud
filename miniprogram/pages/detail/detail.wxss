@@ -9,7 +9,7 @@
 
 /* ── 返回按钮：独立浮动圆形 ── */
 .back-btn {
-  position: absolute; top: calc(env(safe-area-inset-top, 0) + 100rpx); left: 28rpx; z-index: 50;
+  position: absolute; top: 120rpx; left: 28rpx; z-index: 50;
   width: 72rpx; height: 72rpx; border-radius: 50%;
   background: rgba(0,0,0,0.32); border: 1rpx solid rgba(255,255,255,0.2);
   backdrop-filter: blur(12rpx);
