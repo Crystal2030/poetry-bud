@@ -46,6 +46,12 @@ Page({
     return '晚上好'
   },
 
+  // 首页渲染完成后，后台预加载花园页本地大图（背景/植物/大勋章），
+  // 让用户停留首页读诗打卡时提前完成解码，进入花园页秒开
+  onReady() {
+    setTimeout(() => { U.preloadGardenAssets() }, 300)
+  },
+
   // ── 分龄切换 ──
   switchAge(e) {
     const age = e.currentTarget.dataset.age
@@ -74,7 +80,7 @@ Page({
 
   // ── 每日打卡 ──
   doCheckin(e) {
-    e.stopPropagation()  // 不触发 goDetail
+    // catch:tap 已在 WXML 层阻止冒泡，无需（也不能）调 e.stopPropagation（小程序事件对象无此方法）
     if (this.data.checkedIn) {
       wx.showToast({ title: '今天已经打过卡啦～', icon: 'none', duration: 1500 })
       return

@@ -79,6 +79,24 @@ function getGardenAsset(name) {
   return (g.CDN && g.CDN.garden ? g.CDN.garden : '') + name + '.png'
 }
 
+// 花园页本地大图预加载：在首页停留期后台解码并缓存，
+// 消除进入花园页那一刻「背景/植物/大勋章逐张蹦出」的解码白屏。
+const GARDEN_STAGE_KEYS = ['seed', 'sprout', 'sapling', 'bud', 'blossom', 'garden']
+let _gardenPreloaded = false
+function preloadGardenAssets() {
+  if (_gardenPreloaded) return
+  _gardenPreloaded = true
+  const assets = [
+    '/static/garden/garden-bg-empty.jpg',
+    '/static/garden/big-medal-full.png'
+  ]
+  GARDEN_STAGE_KEYS.forEach(k => assets.push('/static/garden/stage-' + k + '-clean.png'))
+  assets.forEach(src => {
+    // getImageInfo 会解码并缓存到本地，后续 image 组件命中缓存秒渲染
+    wx.getImageInfo({ src, success: () => {}, fail: () => {} })
+  })
+}
+
 // 从 paragraphs 提取句子（与 poem-vertical 组件 computeLines 一致的分句逻辑）
 function _paragraphsToSentences(paragraphs) {
   if (!paragraphs || !paragraphs.length) return []
@@ -594,5 +612,5 @@ module.exports = {
   getCheckinStatus, doCheckin,
   toggleFav, isFav, showToast, getSceneMode,
   getReciteStats, markRecited, getPoemReciteRecord, RECITE_BADGES,
-  getGardenAsset
+  getGardenAsset, preloadGardenAssets
 }

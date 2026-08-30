@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 12l3-9h8l3 9H5z" fill="#4A7B8B"/>
-  <path d="M5.5 12l3-8.5h7l3 8.5z" fill="none" stroke="#B5A68A" stroke-width="1"/>
-  <path d="M4 12L12 4l8 8" fill="none" stroke="#B5A68A" stroke-width="1.2"/>
-  <path d="M5 12l8 6h8" fill="none" stroke="#C9A24B" stroke-width=".8"/>
-  <rect x="11" y="14" width="10" height="1.5" rx=".3" fill="#C9A24B" opacity=".5"/>
-</svg>

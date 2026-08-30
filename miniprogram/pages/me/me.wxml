@@ -1,7 +1,7 @@
 <!-- 我的 -->
 <view class="page">
   <view class="profile">
-    <image class="avatar-wrap" src="/static/logo.png" mode="aspectFit" />
+    <image class="avatar-wrap" src="/static/logo.jpg" mode="aspectFit" />
     <view class="tagline"><text>诗芽在手，古诗不愁</text><icon-svg name="paper_sprout_sm" size="24" stroke="0" /></view>
   </view>
 

@@ -5,7 +5,7 @@
       <text>{{timeGreet}}，小朋友</text>
       <text class="bold">今天想读哪首诗？</text>
     </view>
-    <image class="avatar" src="/static/logo.png" mode="aspectFit" />
+    <image class="avatar" src="/static/logo.jpg" mode="aspectFit" />
   </view>
 
   <view class="home-body">
@@ -40,7 +40,6 @@
       <view class="checkin-stamp {{checkedIn ? 'done' : ''}}" catch:tap="doCheckin">
         <text wx:if="{{!checkedIn}}">打卡</text>
         <view wx:else class="checkin-done">
-          <image class="icon-xs" src="/static/icons/paper/check.svg" mode="aspectFit"/>
           <text>已打卡</text>
         </view>
       </view>

@@ -3,8 +3,10 @@
 
   <!-- 主景卡片：花园背景 + 当前阶段植物 + 能量粒子 -->
   <view class="garden-card">
-    <image class="gc-bg" src="/static/garden/garden-bg-empty.png" mode="aspectFill"/>
-    <image class="gc-stage-img" src="{{stageAsset}}" mode="aspectFit"/>
+    <image class="gc-bg" src="/static/garden/garden-bg-empty.jpg" mode="aspectFill"/>
+    <view class="gc-stage-wrap">
+      <image class="gc-stage-img" src="{{stageAsset}}" mode="aspectFit"/>
+    </view>
     <!-- 能量粒子 -->
     <view class="energy-dot" wx:for="{{energyDots}}" wx:key="id"
           style="top:{{item.top}}rpx;left:{{item.left}}rpx;animation-delay:{{item.delay}}s"></view>
@@ -51,12 +53,12 @@
     <view class="section">
       <view class="sec-head"><view class="light"></view><text class="sec-title">成长徽章</text></view>
       <view class="badge-wrap">
-        <!-- 顶部大勋章：单张完整勋章图铺底 + 中央叠当前勋章 -->
-        <view class="badge-hero">
+        <!-- 顶部大勋章：单张完整勋章图铺底 + 中央叠当前勋章（0 朵无任何徽章解锁时整体隐藏） -->
+        <view class="badge-hero" wx:if="{{latestBadge}}">
           <view class="medal-stage">
-            <image class="medal-bg" src="/static/garden/big-medal-full.png" mode="aspectFit"/>
+            <image class="medal-bg" src="/static/garden/big-medal-full.png" mode="aspectFit" lazy-load="{{true}}"/>
             <view class="medal-center" wx:if="{{latestBadge}}">
-              <image class="medal-center-img" src="{{latestBadge.icon}}" mode="aspectFill"/>
+              <image class="medal-center-img" src="{{latestBadge.icon}}" mode="aspectFill" lazy-load="{{true}}"/>
             </view>
           </view>
           <view class="badge-hero-info" wx:if="{{latestBadge}}">最新解锁 · {{latestBadge.name}}</view>
@@ -65,8 +67,8 @@
         <view class="badge-grid">
           <view class="badge-cell {{item.earned ? 'earned' : 'lock'}}" wx:for="{{badges}}" wx:key="key">
             <view class="ring">
-              <image wx:if="{{item.earned}}" class="ring-img" src="{{item.icon}}" mode="aspectFill"/>
-              <image wx:else class="ring-lock" src="/static/icons/paper/badge-lock.svg" mode="aspectFit"/>
+              <image wx:if="{{item.earned}}" class="ring-img" src="{{item.icon}}" mode="aspectFill" lazy-load="{{true}}"/>
+              <image wx:else class="ring-lock" src="/static/icons/paper/badge-lock.svg" mode="aspectFit" lazy-load="{{true}}"/>
             </view>
             <view class="label">{{item.name}}</view>
           </view>
