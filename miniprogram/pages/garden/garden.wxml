@@ -1,140 +1,79 @@
-<!-- 花园 v3.0 -->
+<!-- 花园 v6.0：对齐 UI 稿（主景卡片 + 进度条 + 3D 阶梯 + 成长徽章大勋章） -->
 <view class="garden-page">
-<!-- 天空背景（4态：晨/昼/暮/夜；v5 增强：月相+季节彩蛋+流星+云视差） -->
-<view class="sky-canvas {{skyPhase}}">
-  <view class="sun-moon">
-    <!-- 仅夜间显示月相阴影 -->
-    <view class="moon-mask phase-{{moonPhase}}" wx:if="{{skyPhase === 'night'}}"></view>
-  </view>
-  <view class="cloud-layer">
-    <view class="cloud c1"></view><view class="cloud c2"></view><view class="cloud c3"></view>
-    <view class="cloud c4"></view><view class="cloud c5"></view>
-  </view>
-  <view class="star-layer" wx:if="{{skyPhase === 'night'}}">
-    <view class="star" wx:for="{{6}}" wx:key="*this" style="left:{{item*14+5}}%;top:{{item*8+10}}%"></view>
-  </view>
-  <!-- 流星（仅夜间） -->
-  <view class="meteor-layer" wx:if="{{skyPhase === 'night'}}">
-    <view class="meteor m1"></view>
-    <view class="meteor m2"></view>
-    <view class="meteor m3"></view>
-  </view>
-  <!-- 季节彩蛋（一直显示，spring=花瓣/summer=萤火/autumn=红叶/winter=雪花） -->
-  <view class="season-layer {{seasonName}}">
-    <view class="season-particle p1"></view>
-    <view class="season-particle p2"></view>
-    <view class="season-particle p3"></view>
-    <view class="season-particle p4"></view>
-    <view class="season-particle p5"></view>
-  </view>
-  <text class="sky-tag {{seasonName}}">{{seasonLabel}} · {{skyPhase === 'night' ? moonPhaseName : (skyPhase === 'morning' ? '日出' : skyPhase === 'noon' ? '晴午' : '黄昏')}}</text>
-</view>
 
-  <!-- 顶部信息栏 -->
-  <view class="garden-head">
-    <view class="head-title">
-      <image class="head-icon-img" src="/static/icons/paper/flower.svg" mode="aspectFit"/>
-      <text class="head-text">诗径花园</text>
-    </view>
-    <view class="head-stats">
-      <text class="hs-item">种活<text class="hs-num">{{flowerCount}}</text>朵</text>
-      <text class="hs-divider">|</text>
-      <text class="hs-item">连续<text class="hs-num">{{streakDays}}</text>天</text>
-    </view>
-  </view>
-
-  <scroll-view class="garden-scroll" scroll-y enhanced show-scrollbar="{{false}}">
-
-    <!-- 中心生长树（5阶段：seed/sprout/sapling/flowering/bloom） -->
-    <view class="growth-tree-area">
-      <view class="tree-stage stage-{{treeStage}}">
-        <image class="tree-image" src="/static/icons/tree-{{treeStage}}.svg" mode="aspectFit"/>
+  <!-- 主景卡片：花园背景 + 当前阶段植物 + 能量粒子 -->
+  <view class="garden-card">
+    <image class="gc-bg" src="/static/garden/garden-bg-empty.png" mode="aspectFill"/>
+    <image class="gc-stage-img" src="{{stageAsset}}" mode="aspectFit"/>
+    <!-- 能量粒子 -->
+    <view class="energy-dot" wx:for="{{energyDots}}" wx:key="id"
+          style="top:{{item.top}}rpx;left:{{item.left}}rpx;animation-delay:{{item.delay}}s"></view>
+    <!-- 顶部浮层：标题 + 数据 -->
+    <view class="garden-hud">
+      <view class="hud-title">
+        <image class="hud-icon" src="/static/icons/paper/flower.svg" mode="aspectFit"/>
       </view>
-      <view class="tree-label">
-        <text class="tree-name">{{treeStageName}}</text>
-        <text class="tree-hint">再读<text class="tree-num">{{poemsToNextStage}}</text>首 → {{nextStageName}}</text>
+      <view class="hud-stats">
+        <text class="hud-item">种活 <text class="hud-num">{{flowerCount}}</text> 朵</text>
+        <text class="hud-sep">·</text>
+        <text class="hud-item">连续 <text class="hud-num">{{streakDays}}</text> 天</text>
       </view>
     </view>
+  </view>
 
-    <!-- v5 阶梯花园：每升一阶花园长大一圈；当前阶段高亮+中央大插画+阶梯条 -->
-    <view class="staircase-garden">
-      <view class="section-label">
-        <image class="sl-icon-img" src="/static/icons/paper/bouquet.svg" mode="aspectFit"/>
-        <text class="sl-text">我的纸花园</text>
-        <view class="sl-tag">{{gardenStageName}}</view>
+  <!-- 棕色区域（顶部弧形衔接） -->
+  <view class="garden-brown">
+    <!-- 进度条 -->
+    <view class="gc-progress">
+      <view class="gc-progress-bar">
+        <view class="gc-progress-fill" style="width:{{progressPct}}%"></view>
       </view>
+      <view class="gc-progress-label" wx:if="{{!isMax}}">再读 <text class="gc-num">{{remain}}</text> 首 → {{nextStageName}}</view>
+      <view class="gc-progress-label" wx:else>你已来到满园诗径</view>
+    </view>
 
-      <!-- 中央插画（当前阶段形象） -->
-      <view class="sg-stage-stage">
-        <image class="sg-stage-img" src="{{gardenStageAsset}}" mode="aspectFit"/>
-        <view class="sg-stage-shadow"></view>
-      </view>
-
-      <!-- 阶梯条：6 段，左低右高，当前段隆起 -->
-      <view class="sg-track">
-        <view wx:for="{{gardenStages}}" wx:for-index="gi" wx:key="key"
-              class="sg-step {{item.threshold <= gardenStages[gardenStageIdx].threshold ? 'achieved' : ''}} {{item.key === gardenStage ? 'current' : ''}}"
-              style="height:{{80 + gi*18}}rpx">
-          <text class="sg-step-num">{{item.threshold}}</text>
-          <text class="sg-step-name">{{item.name}}</text>
+    <!-- 我的纸花园 · 3D 阶梯 -->
+    <view class="section">
+      <view class="sec-head"><view class="light"></view><text class="sec-title">我的纸花园</text></view>
+      <view class="stairs-3d">
+        <view class="s3d {{item.on ? 'on' : ''}}" wx:for="{{stairs}}" wx:key="key"
+              style="left:{{item.left}}rpx;height:{{item.h}}rpx">
+          <view class="front">{{item.num}}</view>
+        </view>
+        <view class="stairs-glow" style="left:{{glowLeft}}rpx;top:{{glowTop}}rpx">
+          <view class="particle" wx:for="{{particles}}" wx:key="id"
+                style="left:{{item.left}};top:{{item.top}};--dx:{{item.dx}}rpx;--dy:{{item.dy}}rpx;animation-delay:{{item.delay}}s"></view>
         </view>
       </view>
-
-      <!-- 进度提示 -->
-      <view class="sg-hint" wx:if="{{nextGardenStageName !== '已是满园诗径'}}">
-        再读<text class="sg-hint-num">{{poemsToNextStageNum}}</text>首 → {{nextGardenStageName}}
-      </view>
-      <view class="sg-hint done" wx:else>
-        你已来到满园诗径 🌸
-      </view>
     </view>
 
-    <!-- 旅程时间线（水平滚动） -->
-    <view class="timeline-section">
-      <view class="section-label">
-        <image class="sl-icon-img" src="/static/icons/paper/scroll.svg" mode="aspectFit"/>
-        <text class="sl-text">成长旅程</text>
-      </view>
-      <scroll-view class="timeline-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-        <view class="timeline-track">
-          <view class="tl-dot {{item.achieved ? 'done' : ''}} {{item.current ? 'current' : ''}}" wx:for="{{milestones}}" wx:key="id">
-            <image class="tl-icon-img" src="{{item.icon}}" mode="aspectFit"/>
-            <text class="tl-date">{{item.date}}</text>
-            <text class="tl-text">{{item.text}}</text>
+    <!-- 成长徽章 -->
+    <view class="section">
+      <view class="sec-head"><view class="light"></view><text class="sec-title">成长徽章</text></view>
+      <view class="badge-wrap">
+        <!-- 顶部大勋章：单张完整勋章图铺底 + 中央叠当前勋章 -->
+        <view class="badge-hero">
+          <view class="medal-stage">
+            <image class="medal-bg" src="/static/garden/big-medal-full.png" mode="aspectFit"/>
+            <view class="medal-center" wx:if="{{latestBadge}}">
+              <image class="medal-center-img" src="{{latestBadge.icon}}" mode="aspectFill"/>
+            </view>
           </view>
-          <view class="tl-line"></view>
+          <view class="badge-hero-info" wx:if="{{latestBadge}}">最新解锁 · {{latestBadge.name}}</view>
         </view>
-      </scroll-view>
-    </view>
-
-    <!-- v4 成长徽章：最新解锁大卡（仪式感）+ 6 枚徽章横滑卡片 -->
-    <view class="section-label">
-      <image class="sl-icon-img" src="/static/icons/paper/trophy.svg" mode="aspectFit"/>
-      <text class="sl-text">成长徽章</text>
-    </view>
-    <!-- 最新解锁大卡：每次进入花园都展示 -->
-    <view class="badge-hero" wx:if="{{latestBadge}}">
-      <view class="badge-hero-ring"></view>
-      <view class="badge-hero-tag">最新解锁</view>
-      <image class="badge-hero-img" src="{{latestBadge.icon}}" mode="aspectFit"/>
-      <view class="badge-hero-info">
-        <text class="badge-hero-name">{{latestBadge.name}}</text>
-        <text class="badge-hero-desc">{{latestBadge.desc}}</text>
-      </view>
-    </view>
-    <!-- 6 枚徽章横滑卡片（已解锁=金边，未解锁=灰底） -->
-    <scroll-view class="badge-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-      <view class="badge-track">
-        <view wx:for="{{badges}}" wx:key="name" class="badge-cell {{item.earned ? 'earned' : 'locked'}} {{item.isLatest ? 'latest' : ''}}">
-          <image class="badge-icon-img" src="{{item.icon}}" mode="aspectFit"/>
-          <text class="badge-name">{{item.name}}</text>
-          <text class="badge-desc">{{item.desc}}</text>
+        <!-- 6 枚小徽章（3 列网格，已解锁=勋章图，未解锁=锁） -->
+        <view class="badge-grid">
+          <view class="badge-cell {{item.earned ? 'earned' : 'lock'}}" wx:for="{{badges}}" wx:key="key">
+            <view class="ring">
+              <image wx:if="{{item.earned}}" class="ring-img" src="{{item.icon}}" mode="aspectFill"/>
+              <image wx:else class="ring-lock" src="/static/icons/paper/badge-lock.svg" mode="aspectFit"/>
+            </view>
+            <view class="label">{{item.name}}</view>
+          </view>
         </view>
       </view>
-    </scroll-view>
-
-    <view style="height:200rpx"></view>
-  </scroll-view>
+    </view>
+  </view>
 
   <custom-tabbar current="{{2}}" />
 </view>
