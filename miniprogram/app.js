@@ -47,6 +47,17 @@ App({
       console.warn('[诗芽] 云开发初始化失败（二维码将降级为占位码）', e)
     }
 
+    // 开启分享菜单：右上角「转发」+「分享到朋友圈」入口
+    // 需在此调用后，菜单才会显示（各页面再用 onShareAppMessage/onShareTimeline 定制内容）
+    try {
+      wx.showShareMenu({
+        withShareTicket: true,
+        menus: ['shareAppMessage', 'shareTimeline']
+      })
+    } catch (e) {
+      console.warn('[诗芽] 开启分享菜单失败', e)
+    }
+
     // 恢复本地存储
     try {
       const fav = wx.getStorageSync('pb_fav')
@@ -99,6 +110,18 @@ App({
       console.log('[诗芽] 时长映射已加载')
     } catch (e) {
       console.warn('时长映射加载失败，使用默认值', e)
+    }
+  },
+
+  // ── 全局分享兜底 ──
+  // 未自定义 onShareAppMessage 的页面（如 calendar/report/me 等）走这里，
+  // 保证任何页面右上角都能转发，转发后进入首页。
+  // 注意：App 层不支持 onShareTimeline，朋友圈分享需在具体页面定义。
+  onShareAppMessage() {
+    return {
+      title: '诗芽古诗词 · 一诗一景，陪孩子读懂诗意',
+      path: '/pages/index/index',
+      imageUrl: '/static/logo.jpg'
     }
   }
 })

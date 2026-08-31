@@ -128,5 +128,31 @@ Page({
       showCancel: false,
       confirmText: '知道了'
     })
+  },
+
+  // ── 分享：转发每日一诗卡片，好友点开直达详情 ──
+  onShareAppMessage() {
+    const d = this.data.daily
+    if (d) {
+      return {
+        title: '每日一诗｜《' + d.title + '》' + (d.author ? ' · ' + d.author : ''),
+        path: '/pages/detail/detail?id=' + d.id,
+        imageUrl: '/static/logo.jpg'
+      }
+    }
+    return {
+      title: '诗芽古诗词 · 一诗一景，陪孩子读懂诗意',
+      path: '/pages/index/index',
+      imageUrl: '/static/logo.jpg'
+    }
+  },
+
+  // ── 分享到朋友圈：落地首页（不带 query，好友直接进入小程序首页） ──
+  onShareTimeline() {
+    const d = this.data.daily
+    if (d) {
+      return { title: '今日陪孩子读《' + d.title + '》｜诗芽古诗词', imageUrl: '/static/logo.jpg' }
+    }
+    return { title: '诗芽古诗词 · 一诗一景', imageUrl: '/static/logo.jpg' }
   }
 })

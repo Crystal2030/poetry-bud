@@ -79,6 +79,21 @@
 
 .fav-fab.active .fav-star { background: var(--gold); }
 
+/* ── 分享 FAB（收藏上方） ── */
+.share-fab {
+  position: absolute; right: 28rpx; bottom: 420rpx; z-index: 42;
+  background: rgba(0,0,0,0.38); color: #fff; font-size: 24rpx;
+  padding: 16rpx 28rpx; border-radius: 40rpx;
+  display: flex; align-items: center; gap: 10rpx;
+  backdrop-filter: blur(12rpx);
+  border: 1rpx solid rgba(255,255,255,0.15);
+  line-height: 1; margin: 0;
+  transition: transform 0.15s ease;
+}
+/* 重置小程序 button 默认 ::after 边框，避免出现多余描边 */
+.share-fab::after { border: none; }
+.share-fab-tap { transform: scale(0.94); }
+
 /* 五角星：clip-path 多边形 */
 .fav-star {
   width: 28rpx; height: 28rpx;

@@ -123,5 +123,22 @@ Page({
       badges,
       latestBadge
     })
+  },
+
+  // ── 分享：转发成长成果（种活的花 + 连续天数） ──
+  onShareAppMessage() {
+    return {
+      title: '我在诗芽种活了 ' + this.data.flowerCount + ' 朵花，连续 ' + this.data.streakDays + ' 天读诗啦！',
+      path: '/pages/index/index',
+      imageUrl: '/static/logo.jpg'
+    }
+  },
+
+  // ── 分享到朋友圈 ──
+  onShareTimeline() {
+    return {
+      title: '我的诗径花园：已种活 ' + this.data.flowerCount + ' 朵花｜诗芽古诗词',
+      imageUrl: '/static/logo.jpg'
+    }
   }
 })

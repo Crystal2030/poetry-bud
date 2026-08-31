@@ -10,15 +10,20 @@
     <!-- 能量粒子 -->
     <view class="energy-dot" wx:for="{{energyDots}}" wx:key="id"
           style="top:{{item.top}}rpx;left:{{item.left}}rpx;animation-delay:{{item.delay}}s"></view>
-    <!-- 顶部浮层：标题 + 数据 -->
+    <!-- 顶部浮层：标题 + 数据 + 分享 -->
     <view class="garden-hud">
       <view class="hud-title">
         <image class="hud-icon" src="/static/icons/paper/flower.svg" mode="aspectFit"/>
       </view>
-      <view class="hud-stats">
-        <text class="hud-item">种活 <text class="hud-num">{{flowerCount}}</text> 朵</text>
-        <text class="hud-sep">·</text>
-        <text class="hud-item">连续 <text class="hud-num">{{streakDays}}</text> 天</text>
+      <view class="hud-right">
+        <view class="hud-stats">
+          <text class="hud-item">种活 <text class="hud-num">{{flowerCount}}</text> 朵</text>
+          <text class="hud-sep">·</text>
+          <text class="hud-item">连续 <text class="hud-num">{{streakDays}}</text> 天</text>
+        </view>
+        <button class="garden-share" open-type="share" hover-class="garden-share-tap" aria-label="分享花园">
+          <icon-svg name="paper_share" size="30" stroke="0" />
+        </button>
       </view>
     </view>
   </view>

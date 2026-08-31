@@ -164,6 +164,32 @@ Page({
     // 返回页面时保持当前播放状态
   },
 
+  // ── 分享：转发当前这首诗，好友点开直达详情页 ──
+  onShareAppMessage() {
+    const p = this.data.poem
+    if (!p) {
+      return { title: '诗芽古诗词', path: '/pages/index/index', imageUrl: '/static/logo.jpg' }
+    }
+    return {
+      title: '《' + p.title + '》' + (p.author ? ' · ' + p.author : '') + '｜诗芽古诗词',
+      path: '/pages/detail/detail?id=' + p.id,
+      imageUrl: '/static/logo.jpg'
+    }
+  },
+
+  // ── 分享到朋友圈：query 直达本诗 ──
+  onShareTimeline() {
+    const p = this.data.poem
+    if (!p) {
+      return { title: '诗芽古诗词 · 一诗一景' }
+    }
+    return {
+      title: '《' + p.title + '》' + (p.author ? ' · ' + p.author : '') + '｜一起读诗吧',
+      query: 'id=' + p.id,
+      imageUrl: '/static/logo.jpg'
+    }
+  },
+
   goBack() { wx.navigateBack() },
   toggleFav() {
     const added = U.toggleFav(this.data.poem.id)
