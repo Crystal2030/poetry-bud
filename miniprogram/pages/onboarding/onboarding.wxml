@@ -25,7 +25,7 @@
         </view>
         <text class="slide-subtitle">每首古诗都是一个会动的小世界</text>
         <text class="slide-meta">3-12岁 · 精选{{curriculumCount}}首课标古诗</text>
-        <text class="swipe-hint">→ 右滑继续</text>
+        <text class="swipe-hint">← 左滑继续</text>
       </view>
     </swiper-item>
 
